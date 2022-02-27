@@ -1,0 +1,17 @@
+#231830  morado claro
+#181021  
+#5b4475 border
+
+#f3f4f6 text
+#991b1b text number
+#140e1b background
+#241c30 header
+#5b4475 boxseting
+
+
+ligth
+
+
+icon 
+import { mdiFastForward } from '@mdi/js';  adelantar
+import { mdiRewind } from '@mdi/js';       retroceder
