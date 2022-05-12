@@ -10,28 +10,14 @@ const Setting = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
   const { isDarkTheme, setIsDarkTheme } = useContext(UserContext);
   const { fontZize, setfontZize } = useContext(UserContext);
-  const { auth, setAuth } = useContext(UserContext);
-
-  const closeSesscion = ()=>{
-    setAuth(null)
-    removeValue()
-  }
+  
 
   const toggleSwitch = () => {
     setIsDarkTheme((isDarkTheme) => !isDarkTheme);
     storeData(!isDarkTheme);
   };
 
-  //borrar datos de inicio del storage
-  const storeDataUser = async () => {
-    try {
-      let valueJson = JSON.stringify("123")
-      await AsyncStorage.setItem('@storage_Key_User', valueJson)
-    } catch (e) {
-      // saving error
-    }
-  }
-
+  
   const storeData = async (theme) => {
     try {
       let valueJson = JSON.stringify(theme)
@@ -40,17 +26,6 @@ const Setting = ({ navigation: { navigate } }) => {
       // saving error
     }
   }
-
-  //guardar tema en memoria del dispositivo
-  const removeValue = async () => {
-    try {
-      await AsyncStorage.removeItem('@storage_Key_User')
-    } catch(e) {
-      // remove error
-    }
-    console.log('Done.')
-  }
- 
 
   const storeDataZize = async () => {
     try {
@@ -262,16 +237,6 @@ const Setting = ({ navigation: { navigate } }) => {
               </View>
             </View>
           </View>
-          
-          <TouchableOpacity onPress={closeSesscion}>
-             <Text style={{
-               color: colors.textNumber,
-                textAlign: "center",
-                fontSize: 18,
-                fontFamily: 'Roboto',
-                marginTop: 15
-               }}>Cerrar session</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </View>

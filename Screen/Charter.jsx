@@ -8,76 +8,188 @@ import {
   Modal
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { getCharterVerses, addVersesTemas, getTemaUserCharter } from "../api.manual";
 import { UserContext } from "../Component/Context/contexUser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import Reina from '../Component/Biblias/ReinaValera/fullLibroReinaValera.json';
+import Oso from '../Component/Biblias/Oso/fullLibroOso.json';
 
 //componentes
 import Loading from "../Component/Loading";
 import Rewind from "../Component/boton/Rewind";
 import Forward from "../Component/boton/Forward";
-import Like from "../Component/boton/Like";
+import Favorito from "../Component/boton/Favorito";
+import Msj from '../Component/boton/Msj';
 
 const Charter = ({ route }) => {
-  const { fontZize, setfontZize } = useContext(UserContext);
-  const { auth, setAuth } = useContext(UserContext);
-  const { colors } = useTheme();
-  const { _id, idbook } = route.params;
-  const [data, setData] = useState([null]);
+  const { fontZize, setfontZize, versionBook, setVersionBook  } = useContext(UserContext);//en uso
+  const { colors } = useTheme();//en uso
+  const [data, setData] = useState([]);//en uso
   const [modalVisible, setModalVisible] = useState(false);
   const [msj, setMsj]=useState(null);
-  const [idVerse, setidVerse]=useState({});
-  const [temas, setTemas]=useState();
+  const [msjView, setMsjView]=useState(false);
+  const [idVerse, setidVerse]=useState({});// add versiculo seleccionado
+  const [temas, setTemas]=useState([]);
   
-  let cod = "null";
-
-  const obtainCharte = async (id, idbook, cod) => {
-    const res = await getCharterVerses(id, idbook, cod, auth.token);
-    setData(res.data);
-  };
-
-  const getCharterCod = ({ variables }) => {
-    setData([null]);
-    let { _id, idbook, cod } = variables;
-    obtainCharte(_id, idbook, cod);
-  };
-
-  const obtainTemas= async (id)=>{
-    let res = await getTemaUserCharter(id, auth.token);
-    setTemas(res.data.getTemasUser)
-  }
+  //let cod = "null";
 
   React.useEffect(() => {
-    setData([null]);
-    obtainCharte(_id, idbook, cod);
-    obtainTemas(auth._id)
+    setData([]);
+    obtainCharte(route.params._id, route.params.version);
+    obtainTemas()
   }, []);
 
-  const getIDverse = (id)=>{
-    setidVerse(id);
+  const obtainCharte = async (id, version) => {
+    setMsjView(false)
+    setMsj(null)
+    switch (version) {
+      case "Reina_Valera_1960":
+        let capitulo1 = Reina.find(x => x._id === id)
+        setData(capitulo1)
+        break;
+      case "Biblia_del_oso_1569":
+        let capitulo2 = Oso.find(x => x._id === id)
+        setData(capitulo2)
+        break;
+    }
+  };
+
+  const getCharterRewinder = ({ variables }) => {
+    setMsjView(false)
+    setMsj(null)
+    let { _id, version } = variables;
+    switch (version) {
+      case "Reina_Valera_1960":
+        let idx1 = Reina.findIndex((x) => x._id === _id);
+        let newIdx1 = idx1 - 1;
+        if (newIdx1 >= 0) {
+          let newChacter1 = Reina[newIdx1];
+          setData(newChacter1);
+        } else {
+          let newChacter1 = Reina[0];
+          setData(newChacter1);
+        }
+        break;
+      case "Biblia_del_oso_1569":
+        let idx2 = Oso.findIndex((x) => x._id === _id);
+        let newIdx2 = idx2 - 1;
+        if (newIdx2 >= 0) {
+          let newChacter2 = Oso[newIdx2];
+          setData(newChacter2);
+        } else {
+          let newChacter2 = Oso[0];
+          setData(newChacter2);
+        }
+        break;
+    }
+  };
+
+  const getCharterForwar = ({ variables }) => {
+    setMsjView(false)
+    setMsj(null)
+    let { _id, version } = variables;
+    switch (version) {
+      case "Reina_Valera_1960":
+        let idx1 = Reina.findIndex((x) => x._id === _id);
+        let newIdx1 = idx1 + 1;
+        if (newIdx1 <= 1188) {
+          let newChacter1 = Reina[newIdx1];
+          setData(newChacter1);
+        } else {
+          let newChacter1 = Reina[1188];
+          setData(newChacter1);
+        }
+        break;
+      case "Biblia_del_oso_1569":
+        let idx2 = Oso.findIndex((x) => x._id === _id);
+        let newIdx2 = idx2 + 1;
+        if (newIdx2 <= 1188) {
+          let newChacter2 = Oso[newIdx2];
+          setData(newChacter2);
+        } else {
+          let newChacter2 = Oso[1188];
+          setData(newChacter2);
+        }
+        break;
+    }
+  };
+
+  const addFavorito = async ({variables})=>{
+    let ID = variables._id
+    let fav = await AsyncStorage.getItem('@storage_Key_Favorito')
+    let FavJson = JSON.parse(fav)
+    let filter1 = FavJson.find((x)=> x._id === ID)
+    if(filter1===undefined){
+      FavJson.push(variables)
+      await AsyncStorage.setItem('@storage_Key_Favorito', JSON.stringify(FavJson))
+      setMsj("Capitulo agregado a favoritos")
+      setMsjView(true)
+    }else{
+      setMsj("Este capitulo ya esta en favoritos")
+      setMsjView(true)
+    } 
+  }
+
+  //seleccionar id versiculo
+  const getIDverse =({variables})=>{
+    setidVerse(variables);
     setModalVisible(!modalVisible);
   }
 
-  const addVerseTema = async(title)=>{
-    const res = await addVersesTemas(auth._id, title, idVerse, auth.token )
-    if(res.data.addVersesTemas){
-      setMsj("Versiculo agregado al tema");
-      setModalVisible(!modalVisible);
+  //obtener los temas
+  const obtainTemas= async ()=>{
+    try {
+      let fulltemas = await AsyncStorage.getItem('@storage_Key_Temas')
+      let arrayTemasFull = JSON.parse(fulltemas)
+      setTemas(arrayTemasFull)
+    } catch (error) {
+
     }
   }
 
+  //add versiculo al tema
+  const addVerseTema = async id=>{
+    try {
+      let temaSelect = temas.find(x => x._id === id)
+      temaSelect.addVerses.push(idVerse)
+      let idx = temas.findIndex(x => x._id === id)
+      temas.splice(idx, 1, temaSelect)
+      await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(temas))
+    //setMsj("Versiculo agregado al tema");
+      setModalVisible(!modalVisible);
+    } catch (error) {
+      
+    }
+  }
+
+  // fin de lo nuevo
+
+  
+
+  
+
+  
+
+
+  
 
 
 
-  if (!data.GetCharter) return <Loading />;
+
+  if (!data) return <Loading />;
   //if (error) return `Error! ${error.message}`;
 
-  if (data.GetCharter)
+  if (data)
     return (
       <Preview
         colors={colors}
         data={data}
-        getCharterCod={getCharterCod}
+        getCharterRewinder={getCharterRewinder}
+        getCharterForwar={getCharterForwar}
         fontZize={fontZize}
+        addFavorito={addFavorito}
+        msj={msj}
+        msjView={msjView}
         getIDverse={getIDverse}
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
@@ -90,75 +202,118 @@ const Charter = ({ route }) => {
   return <Text></Text>;
 };
 
-const Preview = ({ data, colors, getCharterCod, fontZize, getIDverse, setModalVisible, modalVisible, temas, addVerseTema }) => (
-  
-    <View
-      style={[styles.container, { backgroundColor: colors.backgroundColor }]}
-    >
-      
-      <ScrollView>
+const Preview = ({
+  data,
+  colors,
+  getCharterRewinder,
+  getCharterForwar,
+  fontZize,
+  addFavorito,
+  msj,
+  msjView,
+  getIDverse,
+  setModalVisible,
+  modalVisible,
+  temas,
+  addVerseTema,
+}) => (
+  <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
+    <ScrollView>
+      <Text style={{textAlign: "right", color: colors.text, fontSize: 8}}>{data.version}</Text>
       <View style={styles.rowFlex}>
-        <Rewind data={data} colors={colors} getCharterCod={getCharterCod} />
+        <Rewind
+          data={data}
+          colors={colors}
+          getCharterRewinder={getCharterRewinder}
+        />
         <Text
           style={[
             styles.title,
             { color: colors.text, fontSize: fontZize.fonttitle },
           ]}
         >
-          {data.GetCharter.charter}
+          {data.charter}
         </Text>
-        <Forward data={data} colors={colors} getCharterCod={getCharterCod} />
+        <Forward
+          data={data}
+          colors={colors}
+          getCharterForwar={getCharterForwar}
+        />
       </View>
 
-      {data.GetCharter.verses.map((item) => (
-        <TouchableOpacity
-        key={item._id}
-        onLongPress={()=> getIDverse(item._id)}
-        >
-        <View  style={styles.row}>
-          
-          <Text
-            style={[
-              styles.numero,
-              { color: colors.textNumber, fontSize: fontZize.fonttext },
-            ]}
-          >
-            {item.numero}
-
-            <Text
-              style={{
-                color: colors.text,
-                fontSize: fontZize.fonttext,
-              }}
+      {data.verses && (
+        <View>
+          {data.verses.map((item) => (
+            <TouchableOpacity
+              key={item._id}
+              onLongPress={() =>
+                getIDverse({
+                  variables: {
+                    _id: item._id,
+                    numero: item.numero,
+                    versiculo: item.versiculo,
+                    originCharter: item.originCharter,
+                    version: item.version,
+                  },
+                })
+              }
             >
-              {item.versiculo}
-            </Text>
-          </Text>
-          
-          
-        </View>
-        </TouchableOpacity>
-      ))}
+              <View>
+                <Text style={{ color: colors.text, textAlign: "center" }}>
+                  {item.title}
+                </Text>
+                <View style={styles.row}>
+                  <Text
+                    style={[
+                      styles.numero,
+                      { color: colors.textNumber, fontSize: fontZize.fonttext, fontFamily: 'sans-serif' },
+                    ]}
+                  >
+                    {item.numero} <Text></Text> 
 
+                    <Text
+                      style={{
+                        color: colors.text,
+                        fontSize: fontZize.fonttext,
+                      }}
+                    >
+                      {item.versiculo}
+                    </Text>
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))}
+
+          {msjView ? (
+            <Msj msj={msj} colors={colors} />
+          ) : (
+            <Favorito colors={colors} data={data} addFavorito={addFavorito} />
+          )}
+        </View>
+      )}
+
+      {/*<View style={styles.rowFlex}>
+        <Rewind data={data} colors={colors} getCharterRewinder={getCharterRewinder} />*/}
       <Text
         style={[
-          styles.testament,
-          { color: colors.textNumber, fontSize: fontZize.fonttext },
+          styles.title,
+          { color: colors.text, fontSize: 16, textAlign: "center" },
         ]}
       >
-        {data.GetCharter.testament}
+        {data.testament}
       </Text>
-
-      <Like datos={data} colors={colors} />
-
-      <View style={styles.rowFlex}>
-        <Rewind data={data} colors={colors} getCharterCod={getCharterCod} />
-        <Forward data={data} colors={colors} getCharterCod={getCharterCod} />
-      </View>
-      </ScrollView>
-      <PreviewModal setModalVisible={setModalVisible} modalVisible={modalVisible} colors={colors} temas={temas} addVerseTema={addVerseTema}/>
-    </View>
-  
+      {/*<Forward data={data} colors={colors} getCharterForwar={getCharterForwar} />
+      </View>*/}
+    </ScrollView>
+    <PreviewModal
+      setModalVisible={setModalVisible}
+      modalVisible={modalVisible}
+      colors={colors}
+      temas={temas}
+      addVerseTema={addVerseTema}
+    />
+  </View>
 );
 
 const PreviewModal = ({setModalVisible, modalVisible, colors, temas, addVerseTema})=>(
@@ -190,9 +345,9 @@ const PreviewModal = ({setModalVisible, modalVisible, colors, temas, addVerseTem
 
                     <TouchableOpacity 
                     key={item._id} style={styles.Item}
-                    onPress={()=> addVerseTema(item.title)}
+                    onPress={()=> addVerseTema(item._id)}
                     >
-                      <Text style={[styles.textCharter, {backgroundColor: colors.background, color: colors.text}]} >{item.title}</Text>
+                      <Text style={[styles.textCharter, {backgroundColor: colors.background, color: colors.text}]} >{item.tema}</Text>
                     </TouchableOpacity>
                     
                   ))
@@ -217,6 +372,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
+    justifyContent: "space-between"
   },
   title: {
     marginBottom: 8,
@@ -224,8 +380,8 @@ const styles = StyleSheet.create({
   },
   rowFlex: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    //justifyContent: "space-around",
+    //justifyContent: "space-between",
+    justifyContent: "space-around",
     borderRadius: 5,
     paddingVertical: 4,
     marginVertical: 4,

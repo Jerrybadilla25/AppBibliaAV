@@ -9,24 +9,32 @@ import {
 
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
-import { getBooks } from "../api.manual";
+
+
+import Reina from '../Component/Biblias/ReinaValera/booksReinaValera.json';
+import Oso from '../Component/Biblias/Oso/booksOso.json';
 
 //importar archivos
 import Loading from "../Component/Loading";
 
 function Biblia({ navigation: { navigate } }) {
-  const { auth, setAuth } = useContext(UserContext);
   const { colors } = useTheme();
   const { versionBook, setVersionBook } = useContext(UserContext);
-  const [data, setData] = useState([null]);
+  const [data, setData] = useState([]);
 
-  const getFetchBooks = async (version) => {
-    const res = await getBooks(version, auth.token);
-    setData(res.data);
+  const printLibros = () => {
+    switch (versionBook) {
+      case "Reina_Valera_1960":
+        setData(Reina);
+        break;
+      case "Biblia_del_oso_1569":
+        setData(Oso);
+        break;
+    }
   };
 
   React.useEffect(() => {
-    getFetchBooks(versionBook.versionBible);
+    printLibros();
   }, []);
 
   const getBookID = (id) => {
@@ -35,7 +43,7 @@ function Biblia({ navigation: { navigate } }) {
 
   return (
     <View>
-      {data.GetBooks 
+      {data
       ? <Preview colors={colors} data={data} getBookID={getBookID} />
       : <Loading />
       }
@@ -50,7 +58,7 @@ const Preview = ({ data, getBookID, colors }) => (
   >
     <View style={{flex: 1, padding: 20, backgroundColor: colors.background }}>
       <View style={styles.row}>
-      {data.GetBooks.map((item) => (
+      {data.map((item) => (
         <TouchableOpacity
           key={item._id}
           onPress={() => getBookID(item._id)}

@@ -17,7 +17,7 @@ import {
   TransitionSpecs,
 } from "@react-navigation/native-stack";
 
-//import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
 
 //archivos
 import BibliaScreen from "./Screen/Biblia";
@@ -27,8 +27,6 @@ import SelectCharter from "./Screen/SelectCharter";
 import CharterScreen from "./Screen/Charter";
 import SettingsScrean from "./Screen/Settings";
 import UsuarioScreen from "./Screen/User";
-import Register from "./Screen/Login/Register";
-import Login from "./Screen/Login/Login";
 import RenderTemas from './Screen/RenderTemas';
 import Versiones from './Screen/Versiones';
 import HelpScreen from './Screen/Help'
@@ -37,29 +35,28 @@ import PoliticaScreen from './Screen/Politica'
 import { UserContext } from "./Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
 
-//import { useContext } from "react/cjs/react.development";
+
 
 const Stack = createNativeStackNavigator();
 
 const App = ({ navigation, children }) => {
-  const [auth, setAuth] = useState(null);
+  
   const [versionBook, setVersionBook] = useState(null);
   const [isDarkTheme, setIsDarkTheme] = useState(null);
   const [fontZize, setfontZize] = useState(null);
-  
-
 
   const CustomDefaultTheme = {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      background: "#F2F2F2",
+      background: "#f2f2f2",
       text: "#0E1218",
       card: "#ffffff",
       textNumber: "#FF001A",
       header: "#ffffff",
+      headerAct: "##554270",
       textHeader: "#0E1218",
-      boxseting: "#DAD7D7",
+      boxseting: "#ffffff",
       border: "#5b4475",
       social: "#91B0F3",
       bar: "black",
@@ -74,8 +71,9 @@ const App = ({ navigation, children }) => {
       background: "#140e1b",
       text: "#f3f4f6",
       card: "#231830",
-      textNumber: "#FF001A",
+      textNumber: "#ff3347",
       header: "#241c30",
+      headerAct: "#140e1b",
       textHeader: "#f3f4f6",
       boxseting: "#292032",
       border: "#5b4475",
@@ -109,71 +107,40 @@ const App = ({ navigation, children }) => {
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
   const Search = ({ navigation }) => (
-    <TouchableOpacity
+    <View style={{flexDirection: "row"}}>
+      <TouchableOpacity
       style={{ width: 70 }}
       onPress={() => navigation.navigate("Search")}
     >
       <View style={styles.row}>
-        <Ionicons name="search" size={24} color={theme.colors.text} />
+      <Ionicons name="search" size={24} color={theme.colors.text}/>    
       </View>
     </TouchableOpacity>
+    <TouchableOpacity
+      style={{ width: 70 }}
+      onPress={() => navigation.navigate("Home")}
+    >
+      <View style={styles.row}>
+        <Ionicons name="home-outline" size={24} color={theme.colors.text} />
+      </View>
+    </TouchableOpacity>
+    </View>
+    
   );
+
+
 
   const Version = ({ navigation }) => (
     <TouchableOpacity 
     onPress={() => navigation.navigate("Versiones")}
     style={{ width: 140 }}>
-      {auth.setting.versionesView ? (
         <View style={{ paddingLeft: 50, paddingTop: 10 }}>
           <Text style={{ color: theme.colors.text }}>Versiones</Text>
         </View>
-      ) : (
-        <Text></Text>
-      )}
     </TouchableOpacity>
   );
 
-  if (auth === null) {
-    return (
-      <UserContext.Provider value={{ auth, setAuth }}>
-        <NavigationContainer>
-          <StatusBar />
-          <Stack.Navigator
-            screenOptions={{
-              headerMode: "screen",
-              animation: "slide_from_left",
-              gestureEnable: true,
-              gestureDirecction: "horizontal",
-              transitionSpec: {
-                open: config,
-                close: closeConfig,
-              },
-            }}
-          >
-            <Stack.Screen
-              name="Inicio"
-              component={Login}
-              options={{
-                headerStyle: { backgroundColor: "#DDDCF3" },
-                headerTitleStyle: { color: "#0051FF" },
-              }}
-            />
-            <Stack.Screen
-              name="Registro"
-              component={Register}
-              options={{
-                headerStyle: { backgroundColor: "#DDDCF3" },
-                headerTitleStyle: { color: "#0051FF" },
-                headerTintColor: "#0051FF"
-              }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </UserContext.Provider>
-    );
-  }
 
-  if (auth.token) {
     return (
       <UserContext.Provider
         value={{
@@ -183,8 +150,6 @@ const App = ({ navigation, children }) => {
           setVersionBook,
           fontZize,
           setfontZize,
-          auth,
-          setAuth,
         }}
       >
         <NavigationContainer theme={theme}>
@@ -333,6 +298,16 @@ const App = ({ navigation, children }) => {
                 headerTitleStyle: { color: theme.colors.textHeader },
                 headerTintColor: `${theme.colors.text}`,
                 headerRight: () => (
+                  <View style={{flexDirection: "row"}}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="home-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  {/* 
                   <TouchableOpacity onPress={() => navigation.navigate("Usuario")}>
                     <Ionicons
                       style={{ paddingEnd: 20 }}
@@ -340,7 +315,26 @@ const App = ({ navigation, children }) => {
                       size={24}
                       color={theme.colors.text}
                     />
+                  </TouchableOpacity>*/}
+                  <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
                   </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-text"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+
+                  </View>
+                  
                 ),
                 //headerRight: () => <Search navigation={navigation} />,
               })}
@@ -355,6 +349,15 @@ const App = ({ navigation, children }) => {
                 headerTitleStyle: { color: theme.colors.textHeader },
                 headerTintColor: `${theme.colors.text}`,
                 headerRight: () => (
+                  <View style={{flexDirection: "row"}}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
                   <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                     <Ionicons
                       style={{ paddingEnd: 20 }}
@@ -363,6 +366,7 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
+                  </View>
                 ),
               })}
             />
@@ -370,7 +374,7 @@ const App = ({ navigation, children }) => {
         </NavigationContainer>
       </UserContext.Provider>
     );
-  }
+  
 };
 
 const styles = StyleSheet.create({

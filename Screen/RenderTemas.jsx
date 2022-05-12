@@ -11,49 +11,52 @@ import {
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
-import { getVersesTemas, deleteVerseTema } from "../api.manual";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Rendertemas = ({ route, navigation: { navigate } }) => {
   const { fontZize, setfontZize } = useContext(UserContext);
   const { colors } = useTheme();
-  const { auth, setAuth } = useContext(UserContext);
   const [temasVerse, setTemasVerse] = useState({});
-  const [arrayTema, setArrayTema] = useState();
+  const [arrayTema, setArrayTema] = useState(); //se llena con el tema y verses
   const [modalVisible, setModalVisible] = useState(false);
-  const [idverse, setIdverse] = useState(null);
+  const [idverse, setIdverse] = useState(null); // en uso
 
-  const getTemas = async (id, title) => {
-    let res = await getVersesTemas(id, title, auth.token);
-    setTemasVerse({
-      _id: res.data.getfullTemas._id,
-      title: res.data.getfullTemas.title,
-    });
-    setArrayTema(res.data.getfullTemas.arrayTemas);
-  };
+  React.useEffect(() => {
+    getTemas(route.params._id);
+  }, []);
 
-  const deleteverse = async () => {
-    let res = await deleteVerseTema(
-      auth._id,
-      temasVerse.title,
-      idverse,
-      auth.token
-    );
-    if (res.data.deleteVerse) {
-      let idx = arrayTema.findIndex((x) => x._id === idverse);
-      let cut = arrayTema.splice(idx, 1);
-      setArrayTema(arrayTema);
-      setModalVisible(!modalVisible);
+  const getTemas = async (id) => {
+    try {
+      let tema = await AsyncStorage.getItem('@storage_Key_Temas')
+      let renderTema1 = JSON.parse(tema)
+      let renderSelect = renderTema1.find(x => x._id === id)
+      setArrayTema(renderSelect)
+    } catch (error) {  
     }
   };
 
-  const openModal = (id) => {
-    setIdverse(id);
+  //abrir modal elimanar versiculo
+  const openModal = id => {
+    setIdverse(id)
+    setModalVisible(!modalVisible)
+  };
+
+  //delete versiculo
+  const deleteverse = async () => {
+    let fullTemas = await AsyncStorage.getItem('@storage_Key_Temas')
+    let fullTemasJson = JSON.parse(fullTemas)
+    let idx = fullTemasJson.findIndex(x => x._id===arrayTema._id)
+    let idxDel = arrayTema.addVerses.findIndex(x => x._id ===idverse)
+    arrayTema.addVerses.splice(idxDel, 1)
+    fullTemasJson.splice(idx, 1, arrayTema)
+    await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(fullTemasJson))
+    setArrayTema(arrayTema)
     setModalVisible(!modalVisible);
   };
 
-  React.useEffect(() => {
-    getTemas(route.params.id, route.params.title);
-  }, []);
+  
+
+  
 
   return (
     <View
@@ -97,11 +100,11 @@ const PreviewTemas = ({
             fontSize: fontZize.fontsubtitle,
           }}
         >
-          {temasVerse.title}
+          {arrayTema.tema}
         </Text>
       </View>
 
-      {arrayTema.map((item) => (
+      {arrayTema.addVerses.map((item) => (
         <View
           key={item._id}
           style={[styles.boxverse, { backgroundColor: colors.header }]}
@@ -114,7 +117,7 @@ const PreviewTemas = ({
                   fontSize: fontZize.fonttext,
                 }}
               >
-                {item.originCharter} :{" "}
+                {item.originCharter}- 
               </Text>
               <Text
                 style={{
@@ -122,7 +125,7 @@ const PreviewTemas = ({
                   fontSize: fontZize.fonttext,
                 }}
               >
-                {item.numero}
+                 {item.numero}
               </Text>
             </View>
             <Text
@@ -132,7 +135,18 @@ const PreviewTemas = ({
                 textAlign: "left",
               }}
             >
-              {item.verses}
+              {item.versiculo}
+            </Text>
+            <Text
+              style={{
+                color: colors.text,
+                fontSize: 10,
+                textAlign: "right",
+                paddingTop: 14,
+                paddingBottom: 8
+              }}
+            >
+              {item.version}
             </Text>
           </TouchableOpacity>
         </View>

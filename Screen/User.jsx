@@ -9,101 +9,176 @@ import {
   Modal
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { userGetLikes } from "../api.manual";
-import { UserContext } from "../Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
 import { createTemaUser, getTemaUser, deleteTema, deleteLike} from "../api.manual";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const User = ({route, navigation: { navigate } }) => {
-  const { colors } = useTheme();
-  const { auth, setAuth } = useContext(UserContext);
-  const [likes, setLikes] = useState(null);
-  const [estado, setEstado] = useState("temas");
+  const { colors } = useTheme(); //en uso
+  const [likes, setLikes] = useState([]); // en uso
+  const [estado, setEstado] = useState("temas"); //en uso
+  const [estadoAct, setEstadoAct] = useState(true); //en uso
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleTwo, setModalVisibleTwo] = useState(false);
   const [modalVisibleTree, setModalVisibleTree] = useState(false);
   const [temas, setTemas] = useState([]);
-  const [title, setTitle]=useState(null);
-  const [idLike, setIDLike]=useState(null);
+  const [title, setTitle]=useState(null); //guarda id tema
+  const [idLike, setIDLike]=useState(null);//id like a borrar
   let data = "";
 
-  const getUserLikes = async () => {
-    const res = await userGetLikes(auth._id, auth.token);
-    setLikes(res.data.userGetLike);
-  };
+  //generar id unico
 
-  const SendLike = (id) => {
-    navigate("Charter", { _id: id, idbook: "1" });
-  };
+  const generateUUID =()=>{
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+  }
 
+
+
+  //en uso
   React.useEffect(() => {
     getUserLikes();
     getTemasUser();
   }, []);
 
+
+  //en uso
+  const getUserLikes = async () => {
+    try {
+      let fav = await AsyncStorage.getItem('@storage_Key_Favorito')
+      let favJson = JSON.parse(fav)
+      setLikes(favJson)
+    } catch (error) {
+      //no hacer nada
+    }
+  };
+
+  //en uso
+  const SendLike = ({variables}) => {
+    const {_id, version}=variables
+    navigate("Charter", { _id: _id, version: version });
+  };
+
+  //abre modal para eliminar capitulo
+  const openModalTree= (id)=>{
+    setIDLike(id);
+    setModalVisibleTree(!modalVisibleTree);
+  }
+  //elimina capitulo
+  const deleteIDLike = async ()=>{
+    try {
+      let delfav = await AsyncStorage.getItem('@storage_Key_Favorito')
+      let arrayFav = JSON.parse(delfav)
+      let idx = arrayFav.findIndex((x)=> x._id === idLike)
+      arrayFav.splice(idx, 1)
+      setLikes(arrayFav)
+      setIDLike(null)
+      setModalVisibleTree(!modalVisibleTree)
+      await AsyncStorage.setItem('@storage_Key_Favorito', JSON.stringify(arrayFav))
+    } catch (error) {
+      
+    }
+  }
+  // cerrar modal de eliminar capitulo
+  const cerrarModalTree = ()=>{
+    setModalVisibleTree(!modalVisibleTree)
+  }
+
+  //crear tema nuevo
+  const saveTema = async () => {
+    try {
+      let ID = generateUUID()
+      let temas =await AsyncStorage.getItem('@storage_Key_Temas')
+      let arrayTemas = JSON.parse(temas)
+      let temaNew = {
+        _id: ID,
+        tema: data,
+        addVerses : []
+      }
+      arrayTemas.push(temaNew)
+      await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(arrayTemas))
+      setTemas(arrayTemas);
+      setModalVisible(!modalVisible);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  
+  //llamar a temas
+  const getTemasUser = async () => {
+    try {
+      let tema = await AsyncStorage.getItem('@storage_Key_Temas')
+      let arrayTemasjson = JSON.parse(tema)
+      setTemas(arrayTemasjson);
+    } catch (error) {
+      
+    }
+    
+  };
+
+  //ver detalle de tema
+  const ModalViewTema = (id)=>{
+    navigate('Temas', {_id: id});
+  }
+
+
+  //abrir modal borrar tema
+  const openModal= (id)=>{
+    setTitle(id);
+    setModalVisibleTwo(!modalVisibleTwo);
+  }
+
+  //borrar tema
+  const deleteTemaUser = async ()=>{
+    let idx = temas.findIndex(x => x._id ===title)
+    temas.splice(idx, 1)
+    setTemas(temas)
+    setModalVisibleTwo(!modalVisibleTwo)
+    setTitle(null)
+    await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(temas))
+  }
+
+
+  //fin revision
+
+
+
+
   const changeEstado = () => {
     setEstado("temas");
+    setEstadoAct(true);
+
   };
   const changeEstadoTemas = () => {
     setEstado("like");
+    setEstadoAct(false);
   };
 
   const textInputChange = (val) => {
     data = val;
   };
 
-  const getTemasUser = async () => {
-    const res = await getTemaUser(auth._id, auth.token);
-    setTemas(res.data.getTemasUser);
-  };
   
-  const saveTema = async () => {
-    let userID = auth._id;
-    const res = await createTemaUser(userID, data, auth.token);
-    setTemas(res.data.createTema);
-    setModalVisible(!modalVisible);
-  };
+  
+  
 
-  const ModalViewTema = async (tema)=>{
-    navigate('Temas', {id: auth._id, title: tema});
-  }
+  
 
   const cerrarModalTwo = ()=>{
     setModalVisibleTwo(!modalVisibleTwo)
   }
 
-  const cerrarModalTree = ()=>{
-    setModalVisibleTree(!modalVisibleTree)
-  }
+  
 
-  const openModal= (title)=>{
-    setTitle(title);
-    setModalVisibleTwo(!modalVisibleTwo);
-  }
+  
 
-  const openModalTree= (id)=>{
-    setIDLike(id);
-    setModalVisibleTree(!modalVisibleTree);
-  }
 
-  const deleteIDLike = async ()=>{
-    const res = await deleteLike(auth._id, idLike, auth.token)
-    if(res.data.deleteLike){
-      setModalVisibleTree(!modalVisibleTree)
-      let like = likes
-      let idx = like.findIndex(X => X._id === idLike)
-      let cut = like.splice(idx, 1)
-      setLikes(like)
-      setIDLike(null)
-    }
-  }
-
-  const deleteTemaUser = async ()=>{
-    const res = await deleteTema(auth._id, title, auth.token)
-    setTemas(res.data.deleteTema)
-    setModalVisibleTwo(!modalVisibleTwo);
-    setTitle(null);
-  }
 
   const redirectHelp = ()=>{
     navigate('Help');
@@ -181,14 +256,14 @@ const User = ({route, navigation: { navigate } }) => {
       return (
         <View style={styles.homeLike}>
           <Text style={[styles.title, { color: colors.text }]}>
-            Capitulos que me gustan
+            Favoritos
           </Text>
           <ScrollView>
             <View style={styles.row}>
             {likes.map((x) => (
               <TouchableOpacity
                 key={x._id}
-                onPress={() => SendLike(x._id)}
+                onPress={() => SendLike({variables:{_id:x._id, version: x.version}})}
                 onLongPress={()=> openModalTree(x._id)}
                 
               >
@@ -199,7 +274,12 @@ const User = ({route, navigation: { navigate } }) => {
                 <Text
                   style={[styles.textDetalles, { color: colors.textNumber }]}
                 >
-                  ver...
+                  ir...
+                </Text>
+                <Text
+                  style={[styles.textVersion, { color: colors.text }]}
+                >
+                  {x.version}
                 </Text>
                 </View>
                 
@@ -226,7 +306,7 @@ const User = ({route, navigation: { navigate } }) => {
                     styles.textInput,
                     { backgroundColor: colors.header, color: colors.text },
                   ]}
-                  keyboardType="visible-password"
+                  
                   placeholder="su tema aqui"
                   placeholderTextColor={colors.inputHolder}
                 />
@@ -265,14 +345,14 @@ const User = ({route, navigation: { navigate } }) => {
                     <TouchableOpacity
                       key={x._id}
                       style={[styles.Item, { backgroundColor: colors.header }]}
-                      onPress={() => ModalViewTema(x.title)}
-                      onLongPress={()=>openModal(x.title)}
+                      onPress={() => ModalViewTema(x._id)}
+                      onLongPress={()=>openModal(x._id)}
                     >
                       <Text
                         key={x._id}
                         style={[styles.textCharter, { color: colors.text }]}
                       >
-                        {x.title}
+                        {x.tema}
                       </Text>
                       <Text
                         style={[
@@ -304,25 +384,43 @@ const User = ({route, navigation: { navigate } }) => {
         {likes && <Preview textInputChange={textInputChange} />}
       </View>
 
-      <View style={[styles.flex1, { flex: 1, backgroundColor: colors.header, borderTopColor: colors.border }]}>
+      <View style={[styles.flex1, { backgroundColor: colors.header }]}>
         <TouchableOpacity onPress={changeEstadoTemas}>
-          <View style={styles.col}>
-          <Ionicons name="heart-outline" size={20} color={colors.text} />
-          <Text style={{ color: colors.text, fontSize: 10 }}>Me Gusta</Text>
-          </View>
-        
+          {
+            estadoAct 
+            ? 
+            <View style={[styles.col, { backgroundColor: colors.header}]}>
+              <Ionicons name="heart-outline" size={20} color={colors.text} />
+              <Text style={{ color: colors.text, fontSize: 10 }}>Me Gusta</Text>
+            </View>
+            :
+            <View style={[styles.col, { backgroundColor: colors.header}]}>
+              <Ionicons name="heart-outline" size={20} color={colors.textNumber} />
+              <Text style={{ color: colors.textNumber, fontSize: 10 }}>Me Gusta</Text>
+            </View>
+
+          }
+          
         </TouchableOpacity>
 
         <TouchableOpacity onPress={changeEstado}>
-          <View style={styles.col}>
-          <Ionicons name="clipboard-outline" size={20} color={colors.text} />
-          <Text style={{ color: colors.text,  fontSize: 10}}>Mis temas</Text>
-          </View>
-        
+          {
+            estadoAct 
+            ? 
+            <View style={[styles.col, { backgroundColor: colors.header}]}>
+              <Ionicons name="clipboard-outline" size={20} color={colors.textNumber} />
+              <Text style={{ color: colors.textNumber,  fontSize: 10}}>Mis temas</Text>
+            </View>
+           :
+            <View style={[styles.col, { backgroundColor: colors.header}]}>
+              <Ionicons name="clipboard-outline" size={20} color={colors.text} />
+              <Text style={{ color: colors.text,  fontSize: 10}}>Mis temas</Text>
+            </View>
+          }
         </TouchableOpacity>
 
         <TouchableOpacity onPress={redirectHelp}>
-          <View style={styles.col}>
+          <View style={[styles.col, { backgroundColor: colors.header}]}>
           <Ionicons name="md-help-circle-outline" size={20} color={colors.text} />
           <Text style={{ color: colors.text,  fontSize: 10 }}>Ayuda</Text>
           </View>
@@ -339,10 +437,11 @@ const styles = StyleSheet.create({
   },
   flex1: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderWidth: 1
+    justifyContent: "space-around",
+    //justifyContent: "space-evenly",
+    //justifyContent: "space-between",
+    //paddingHorizontal: 20,
+    //paddingVertical: 12,
   },
   homeLike: {
     //paddingHorizontal: 10,
@@ -376,6 +475,10 @@ const styles = StyleSheet.create({
   textDetalles: {
     //paddingHorizontal: 20,
     fontSize: 16,
+  },
+  textVersion: {
+    //paddingHorizontal: 20,
+    fontSize: 8,
   },
   textInput: {
     borderRadius: 8,
@@ -439,9 +542,11 @@ const styles = StyleSheet.create({
     col:{
       flexDirection: "column",
       alignItems: "center",
-      paddingBottom: 5,
-      width: 70
-    }
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      marginBottom: 10,
+      width: 100,
+    },
 });
 
 export default User;

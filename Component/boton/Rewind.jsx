@@ -6,21 +6,21 @@ import {TouchableOpacity} from "react-native";
   
 
 
-const Rewind = ({data, getCharterCod, colors}) => {
+const Rewind = ({data, getCharterRewinder, colors}) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        getCharterCod({
+        getCharterRewinder({
           variables:{
-            _id: data.GetCharter._id,
-            idbook: data.GetCharter.idBook,
-            cod: "Rewind",
+            _id: data._id,
+            version: data.version
           }
             
         })
       }
     >
-      <Ionicons name="arrow-undo-outline" size={24} color={colors.text} />
+      <Ionicons name="arrow-back-outline" size={24} color={colors.text} />
+      
      
     </TouchableOpacity>
   );

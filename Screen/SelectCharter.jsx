@@ -1,38 +1,48 @@
 import React, {useState, useContext} from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useTheme } from '@react-navigation/native';
-import {getCharted} from '../api.manual';
 import {UserContext} from '../Component/Context/contexUser'
 
 import Loading from '../Component/Loading';
 
-
-
+import Oso from '../Component/Biblias/Oso/charterOso.json';
+import Reina from '../Component/Biblias/ReinaValera/charterReinaValera.json';
 
 
 const SelectCharter = ({route, navigation: { navigate }}) => {
-  const { auth, setAuth } = useContext(UserContext);
+  const { versionBook, setVersionBook} = useContext(UserContext);
   const { colors } = useTheme();
-  const [data, setData]=useState([null]);
+  const [data, setData]=useState();
+  
 
   const ObtainCharter = async id =>{
-    const res = await getCharted(id, auth.token);
-    setData(res.data)
+    switch (versionBook) {
+      case "Reina_Valera_1960":
+        let date1 = Reina.find(x => x._id ===id)
+        setData(date1)
+        break;
+      case "Biblia_del_oso_1569":
+        let date2 = Oso.find(x => x._id ===id)
+        setData(date2)
+        break;
+    }  
   };
+
+  const getCharter =({variables})=>{
+    const {_id, version}=variables
+    navigate('Charter', {_id: _id, version: version});
+  }
+
 
   React.useEffect(() => {
     ObtainCharter(route.params._id)
   }, []);
 
 
-  if (!data.GetBookId) return <Loading/>;
+  if (!data) return <Loading/>;
   //if (error) return `Error! ${error.message}`;
 
-  const getCharter =id=>{
-    navigate('Charter', {_id: id, idbook: route.params._id});
-  }
-    
-  if(data.GetBookId) return (
+  if(data) return (
     <Preview
     colors={colors}
     data={data}
@@ -43,14 +53,19 @@ const SelectCharter = ({route, navigation: { navigate }}) => {
 
 const Preview = ({data, getCharter, colors})=>(
    <ScrollView style={[styles.container, {backgroundColor: colors.background}]}>
-       <Text style={[styles.title, {color: colors.text}]}>{data.GetBookId.book}</Text>
+       <Text style={[styles.title, {color: colors.text}]}>{data.book}</Text>
        <View style={styles.row}>
            {
-               data.GetBookId.capitulos.map(item =>(
+               data.capitulos.map(item =>(
                    <TouchableOpacity
                    style={[styles.button, {backgroundColor: colors.card}]}
                    key={item._id}
-                   onPress={()=> getCharter(item._id)}
+                   onPress={()=> getCharter({
+                     variables:{
+                       _id: item._id,
+                       version: item.version
+                     }
+                   })}
                    >
                     <Text style={[styles.charter, {color: colors.text}]}>{item.order}</Text>
                    </TouchableOpacity>

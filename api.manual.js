@@ -1,6 +1,6 @@
 //const API = "http://api.biblia.av.hardsof.com/api/bible";
 
-const API = "http://192.168.0.6:4001/api/bible";
+const API = "http://192.168.0.10:3000/user/inicioAll";
 
 
 //get versiones

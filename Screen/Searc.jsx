@@ -3,30 +3,34 @@ import {View,Text, TouchableOpacity,StyleSheet,TextInput,ScrollView} from "react
 import { useTheme } from "@react-navigation/native";
 import {searchCharter} from '../api.manual';
 import {UserContext} from '../Component/Context/contexUser';
-//import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+
+import Oso from '../Component/Biblias/Oso/buscarCapituloOso.json';
+import Reina from '../Component/Biblias/ReinaValera/buscarCapituloReinaValera.json';
 
 
 
 const Searc = ({ route, navigation: { navigate } }) => {
   const {versionBook, setVersionBook} = useContext(UserContext);
-  const { auth, setAuth } = useContext(UserContext);
   const { colors } = useTheme();
-  const [data, setData]=useState(null);
+  const [data, setData]=useState(null); //en uso
   const [filter, setFilter]=useState(null);
-  const [search, setSearch]=useState({});
 
-  const SearchCharte = async version =>{
-      const res = await searchCharter(version, auth.token);
-      setData(res.data.SearchChapter);
+  React.useEffect(() => {
+    SearchCharte();
+ }, []);
+  
+  const SearchCharte = async () =>{
+    switch (versionBook) {
+      case"Biblia_del_oso_1569":
+      setData(Oso)
+        break;
+      case"Reina_Valera_1960":
+      setData(Reina)
+        break;
+    }
   }
 
   const textInputChange = (val)=>{
-    //let part2 = val.slice(1);
-    //let part1 = val.slice(0, 1);;
-    //let final= part1.toUpperCase() + part2;
-    setSearch({
-      ...search, nameSearch: val
-    });
     filterSearch(val)
   }
 
@@ -35,14 +39,15 @@ const Searc = ({ route, navigation: { navigate } }) => {
     setFilter(dataFilter);
   }
 
+
+
+
   const sendCharter =(id, idbook)=>{
-    navigate('Charter', {_id: id, idbook: idbook});
+    navigate('Charter', {_id: id, version: versionBook});
   }
 
 
-  React.useEffect(() => {
-     SearchCharte(versionBook.versionBible);
-  }, []);
+  
 
   return (
     <View style={styles.container}>

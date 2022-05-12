@@ -1,31 +1,69 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
-  Modal,
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-//import Icon, { Stack } from '@mdi/react';
-//import { mdiNotebookMultiple, mdiAccountCircle, mdiCog } from "@mdi/js";
 import { useTheme } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserContext } from "../Component/Context/contexUser";
-import { versionDefault } from "../api.user";
+import {getStart} from '../api.user';
 
 const Home = ({ navigation: { navigate } }) => {
+  const [inicio, setInicio] = useState(null);
   const { isDarkTheme, setIsDarkTheme } = useContext(UserContext);
   const { fontZize, setfontZize } = useContext(UserContext);
   const { versionBook, setVersionBook } = useContext(UserContext);
   const { colors } = useTheme();
 
+
+
   React.useEffect(() => {
-    getData();
-    getDataSize();
-    getVersion();
+    iniStart()
+    getData()
+    getDataSize()
+    getVersion()
+    createFavorito()
+    createTemas()
   }, []);
+
+  const createFavorito = async ()=>{
+    try {
+      let fav = await AsyncStorage.getItem('@storage_Key_Favorito')
+      let temajson = JSON.parse(fav)
+      if(temajson===null){
+        let favoritos = []
+        await AsyncStorage.setItem('@storage_Key_Favorito', JSON.stringify(favoritos))
+      }else{
+        //favorito ya esta creado
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const createTemas = async ()=>{
+    try {
+      let tema = await AsyncStorage.getItem('@storage_Key_Temas')
+      let temajson = JSON.parse(tema)
+      if(temajson===null){
+        let temas = []
+        await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(temas))
+      }else{
+        //temas ya esta creado
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const iniStart = async  ()=>{
+    const data = await getStart()
+    setInicio(data)
+  }
 
   //recuperar thema
   const getData = async () => {
@@ -47,10 +85,11 @@ const Home = ({ navigation: { navigate } }) => {
     try {
       const value = await AsyncStorage.getItem("@storage_Key_version");
       let valueJson = JSON.parse(value);
-      if (valueJson !== null) {
-        setVersionBook(valueJson);
-      } else {
+      if (valueJson === null) {
+        let versionDefault = "Reina_Valera_1960"
         setVersionBook(versionDefault);
+      } else {
+        setVersionBook(valueJson);
       }
     } catch (e) {
       // error reading value
@@ -89,16 +128,23 @@ const Home = ({ navigation: { navigate } }) => {
           
           <View style={[styles.boxVer]}>
           <ScrollView>
-              {versionBook && (
+              {inicio && (
                 <View style={{ paddingVertical: 10 }}>
                   <Text style={{ paddingVertical: 10, color: colors.text }}>
-                    Version : {versionBook.versionBible}
+                    {inicio.originCharter}
+                  </Text>
+                  
+                  <Text style={{ paddingVertical: 10, color: colors.text }}>
+                  {inicio.numero}_{inicio.versiculo}
                   </Text>
                   <Text style={{ paddingVertical: 10, color: colors.text }}>
-                    {versionBook.descripcion}
+                    {inicio.testament}
                   </Text>
                   <Text style={{ paddingVertical: 10, color: colors.text }}>
-                  copyright :  {versionBook.copyright}
+                    Version : {inicio.version}
+                  </Text>
+                  <Text style={{ paddingVertical: 10, color: colors.text }}>
+                    {inicio.title}
                   </Text>
                 </View>
               )}
@@ -107,7 +153,9 @@ const Home = ({ navigation: { navigate } }) => {
           
         
        
-          
+          <Text style={{ paddingVertical: 10, color: colors.text, textAlign: "center" }}>
+            {versionBook}
+          </Text>
        
       </View>
 
@@ -137,10 +185,10 @@ const Home = ({ navigation: { navigate } }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigate("Usuario")}>
           <View style={styles.col}>
-            <Ionicons name="person-outline" size={24} color={colors.text} />
+            <Ionicons name="md-heart-outline" size={24} color={colors.text} />
 
             <Text style={{ color: colors.textHeader, fontSize: 12 }}>
-              Usuario
+              Favoritos
             </Text>
           </View>
         </TouchableOpacity>
@@ -158,6 +206,7 @@ const Home = ({ navigation: { navigate } }) => {
           </View>
         </TouchableOpacity>
       </View>
+
     </View>
   );
 };

@@ -1,0 +1,20 @@
+
+
+[
+    {
+        "_id": "61e39b79081c8c50141668bf",
+        "versionBible": "Biblia_del_oso_1569",
+        "descripcion": "La Biblia del Oso es un libro traducido del latín al castellano cuya importancia radica en que buscaba acerca la religión, en este entonces controlada y manejada únicamente por los sectores religiosos, a la gente del común. La traducción la realizó Casiodoro de Reina y se publicó en el año 1569, en Basilea, alcanzando los 2.660 ejemplares. Así, la versión oficial y en latín de Jerónimo de Estridón comenzó a circular en otros sectores y para un nuevo público.",
+        "copyright": "No tiene derechos de autor",
+        "userCreator": "JerryBD",
+        "versionView": true
+    },
+    {
+        "_id": "61e5d8cd5cf9d258ea6d569a",
+        "versionBible": "Reina_Valera_1960",
+        "descripcion": "Debe su nombre a la suma de esfuerzos de Casiodoro de Reina, su autor principal, materializados en la Biblia del Oso (Basilea, Suiza, 1569) (el título original es \"La Biblia que es, los sacros libros del Viejo y Nuevo Testamento / Trasladada en español, 1569\"), y de Cipriano de Valera, su primer revisor, materializados en la Biblia del Cántaro (Ámsterdam, Holanda, 1602). (Ambos eran monjes católicos jerónimos del Monasterio de San Isidoro del Campo (Santiponce, Sevilla), que se habían exiliado de España después de ser perseguidos por la Inquisición debido a sus abiertas simpatías con las ideas de los reformadores protestantes Lutero y Calvino.) Antecedentes e influencia",
+        "copyright": "Sociedades Biblicas",
+        "userCreator": "JerryBD",
+        "versionView": true
+    }
+]
