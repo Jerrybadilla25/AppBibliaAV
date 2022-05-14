@@ -91,16 +91,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "justify",
     paddingLeft: 10,
+    fontFamily: 'sans-serif',
+    fontWeight: "200"
   },
   abrev: {
     fontSize: 10,
     textAlign: "justify",
     paddingLeft: 10,
+    fontFamily: 'monospace'
   },
   title: {
     fontSize: 16,
     textAlign: "justify",
     paddingLeft: 10,
+    fontFamily: 'sans-serif-medium'
   },
   item: {
     backgroundColor: "#f80202",

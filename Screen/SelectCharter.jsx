@@ -98,11 +98,13 @@ const styles = StyleSheet.create({
       charter: {
         fontSize: 16,
         textAlign: "center",
+        fontFamily: 'sans-serif-condensed'
       },
       title:{
         textAlign: "center",
         marginBottom: 8,
         fontSize: 20,
+        fontFamily: 'sans-serif-medium'
       }
 })
 

@@ -219,7 +219,6 @@ const Preview = ({
 }) => (
   <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
     <ScrollView>
-      <Text style={{textAlign: "right", color: colors.text, fontSize: 8}}>{data.version}</Text>
       <View style={styles.rowFlex}>
         <Rewind
           data={data}
@@ -259,14 +258,20 @@ const Preview = ({
               }
             >
               <View>
-                <Text style={{ color: colors.text, textAlign: "center" }}>
+                {/* 
+                {
+                  item.title && 
+                  <Text style={{ color: colors.text, textAlign: "center", paddingBottom: 16, fontFamily: 'sans-serif-medium'  }}>
                   {item.title}
                 </Text>
-                <View style={styles.row}>
+                }
+                */}
+                
+                <View style={[styles.row, {paddingBottom: 16}]}>
                   <Text
                     style={[
                       styles.numero,
-                      { color: colors.textNumber, fontSize: fontZize.fonttext, fontFamily: 'sans-serif' },
+                      { color: colors.textNumber, fontSize: fontZize.fonttext  },
                     ]}
                   >
                     {item.numero} <Text></Text> 
@@ -303,6 +308,7 @@ const Preview = ({
       >
         {data.testament}
       </Text>
+      <Text style={{textAlign: "center", color: colors.textNumber, fontSize: 10, fontFamily: 'monospace'}}>{data.version}</Text>
       {/*<Forward data={data} colors={colors} getCharterForwar={getCharterForwar} />
       </View>*/}
     </ScrollView>
@@ -369,14 +375,16 @@ const styles = StyleSheet.create({
   },
   numero: {
     paddingHorizontal: 5,
+    fontFamily: 'sans-serif-condensed'
   },
   row: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   title: {
     marginBottom: 8,
-    fontWeight: "bold",
+    fontWeight: "600",
+    fontFamily: 'sans-serif-medium',
   },
   rowFlex: {
     flexDirection: "row",

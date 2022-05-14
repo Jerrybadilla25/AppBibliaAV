@@ -10,9 +10,10 @@ import {
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { createTemaUser, getTemaUser, deleteTema, deleteLike} from "../api.manual";
+
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import TemaEdit from './UsurData/TemaEdit';
 
 const User = ({route, navigation: { navigate } }) => {
   const { colors } = useTheme(); //en uso
@@ -24,8 +25,11 @@ const User = ({route, navigation: { navigate } }) => {
   const [modalVisibleTree, setModalVisibleTree] = useState(false);
   const [temas, setTemas] = useState([]);
   const [title, setTitle]=useState(null); //guarda id tema
+  const [titleBoolean, setTitleBoolen]=useState(false); //si existe msj titulo en blanco
+  const [Msjtitle, setMsjtitle]=useState(null); //guarda id tema
   const [idLike, setIDLike]=useState(null);//id like a borrar
   let data = "";
+  let descripcion = ""
 
   //generar id unico
 
@@ -93,18 +97,26 @@ const User = ({route, navigation: { navigate } }) => {
   //crear tema nuevo
   const saveTema = async () => {
     try {
-      let ID = generateUUID()
-      let temas =await AsyncStorage.getItem('@storage_Key_Temas')
-      let arrayTemas = JSON.parse(temas)
-      let temaNew = {
-        _id: ID,
-        tema: data,
-        addVerses : []
-      }
+      if(data.length>0){
+        let ID = generateUUID()
+        let temas =await AsyncStorage.getItem('@storage_Key_Temas')
+        let arrayTemas = JSON.parse(temas)
+        let temaNew = {
+          _id: ID,
+          tema: data,
+          description: descripcion,
+          addVerses : []
+        }
       arrayTemas.push(temaNew)
       await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(arrayTemas))
       setTemas(arrayTemas);
+      setMsjtitle(null)
+      setTitleBoolen(false)
       setModalVisible(!modalVisible);
+      }else{
+        setMsjtitle("El tema es requerido")
+        setTitleBoolen(true)
+      }   
     } catch (error) {
       console.log(error)
     }
@@ -162,6 +174,10 @@ const User = ({route, navigation: { navigate } }) => {
 
   const textInputChange = (val) => {
     data = val;
+  };
+
+  const textInputChange2 = (val) => {
+    descripcion = val;
   };
 
   
@@ -251,7 +267,12 @@ const User = ({route, navigation: { navigate } }) => {
     </Modal>
   );
 
-  const Preview = ({ textInputChange }) => {
+  const Preview = () => {
+    if(estado ==="editar"){
+      return (
+        <TemaEdit temas={temas} setTemas={setTemas} colors={colors}/>
+      )
+    }
     if (estado === "like") {
       return (
         <View style={styles.homeLike}>
@@ -295,10 +316,18 @@ const User = ({route, navigation: { navigate } }) => {
       return (
         <View style={[styles.homeLike, { borderBottomColor: colors.border }]}>
           {modalVisible ? (
-            <View style={[styles.modal, { backgroundColor: colors.social }]}>
+            <View style={[styles.modal, { backgroundColor: colors.boxTema }]}>
+
+              {
+                titleBoolean ? <Text style={[styles.title, { color: colors.textNumber }]}>
+                {Msjtitle} 
+              </Text> :
               <Text style={[styles.title, { color: colors.text }]}>
-                Nombre de tema nuevo
-              </Text>
+               Nombre de tema nuevo
+            </Text>
+              }
+
+              
               <View>
                 <TextInput
                   onChangeText={(val) => textInputChange(val)}
@@ -307,36 +336,81 @@ const User = ({route, navigation: { navigate } }) => {
                     { backgroundColor: colors.header, color: colors.text },
                   ]}
                   
-                  placeholder="su tema aqui"
+                  placeholder="Nombre Tema"
                   placeholderTextColor={colors.inputHolder}
                 />
+                <Text style={{color: colors.text, fontSize: 9, fontFamily: "monospace", paddingHorizontal: 10,  paddingTop: 5}}>El tema es requerido</Text>
+                <TextInput
+                  onChangeText={(val) => textInputChange2(val)}
+                  style={[
+                    styles.textInput,
+                    { backgroundColor: colors.header, color: colors.text, marginTop: 10 },
+                  ]}
+                  
+                  placeholder="Descripcion..."
+                  placeholderTextColor={colors.inputHolder}
+                />
+                <Text style={{color: colors.text, fontSize: 9, fontFamily: "monospace", paddingHorizontal:10, paddingTop: 5}}>La descripcion es opcional</Text>
                 <View style={styles.close}>
                   <TouchableOpacity onPress={saveTema}>
-                    <Text style={[styles.boton, { color: colors.text }]}>
+                    <Text style={[styles.boton, { color: colors.textNumber }]}>
                       Guardar
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => {
+                      setModalVisible(!modalVisible),
+                      setTitleBoolen(false), setTitle(true)}}
                   >
                     <Text style={[styles.boton, { color: colors.text }]}>
                       Cerrar
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <Text style={{fontSize: 12, marginTop: 15}}>Puedo agregar versiculos individuales desde la pantalla de capitulos, presionando por dos segundos el versiculo.</Text>
+                <Text style={{
+                  fontSize: 12, 
+                  marginTop: 15, 
+                  padding: 20,
+                  borderColor: colors.background,
+                  borderWidth: 1,
+                  borderRadius: 8,
+                  color: colors.text
+                  }}>Puedo agregar versiculos individuales desde la pantalla de capitulos, presionando por dos segundos el versiculo.</Text>
               </View>
             </View>
           ) : (
-            <TouchableOpacity
-              onPress={() => setModalVisible(!modalVisible)}
-              style={{ flexDirection: "row", justifyContent: "flex-end" }}
-            >
-              <Text style={[styles.newtema, { color: colors.text }]}>
-                Crear tema
-              </Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                <TouchableOpacity
+                 onLongPress={() => setEstado("editar")}
+                   style={{ flexDirection: "row", justifyContent: "flex-end" }}
+                 >
+                  
+                   <Text style={[styles.newtema, { color: colors.text }]}>
+                   <Ionicons name="pencil" size={14} color={colors.text} />
+                   <Text>  </Text>
+                    Editar tema
+                   </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                   onPress={() => setModalVisible(!modalVisible)}
+                   style={{ flexDirection: "row", justifyContent: "flex-end" }}
+                >
+                    <Text style={[styles.newtema, { color: colors.text }]}>
+                    <Ionicons name="create-outline" size={14} color={colors.text} />
+                    <Text>  </Text>
+                    Crear tema
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            
           )}
+
+          {
+            modalVisible 
+            ?
+            <View></View>
+            
+          :
           <View style={styles.homeLike}>
             <ScrollView>
               {temas && (
@@ -350,7 +424,7 @@ const User = ({route, navigation: { navigate } }) => {
                     >
                       <Text
                         key={x._id}
-                        style={[styles.textCharter, { color: colors.text }]}
+                        style={[styles.textCharter, { color: colors.text, fontFamily: 'sans-serif-medium' }]}
                       >
                         {x.tema}
                       </Text>
@@ -368,6 +442,10 @@ const User = ({route, navigation: { navigate } }) => {
               )}
             </ScrollView>
           </View>
+          
+
+          }
+          
           <PreviewModal
           modalVisibleTwo={modalVisibleTwo}
           />
@@ -450,7 +528,8 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingVertical: 20,
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: 'sans-serif-medium'
   },
   Item: {
     paddingHorizontal: 20,
@@ -470,11 +549,13 @@ const styles = StyleSheet.create({
   },
   textCharter: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "100",
   },
   textDetalles: {
     //paddingHorizontal: 20,
     fontSize: 16,
+    fontFamily: 'sans-serif-thin',
+    fontWeight: "400"
   },
   textVersion: {
     //paddingHorizontal: 20,
@@ -487,6 +568,8 @@ const styles = StyleSheet.create({
   boton: {
     borderRadius: 8,
     padding: 10,
+    fontFamily: 'sans-serif',
+    fontSize: 16
   },
   button: {
     paddingHorizontal: 8,
@@ -521,11 +604,12 @@ const styles = StyleSheet.create({
   newtema: {
     //borderWidth: 1,
     //borderRadius: 10,
-    textAlign: "center",
+    //textAlign: "center",
     padding: 7,
-    width: "50%",
+    //width: "50%",
     marginHorizontal: 30,
-    marginVertical: 15
+    marginVertical: 15,
+    fontFamily: 'Roboto'
   },
     modalView: {
       marginVertical: 100,

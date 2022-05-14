@@ -98,9 +98,22 @@ const PreviewTemas = ({
             color: colors.text,
             textAlign: "center",
             fontSize: fontZize.fontsubtitle,
+            fontFamily: 'sans-serif-medium'
           }}
         >
           {arrayTema.tema}
+        </Text>
+        <Text
+          style={{
+            color: colors.text,
+            textAlign: "left",
+            fontSize: fontZize.fontsubtitle,
+            fontFamily: 'sans-serif-condensed',
+            paddingHorizontal: 10,
+            fontSize: 14
+          }}
+        >
+          {arrayTema.description}
         </Text>
       </View>
 
@@ -123,6 +136,7 @@ const PreviewTemas = ({
                 style={{
                   color: colors.textNumber,
                   fontSize: fontZize.fonttext,
+                  fontFamily: 'sans-serif-medium'
                 }}
               >
                  {item.numero}
@@ -133,6 +147,7 @@ const PreviewTemas = ({
                 color: colors.text,
                 fontSize: fontZize.fonttext,
                 textAlign: "left",
+                fontFamily: 'sans-serif-condensed'
               }}
             >
               {item.versiculo}

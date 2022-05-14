@@ -120,8 +120,8 @@ const Home = ({ navigation: { navigate } }) => {
 
         
         <View style={[styles.box]}>
-            <Text style={[styles.boxText, { color: colors.text }]}>Biblia</Text>
-            <Text style={[styles.boxsubtext, { color: colors.text }]}>
+            <Text style={[styles.boxText, { color: colors.text, fontFamily: 'sans-serif-medium' }]}>Biblia</Text>
+            <Text style={[styles.boxsubtext, { color: colors.text, fontFamily: 'monospace' }]}>
               Aliento de Vida
             </Text>
           </View>
@@ -130,18 +130,15 @@ const Home = ({ navigation: { navigate } }) => {
           <ScrollView>
               {inicio && (
                 <View style={{ paddingVertical: 10 }}>
-                  <Text style={{ paddingVertical: 10, color: colors.text }}>
+                  <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'sans-serif-medium' }}>
                     {inicio.originCharter}
                   </Text>
                   
-                  <Text style={{ paddingVertical: 10, color: colors.text }}>
+                  <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'sans-serif-condensed', fontSize: 16 }}>
                   {inicio.numero}_{inicio.versiculo}
                   </Text>
-                  <Text style={{ paddingVertical: 10, color: colors.text }}>
+                  <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'Roboto' }}>
                     {inicio.testament}
-                  </Text>
-                  <Text style={{ paddingVertical: 10, color: colors.text }}>
-                    Version : {inicio.version}
                   </Text>
                   <Text style={{ paddingVertical: 10, color: colors.text }}>
                     {inicio.title}
@@ -153,9 +150,23 @@ const Home = ({ navigation: { navigate } }) => {
           
         
        
-          <Text style={{ paddingVertical: 10, color: colors.text, textAlign: "center" }}>
+          <Text style={{ paddingVertical: 10, color: colors.text, textAlign: "center", fontFamily: 'monospace' }}>
             {versionBook}
           </Text>
+
+
+         {/* 
+        <Text style={{fontFamily: 'normal'}}>  normal </Text>
+        <Text style={{fontFamily: 'notoserif'}}>  notoserif </Text>
+        <Text style={{fontFamily: 'sans-serif'}}>  sans-serif </Text>
+        <Text style={{fontFamily: 'sans-serif-light'}}>  sans-serif-light </Text>
+        <Text style={{fontFamily: 'sans-serif-thin'}}>  sans-serif-thin </Text>
+        <Text style={{fontFamily: 'sans-serif-condensed'}}>  sans-serif-condensed </Text>
+        <Text style={{fontFamily: 'sans-serif-medium'}}>  sans-serif-medium </Text>
+        <Text style={{fontFamily: 'serif'}}>  serif </Text>
+        <Text style={{fontFamily: 'Roboto'}}>  Roboto </Text>
+        <Text style={{fontFamily: 'monospace'}}>  monospace </Text>        
+      */}
        
       </View>
 
@@ -231,12 +242,12 @@ const styles = StyleSheet.create({
   },
   boxText: {
     fontSize: 40,
-    fontFamily: "Roboto",
     fontWeight: "bold",
+    letterSpacing: 1
   },
   boxsubtext: {
-    fontSize: 16,
-    fontFamily: "sans-serif",
+    fontSize: 14,
+    
   },
   boxVer: {
     //marginTop: 60,
