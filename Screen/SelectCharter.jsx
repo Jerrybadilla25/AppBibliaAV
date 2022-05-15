@@ -78,12 +78,15 @@ const Preview = ({data, getCharter, colors})=>(
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        paddingHorizontal: 20,
+        
+        
     },
     row: {
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "flex-start"
+        justifyContent: "flex-start",
+        paddingBottom: 20
       },
       button: {
         paddingHorizontal: 10,

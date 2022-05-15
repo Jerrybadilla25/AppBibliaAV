@@ -115,9 +115,11 @@ const TemaEdit = ({temas, setTemas, colors}) => {
                          { backgroundColor: colors.header, color: colors.text },
                        ]}
                        editable={true}
+                       autoFocus={true}
                        defaultValue={temaSelect.tema}
                        placeholderTextColor={colors.inputHolder}
                        placeholder="El tema es requerido"
+                       
                       />
 
                       <TextInput

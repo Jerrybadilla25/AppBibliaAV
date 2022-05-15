@@ -19,6 +19,7 @@ const Home = ({ navigation: { navigate } }) => {
   const { versionBook, setVersionBook } = useContext(UserContext);
   const { colors } = useTheme();
 
+  const verseDayDefault = {_id:"622439e198d3618ac7bb1b1c",originCharter:"Genesis 2",numero:7,versiculo:" Entonces Jehová Dios formó al hombre del polvo de la tierra, y sopló en su nariz aliento de vida, y fue el hombre un ser viviente. \n",version:"Reina_Valera_1960",userCreator:"JerryBD",testament:"Antiguo testamento",like:0,view:0,__v:0}
 
 
   React.useEffect(() => {
@@ -61,8 +62,13 @@ const Home = ({ navigation: { navigate } }) => {
   }
 
   const iniStart = async  ()=>{
-    const data = await getStart()
-    setInicio(data)
+    try {
+      const data = await getStart()
+      setInicio(data)
+    } catch (error) {
+      setInicio(verseDayDefault)
+    }
+    
   }
 
   //recuperar thema
@@ -135,7 +141,7 @@ const Home = ({ navigation: { navigate } }) => {
                   </Text>
                   
                   <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'sans-serif-condensed', fontSize: 16 }}>
-                  {inicio.numero}_{inicio.versiculo}
+                  {inicio.numero} {inicio.versiculo}
                   </Text>
                   <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'Roboto' }}>
                     {inicio.testament}

@@ -30,6 +30,7 @@ import RenderTemas from './Screen/RenderTemas';
 import Versiones from './Screen/Versiones';
 import HelpScreen from './Screen/Help'
 import PoliticaScreen from './Screen/Politica'
+import SearchPalabra from './Screen/SearchPalabra';
 
 import { UserContext } from "./Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
@@ -111,25 +112,31 @@ const App = ({ navigation, children }) => {
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
   const Search = ({ navigation }) => (
-    <View style={{flexDirection: "row"}}>
-      <TouchableOpacity
-      style={{ width: 70 }}
-      onPress={() => navigation.navigate("Search")}
-    >
-      <View style={styles.row}>
-      <Ionicons name="search" size={24} color={theme.colors.text}/>    
-      </View>
-    </TouchableOpacity>
-    <TouchableOpacity
-      style={{ width: 70 }}
-      onPress={() => navigation.navigate("Home")}
-    >
-      <View style={styles.row}>
-        <Ionicons name="home-outline" size={24} color={theme.colors.text} />
-      </View>
-    </TouchableOpacity>
+    <View style={{ flexDirection: "row" }}>
+      <TouchableOpacity onPress={() => navigation.navigate("Search")}>
+        <View style={styles.rowIcon}>
+          <Ionicons name="search" size={24} color={theme.colors.text} />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Buscar")}>
+        <View style={styles.rowIcon}>
+          <View style={{flexDirection: "column"}}>
+            <Ionicons
+            name="ios-search-circle-sharp"
+            size={22}
+            color={theme.colors.text}
+          />
+          <Text style={{fontSize: 6}}>Palabra</Text>
+          </View>
+          
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+        <View style={styles.rowIcon}>
+          <Ionicons name="home-outline" size={24} color={theme.colors.text} />
+        </View>
+      </TouchableOpacity>
     </View>
-    
   );
 
 
@@ -275,6 +282,40 @@ const App = ({ navigation, children }) => {
                       style={{ paddingEnd: 20 }}
                       name="ios-bookmarks-outline"
                       size={24}
+                      
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="home-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+
+                  </View>
+                  
+                ),
+              })}
+            />
+
+              <Stack.Screen
+              name="Buscar"
+              component={SearchPalabra}
+              options={({ navigation })=>({
+                headerStyle: { backgroundColor: theme.colors.header },
+                headerTitle: "Buscar palabra",
+                headerTitleStyle: { color: theme.colors.textHeader },
+                headerRight: () => (
+                  <View style={{flexDirection: "row"}}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
@@ -399,6 +440,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 15,
+    paddingVertical: 5,
+    marginHorizontal: 5,
+    borderRadius: 50,
+  },
+  rowIcon: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
     paddingVertical: 5,
     marginHorizontal: 5,
     borderRadius: 50,

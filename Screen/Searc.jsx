@@ -34,12 +34,11 @@ const Searc = ({ route, navigation: { navigate } }) => {
     filterSearch(val)
   }
 
+  
   const filterSearch = (val)=>{
     let dataFilter = data.filter((x)=>x.charter.toUpperCase().includes(val.toUpperCase()));//convertir a miniscula
     setFilter(dataFilter);
   }
-
-
 
 
   const sendCharter =(id, idbook)=>{

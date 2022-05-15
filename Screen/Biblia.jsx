@@ -56,7 +56,7 @@ const Preview = ({ data, getBookID, colors }) => (
   <ScrollView
       
   >
-    <View style={{flex: 1, padding: 20, backgroundColor: colors.background }}>
+    <View style={{flex: 1, padding: 6, marginVertical: 16, backgroundColor: colors.background }}>
       <View style={styles.row}>
       {data.map((item) => (
         <TouchableOpacity
@@ -83,7 +83,7 @@ const Preview = ({ data, getBookID, colors }) => (
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 5,
     flex: 1,
   },
 
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   button: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
     paddingVertical: 8,
     borderRadius: 4,
 

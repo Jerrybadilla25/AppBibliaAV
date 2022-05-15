@@ -8,7 +8,7 @@ const PreviewModal = () => (
     transparent={true}
     visible={modalVisibleTwo}
     onRequestClose={() => {
-      Alert.alert("Modal has been closed.");
+      //Alert.alert("Modal has been closed.");
       setModalVisibleTwo(!modalVisibleTwo);
     }}
   >
