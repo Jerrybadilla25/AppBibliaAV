@@ -44,26 +44,25 @@ const App = ({ navigation, children }) => {
   const [versionBook, setVersionBook] = useState(null);
   const [isDarkTheme, setIsDarkTheme] = useState(null);
   const [fontZize, setfontZize] = useState(null);
-
-  
-    
+ 
 
   const CustomDefaultTheme = {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
       background: "#f2f2f2",
-      text: "#0E1218",
+      text: "#070e45",
       card: "#ffffff",
       textNumber: "#FF001A",
       header: "#ffffff",
       headerAct: "##554270",
-      textHeader: "#0E1218",
+      textHeader: "#070e45",
       boxseting: "#ffffff",
       boxTema: "#c2bcbc",
       border: "#5b4475",
       social: "#91B0F3",
-      bar: "black",
+      bar: '#ffffff',
+      barStyle: 'dark-content',
       inputHolder: "#7c7e83",
     },
   };
@@ -83,7 +82,8 @@ const App = ({ navigation, children }) => {
       boxTema: "#302640",
       border: "#5b4475",
       social: "#604589",
-      bar: "#241c30",
+      bar: '#241c30',
+      barStyle: 'light-content',
       inputHolder: "#7c7e83",
     },
   };
@@ -126,7 +126,7 @@ const App = ({ navigation, children }) => {
             size={22}
             color={theme.colors.text}
           />
-          <Text style={{fontSize: 6}}>Palabra</Text>
+          <Text style={{fontSize: 6, color:theme.colors.text}}>Palabra</Text>
           </View>
           
         </View>
@@ -164,7 +164,10 @@ const App = ({ navigation, children }) => {
         }}
       >
         <NavigationContainer theme={theme}>
-          <StatusBar backgroundColor={theme.colors.bar} />
+          <StatusBar 
+          backgroundColor={theme.colors.bar}
+          barStyle={theme.colors.barStyle}
+          />
           <Stack.Navigator
             screenOptions={{
               headerMode: "screen",
@@ -216,6 +219,15 @@ const App = ({ navigation, children }) => {
                 headerStyle: { backgroundColor: theme.colors.header },
                 headerTitleStyle: { color: theme.colors.textHeader },
                 headerRight: () => (
+                  <View style={{flexDirection: "row"}}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
                   <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                     <Ionicons
                       style={{ paddingEnd: 20 }}
@@ -224,6 +236,8 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
+                  </View>
+                  
                 ),
               })}
             />

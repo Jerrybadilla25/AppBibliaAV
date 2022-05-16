@@ -270,7 +270,7 @@ const User = ({route, navigation: { navigate } }) => {
   const Preview = () => {
     if(estado ==="editar"){
       return (
-        <TemaEdit temas={temas} setTemas={setTemas} colors={colors}/>
+        <TemaEdit temas={temas} setTemas={setTemas} setEstado={setEstado} colors={colors}/>
       )
     }
     if (estado === "like") {
@@ -548,8 +548,8 @@ const styles = StyleSheet.create({
     
   },
   textCharter: {
-    fontSize: 16,
-    fontWeight: "100",
+    fontSize: 14,
+    fontWeight: "500",
   },
   textDetalles: {
     //paddingHorizontal: 20,
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   button: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 6,
     paddingVertical: 8,
     borderRadius: 10,
     alignContent: "center",

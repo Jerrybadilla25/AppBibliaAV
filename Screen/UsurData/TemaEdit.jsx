@@ -3,7 +3,7 @@ import { View, StyleSheet, Modal, Text, ScrollView, TouchableOpacity, TextInput 
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const TemaEdit = ({temas, setTemas, colors}) => {
+const TemaEdit = ({temas, setTemas, colors, setEstado}) => {
     const [select, setSelect]=useState(true)
     const [temaSelect, settemaSelect]=useState(null)
     
@@ -28,7 +28,8 @@ const TemaEdit = ({temas, setTemas, colors}) => {
           let idx = dataJson.findIndex((x) => x._id === temaSelect._id);
           dataJson.splice(idx, 1, temaSelect);
           await AsyncStorage.setItem("@storage_Key_Temas", JSON.stringify(dataJson));
-          setSelect(true);   
+          setSelect(true);
+          setEstado("temas")  
       } catch (error) {}
     };
 

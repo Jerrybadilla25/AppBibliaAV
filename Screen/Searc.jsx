@@ -1,7 +1,6 @@
 import React, {useState, useContext} from "react";
 import {View,Text, TouchableOpacity,StyleSheet,TextInput,ScrollView} from "react-native";
 import { useTheme } from "@react-navigation/native";
-import {searchCharter} from '../api.manual';
 import {UserContext} from '../Component/Context/contexUser';
 
 import Oso from '../Component/Biblias/Oso/buscarCapituloOso.json';

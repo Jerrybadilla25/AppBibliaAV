@@ -228,7 +228,7 @@ const Preview = ({
         <Text
           style={[
             styles.title,
-            { color: colors.text, fontSize: fontZize.fonttitle },
+            { color: colors.text, fontSize: fontZize.fonttitle, fontWeight: "700" },
           ]}
         >
           {data.charter}
@@ -332,14 +332,14 @@ const PreviewModal = ({setModalVisible, modalVisible, colors, temas, addVerseTem
     setModalVisible(!modalVisible);
     }}
   >
-    <View style={[styles.centeredView, {backgroundColor: colors.social}]}>
+    <View style={[styles.centeredView, {backgroundColor: colors.boxTema}]}>
       <View style={[styles.rowFlex, {marginBottom: 25}]}>
-         <Text style={{color: colors.text}}>Selecciones un tema</Text>
+         <Text style={{color: colors.text}}>Seleccione un tema</Text>
          
          <TouchableOpacity
          onPress={()=>setModalVisible(!modalVisible)}
          >
-            <Text style={{color: colors.text}}>Cerrar</Text>
+            <Text style={{color: colors.textNumber}}>Cancelar</Text>
          </TouchableOpacity>
       </View>
       <ScrollView >
@@ -361,7 +361,17 @@ const PreviewModal = ({setModalVisible, modalVisible, colors, temas, addVerseTem
               </View>
             )
           }
-          <Text style={{marginTop: 10, fontSize: 12}}>Agregue el versiculo a un tema</Text>
+          <Text 
+          style={{
+            marginTop: 10, 
+            fontSize: 12, 
+            textAlign: "center",
+            borderColor: colors.header,
+            borderWidth: 1,
+            borderRadius: 8,
+            padding: 8,
+            color: colors.text
+            }}>Agregue el versiculo a un tema</Text>
       </ScrollView>
     </View>
 
@@ -420,7 +430,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   Item: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 4,
     paddingVertical: 4,
     //marginVertical: 4,
     //marginHorizontal: 4,
