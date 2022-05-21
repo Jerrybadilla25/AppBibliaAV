@@ -43,7 +43,7 @@ import com.android.build.OutputFile
  *   devDisabledInStaging: true,
  *   // The configuration property can be in the following formats
  *   //         'devDisabledIn${productFlavor}${buildType}'
- *   //         'devDisabledIn${buildType}'
+ *   //         'devDisabledIn${}'
  *
  *   // the root of your project, i.e. where "package.json" lives
  *   root: "../../",
@@ -142,7 +142,7 @@ android {
         applicationId 'com.alientodevida.BibliaAV'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 101
         versionName "1.0.1"
     }
     splits {

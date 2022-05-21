@@ -44,6 +44,8 @@ const App = ({ navigation, children }) => {
   const [versionBook, setVersionBook] = useState(null);
   const [isDarkTheme, setIsDarkTheme] = useState(null);
   const [fontZize, setfontZize] = useState(null);
+
+  
  
 
   const CustomDefaultTheme = {
@@ -74,7 +76,7 @@ const App = ({ navigation, children }) => {
       background: "#140e1b",
       text: "#f3f4f6",
       card: "#231830",
-      textNumber: "#e60017",
+      textNumber: "#ff4d4d",
       header: "#241c30",
       headerAct: "#140e1b",
       textHeader: "#f3f4f6",
@@ -219,10 +221,10 @@ const App = ({ navigation, children }) => {
                 headerStyle: { backgroundColor: theme.colors.header },
                 headerTitleStyle: { color: theme.colors.textHeader },
                 headerRight: () => (
-                  <View style={{flexDirection: "row"}}>
+                  <View style={{flexDirection: "row", paddingLeft: 14}}>
                     <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
                     <Ionicons
-                      style={{ paddingEnd: 20 }}
+                      style={{ paddingEnd: 30 }}
                       name="ios-bookmarks-outline"
                       size={24}
                       color={theme.colors.text}
@@ -293,7 +295,7 @@ const App = ({ navigation, children }) => {
                   <View style={{flexDirection: "row"}}>
                     <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
                     <Ionicons
-                      style={{ paddingEnd: 20 }}
+                      style={{ paddingEnd: 30 }}
                       name="ios-bookmarks-outline"
                       size={24}
                       
@@ -326,7 +328,7 @@ const App = ({ navigation, children }) => {
                   <View style={{flexDirection: "row"}}>
                     <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
                     <Ionicons
-                      style={{ paddingEnd: 20 }}
+                      style={{ paddingEnd: 30 }}
                       name="ios-bookmarks-outline"
                       size={24}
                       
@@ -372,7 +374,7 @@ const App = ({ navigation, children }) => {
                   <View style={{flexDirection: "row"}}>
                     <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                     <Ionicons
-                      style={{ paddingEnd: 20 }}
+                      style={{ paddingEnd: 30 }}
                       name="home-outline"
                       size={24}
                       color={theme.colors.text}
@@ -389,7 +391,7 @@ const App = ({ navigation, children }) => {
                   </TouchableOpacity>*/}
                   <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
                     <Ionicons
-                      style={{ paddingEnd: 20 }}
+                      style={{ paddingEnd: 30 }}
                       name="ios-bookmarks-outline"
                       size={24}
                       color={theme.colors.text}
@@ -423,7 +425,7 @@ const App = ({ navigation, children }) => {
                   <View style={{flexDirection: "row"}}>
                     <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
                     <Ionicons
-                      style={{ paddingEnd: 20 }}
+                      style={{ paddingEnd: 30 }}
                       name="ios-bookmarks-outline"
                       size={24}
                       color={theme.colors.text}
@@ -461,7 +463,7 @@ const styles = StyleSheet.create({
   rowIcon: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     paddingVertical: 5,
     marginHorizontal: 5,
     borderRadius: 50,

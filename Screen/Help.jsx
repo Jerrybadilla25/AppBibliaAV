@@ -15,25 +15,9 @@ const Help = ({ navigation: { navigate } }) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <ScrollView>
-      <View style={{ marginBottom: 70, marginTop: 20 }}>
-        <View style={{ paddingHorizontal: 50, paddingBottom: 40 }}>
-          <Text style={{ color: colors.text }}>
-            Honra a Jehová con tus bienes, Y con las primicias de todos tus
-            frutos; Y serán llenos tus graneros con abundancia, Y tus lagares
-            rebosarán de mosto.
-          </Text>
-          <Text
-            style={{ color: colors.text, marginTop: 15, textAlign: "center" }}
-          >
-            Proverbios 3: 9-10
-          </Text>
-        </View>
-
-        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-          <Text style={[styles.dona]}>¡ Colabora con Biblia AV !</Text>
-        </TouchableOpacity>
-      </View>
+      
       <View style={styles.container}>
+      
         <View>
           <Text
             style={{
@@ -347,21 +331,18 @@ const PreviewModalDonate = ({ modalVisible, colors, setModalVisible }) => (
           </Text>
         </View>
 
-        <Text style={[styles.title]}>Suscribirse</Text>
+        <Text style={[styles.title]}>Adquirir Version Pro</Text>
         <Text style={{ color: colors.textNumber, marginTop: 30 }}>
-          Quiero colaborar con...
+          Adquirir version Pro por:
         </Text>
         <Text style={[styles.dona, { width: 350 }]}>
-          $1 dolar americano por mes
-        </Text>
-        <Text style={[styles.dona, { width: 350 }]}>
-          $3 dolares americanos por mes
+          $3 dolares americanos por unica vez
         </Text>
         <Text style={{ color: colors.textNumber, marginTop: 30 }}>
-          Quiero donar
+          Quiero donar y adquirir version Pro por:
         </Text>
         <Text style={[styles.dona, { width: 350 }]}>
-          $10 dolores americanos una unica vez
+          $6 dolores americanos una sola vez
         </Text>
         <Text style={{ fontFamily: "serif", marginVertical: 15 }}>Nota: </Text>
         <Text style={{ fontFamily: "serif" }}>

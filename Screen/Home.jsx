@@ -12,6 +12,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserContext } from "../Component/Context/contexUser";
 import {getStart} from '../api.user';
 
+import * as InAppPurchases from 'expo-in-app-purchases';
+import Constants from 'expo-constants';
+console.log(Constants.systemFonts);
+
 const Home = ({ navigation: { navigate } }) => {
   const [inicio, setInicio] = useState(null);
   const { isDarkTheme, setIsDarkTheme } = useContext(UserContext);
@@ -20,6 +24,12 @@ const Home = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
 
   const verseDayDefault = {_id:"622439e198d3618ac7bb1b1c",originCharter:"Genesis 2",numero:7,versiculo:" Entonces Jehová Dios formó al hombre del polvo de la tierra, y sopló en su nariz aliento de vida, y fue el hombre un ser viviente. \n",version:"Reina_Valera_1960",userCreator:"JerryBD",testament:"Antiguo testamento",like:0,view:0,__v:0}
+
+
+  //const items = ['basico', 'premiun']
+
+  
+  
 
 
   React.useEffect(() => {
@@ -149,7 +159,7 @@ const Home = ({ navigation: { navigate } }) => {
                   <Text style={{ paddingVertical: 10, color: colors.text }}>
                     {inicio.title}
                   </Text>
-                </View>
+                </View> 
               )}
            </ScrollView>
           </View>

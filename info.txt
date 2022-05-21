@@ -15,3 +15,12 @@ ligth
 icon 
 import { mdiFastForward } from '@mdi/js';  adelantar
 import { mdiRewind } from '@mdi/js';       retroceder
+
+
+
+para compilar apk = eas build -p android --profile
+para compilar aab = eas build --platform android
+
+eas build --platform android
+eas build --platform ios
+eas build --platform all

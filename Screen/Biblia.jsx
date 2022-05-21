@@ -56,7 +56,7 @@ const Preview = ({ data, getBookID, colors }) => (
   <ScrollView
       
   >
-    <View style={{flex: 1, padding: 6, marginVertical: 16, backgroundColor: colors.background }}>
+    <View style={{flex: 1,  marginVertical: 16, backgroundColor: colors.background }}>
       <View style={styles.row}>
       {data.map((item) => (
         <TouchableOpacity
@@ -101,8 +101,7 @@ const styles = StyleSheet.create({
     fontFamily: 'monospace'
   },
   title: {
-    fontSize: 16,
-    textAlign: "justify",
+    fontSize: 17,
     paddingLeft: 10,
     fontFamily: 'sans-serif-medium'
   },

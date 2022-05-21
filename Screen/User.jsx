@@ -289,16 +289,16 @@ const User = ({route, navigation: { navigate } }) => {
                 
               >
                 <View style={[styles.button, { backgroundColor: colors.header }]}  >
-                  <Text style={[styles.textCharter, { color: colors.text }]}>
+                  <Text style={[styles.textCharter, { color: colors.text, fontFamily: 'sans-serif-medium' }]}>
                   {x.charter}
                 </Text>
                 <Text
-                  style={[styles.textDetalles, { color: colors.textNumber }]}
+                  style={[styles.textDetalles, { color: colors.textNumber, fontFamily: 'sans-serif-medium' }]}
                 >
                   ir...
                 </Text>
                 <Text
-                  style={[styles.textVersion, { color: colors.text }]}
+                  style={[styles.textVersion, { color: colors.text, fontFamily: 'sans-serif-medium' }]}
                 >
                   {x.version}
                 </Text>
@@ -339,7 +339,7 @@ const User = ({route, navigation: { navigate } }) => {
                   placeholder="Nombre Tema"
                   placeholderTextColor={colors.inputHolder}
                 />
-                <Text style={{color: colors.text, fontSize: 9, fontFamily: "monospace", paddingHorizontal: 10,  paddingTop: 5}}>El tema es requerido</Text>
+                
                 <TextInput
                   onChangeText={(val) => textInputChange2(val)}
                   style={[
@@ -350,10 +350,10 @@ const User = ({route, navigation: { navigate } }) => {
                   placeholder="Descripcion..."
                   placeholderTextColor={colors.inputHolder}
                 />
-                <Text style={{color: colors.text, fontSize: 9, fontFamily: "monospace", paddingHorizontal:10, paddingTop: 5}}>La descripcion es opcional</Text>
+                
                 <View style={styles.close}>
                   <TouchableOpacity onPress={saveTema}>
-                    <Text style={[styles.boton, { color: colors.textNumber }]}>
+                    <Text style={[styles.boton, { color: colors.textNumber, backgroundColor: colors.background }]}>
                       Guardar
                     </Text>
                   </TouchableOpacity>
@@ -362,7 +362,7 @@ const User = ({route, navigation: { navigate } }) => {
                       setModalVisible(!modalVisible),
                       setTitleBoolen(false), setTitle(true)}}
                   >
-                    <Text style={[styles.boton, { color: colors.text }]}>
+                    <Text style={[styles.boton, { color: colors.text, backgroundColor: colors.background }]}>
                       Cerrar
                     </Text>
                   </TouchableOpacity>
@@ -469,12 +469,12 @@ const User = ({route, navigation: { navigate } }) => {
             ? 
             <View style={[styles.col, { backgroundColor: colors.header}]}>
               <Ionicons name="heart-outline" size={20} color={colors.text} />
-              <Text style={{ color: colors.text, fontSize: 10 }}>Me Gusta</Text>
+              <Text style={{ color: colors.text, fontSize: 10 }}>Favoritos</Text>
             </View>
             :
             <View style={[styles.col, { backgroundColor: colors.header}]}>
               <Ionicons name="heart-outline" size={20} color={colors.textNumber} />
-              <Text style={{ color: colors.textNumber, fontSize: 10 }}>Me Gusta</Text>
+              <Text style={{ color: colors.textNumber, fontSize: 10 }}>Favoritos</Text>
             </View>
 
           }
@@ -528,6 +528,7 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingVertical: 20,
+    fontSize: 18,
     textAlign: "center",
     fontFamily: 'sans-serif-medium'
   },
@@ -548,8 +549,8 @@ const styles = StyleSheet.create({
     
   },
   textCharter: {
-    fontSize: 14,
-    fontWeight: "500",
+    fontSize: 15,
+    fontWeight: "800",
   },
   textDetalles: {
     //paddingHorizontal: 20,
@@ -569,7 +570,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     fontFamily: 'sans-serif',
-    fontSize: 16
+    fontSize: 16,
+    width: 100,
+    textAlign: "center"
   },
   button: {
     paddingHorizontal: 6,
@@ -599,7 +602,7 @@ const styles = StyleSheet.create({
   close: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: 30,
   },
   newtema: {
     //borderWidth: 1,

@@ -16,6 +16,7 @@
     "@react-navigation/native-stack": "^6.2.5",
     "expo": "~44.0.0",
     "expo-font": "~10.0.4",
+    "expo-in-app-purchases": "~12.1.0",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "expo-updates": "~0.11.7",
