@@ -5,7 +5,8 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Modal
+  Modal,
+  Alert
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
@@ -38,6 +39,20 @@ const Charter = ({ route }) => {
     obtainCharte(route.params._id, route.params.version);
     obtainTemas()
   }, []);
+
+  const createTwoButtonAlert = (tema) =>
+    Alert.alert(
+      "El versiculo ya pertenece al tema:",
+       `${tema}`,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
 
   const obtainCharte = async (id, version) => {
     setMsjView(false)
@@ -154,7 +169,8 @@ const Charter = ({ route }) => {
       let validar = temaSelect.addVerses.find(x => x._id === idVerse._id)
       if(validar){
         setModalVisible(!modalVisible);
-        console.log("el versiculo ya existe")
+        createTwoButtonAlert(temaSelect.tema)
+        //console.log("el versiculo ya existe")
       }else{
         temaSelect.addVerses.push(idVerse)
         let idx = temas.findIndex(x => x._id === id)

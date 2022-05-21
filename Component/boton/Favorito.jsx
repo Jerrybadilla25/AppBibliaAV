@@ -38,11 +38,13 @@ const styles = StyleSheet.create({
   },
   socialText: {
     paddingHorizontal: 5,
+    
   },
   social: {
-    fontSize: 14,
+    fontSize: 13,
     marginHorizontal: 8,
     paddingBottom: 10,
+    fontFamily: 'sans-serif-medium'
   },
 });
 

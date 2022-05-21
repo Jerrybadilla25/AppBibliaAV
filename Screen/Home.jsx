@@ -13,19 +13,25 @@ import { UserContext } from "../Component/Context/contexUser";
 import {getStart} from '../api.user';
 
 import * as InAppPurchases from 'expo-in-app-purchases';
+import * as NavigationBar from 'expo-navigation-bar';
+
+
 import Constants from 'expo-constants';
-console.log(Constants.systemFonts);
+
 
 const Home = ({ navigation: { navigate } }) => {
+  
   const [inicio, setInicio] = useState(null);
   const { isDarkTheme, setIsDarkTheme } = useContext(UserContext);
   const { fontZize, setfontZize } = useContext(UserContext);
   const { versionBook, setVersionBook } = useContext(UserContext);
   const { colors } = useTheme();
+  NavigationBar.setBackgroundColorAsync(`${colors.header}`);
+
 
   const verseDayDefault = {_id:"622439e198d3618ac7bb1b1c",originCharter:"Genesis 2",numero:7,versiculo:" Entonces Jehová Dios formó al hombre del polvo de la tierra, y sopló en su nariz aliento de vida, y fue el hombre un ser viviente. \n",version:"Reina_Valera_1960",userCreator:"JerryBD",testament:"Antiguo testamento",like:0,view:0,__v:0}
 
-
+  
   //const items = ['basico', 'premiun']
 
   
@@ -34,7 +40,6 @@ const Home = ({ navigation: { navigate } }) => {
 
   React.useEffect(() => {
     iniStart()
-    getData()
     getDataSize()
     getVersion()
     createFavorito()
@@ -81,21 +86,7 @@ const Home = ({ navigation: { navigate } }) => {
     
   }
 
-  //recuperar thema
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem("@storage_Key_thema");
-      let valueJson = JSON.parse(value);
-      if (valueJson !== null) {
-        setIsDarkTheme(valueJson);
-      } else {
-        setIsDarkTheme(true);
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
-
+  
   //recuperar version
   const getVersion = async () => {
     try {
@@ -146,14 +137,14 @@ const Home = ({ navigation: { navigate } }) => {
           <ScrollView>
               {inicio && (
                 <View style={{ paddingVertical: 10 }}>
-                  <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'sans-serif-medium' }}>
+                  <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'sans-serif-medium', fontSize: fontZize.fontsubtitle }}>
                     {inicio.originCharter}
                   </Text>
                   
-                  <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'sans-serif-condensed', fontSize: 16 }}>
-                  {inicio.numero} {inicio.versiculo}
+                  <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'sans-serif-condensed', fontSize: fontZize.fonttext }}>
+                  <Text style={{color: colors.textNumber}}> {inicio.numero}</Text>  {inicio.versiculo}
                   </Text>
-                  <Text style={{ paddingVertical: 10, color: colors.text, fontFamily: 'Roboto' }}>
+                  <Text style={{ paddingVertical: 10, color: colors.textNumber, fontFamily: 'Roboto' }}>
                     {inicio.testament}
                   </Text>
                   <Text style={{ paddingVertical: 10, color: colors.text }}>
@@ -192,7 +183,6 @@ const Home = ({ navigation: { navigate } }) => {
           flexDirection: "row",
           justifyContent: "space-around",
           paddingVertical: 8,
-          marginBottom: 2,
           minWidth: "32%",
           backgroundColor: colors.header,
         }}

@@ -6,7 +6,9 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
-  Modal
+  Modal,
+  Alert,
+  Button
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
@@ -27,6 +29,21 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
   React.useEffect(() => {
     obtainTemas()
   }, []);
+
+  const createTwoButtonAlert = (tema) =>
+    Alert.alert(
+      "El versiculo ya pertenece al tema:",
+       `${tema}`,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
+
 
   const textInputChange = (val) => {
     if (val.length === 0) {
@@ -76,7 +93,8 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
       let validar = temaSelect.addVerses.find(x => x._id === verseNew._id)
       if(validar){
         setModalVisible(!modalVisible);
-        console.log("El versiculo ya exixte")
+        createTwoButtonAlert(temaSelect.tema)
+        //console.log("El versiculo ya exixte")
       }else{
         temaSelect.addVerses.push(verseNew)
         let idx = temas.findIndex(x => x._id === id)
@@ -299,7 +317,7 @@ const styles = StyleSheet.create({
   },
   item: {
     marginVertical: 10,
-    padding: 12,
+    padding: 20,
   },
   centeredView: {
     marginVertical: 100,

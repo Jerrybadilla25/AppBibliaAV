@@ -18,8 +18,8 @@ import TemaEdit from './UsurData/TemaEdit';
 const User = ({route, navigation: { navigate } }) => {
   const { colors } = useTheme(); //en uso
   const [likes, setLikes] = useState([]); // en uso
-  const [estado, setEstado] = useState("temas"); //en uso
-  const [estadoAct, setEstadoAct] = useState(true); //en uso
+  const [estado, setEstado] = useState("like"); //en uso
+  const [estadoAct, setEstadoAct] = useState(false); //en uso
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleTwo, setModalVisibleTwo] = useState(false);
   const [modalVisibleTree, setModalVisibleTree] = useState(false);

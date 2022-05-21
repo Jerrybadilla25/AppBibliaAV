@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   NavigationContainer,
   DefaultTheme,
@@ -38,17 +38,33 @@ import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from 'expo-status-bar';
 
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
 const App = ({ navigation, children }) => {
-  
   const [versionBook, setVersionBook] = useState(null);
   const [isDarkTheme, setIsDarkTheme] = useState(null);
   const [fontZize, setfontZize] = useState(null);
 
-  
- 
+  React.useEffect(() => {
+    getData()
+  }, []);
+
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@storage_Key_thema");
+      let valueJson = JSON.parse(value);
+      if (valueJson !== null) {
+        setIsDarkTheme(valueJson);
+      } else {
+        setIsDarkTheme(true);
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
 
   const CustomDefaultTheme = {
     ...DefaultTheme,

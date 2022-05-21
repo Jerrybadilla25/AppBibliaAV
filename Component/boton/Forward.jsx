@@ -15,7 +15,8 @@ const Forward = ({data, getCharterForwar, colors}) => {
         })
       }
     >
-      <Ionicons name="arrow-forward" size={24} color={colors.text} />
+      <Ionicons name="ios-play-forward-outline" size={24} color={colors.text} />
+     
      
       
     </TouchableOpacity>
