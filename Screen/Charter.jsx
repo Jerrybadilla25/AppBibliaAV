@@ -151,12 +151,18 @@ const Charter = ({ route }) => {
   const addVerseTema = async id=>{
     try {
       let temaSelect = temas.find(x => x._id === id)
-      temaSelect.addVerses.push(idVerse)
-      let idx = temas.findIndex(x => x._id === id)
-      temas.splice(idx, 1, temaSelect)
-      await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(temas))
-    //setMsj("Versiculo agregado al tema");
-      setModalVisible(!modalVisible);
+      let validar = temaSelect.addVerses.find(x => x._id === idVerse._id)
+      if(validar){
+        setModalVisible(!modalVisible);
+        console.log("el versiculo ya existe")
+      }else{
+        temaSelect.addVerses.push(idVerse)
+        let idx = temas.findIndex(x => x._id === id)
+        temas.splice(idx, 1, temaSelect)
+        await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(temas))
+        setModalVisible(!modalVisible);
+      }
+      
     } catch (error) {
       
     }

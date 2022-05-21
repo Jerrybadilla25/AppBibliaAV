@@ -71,12 +71,19 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
   const addVerseTema = async id=>{
     try {
       let temaSelect = temas.find(x => x._id === id)
-      temaSelect.addVerses.push(verseNew)
-      let idx = temas.findIndex(x => x._id === id)
-      temas.splice(idx, 1, temaSelect)
-      await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(temas))
-    //setMsj("Versiculo agregado al tema");
-      setModalVisible(!modalVisible);
+      //console.log(temaSelect)
+      //console.log(verseNew)
+      let validar = temaSelect.addVerses.find(x => x._id === verseNew._id)
+      if(validar){
+        setModalVisible(!modalVisible);
+        console.log("El versiculo ya exixte")
+      }else{
+        temaSelect.addVerses.push(verseNew)
+        let idx = temas.findIndex(x => x._id === id)
+        temas.splice(idx, 1, temaSelect)
+        await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(temas))
+        setModalVisible(!modalVisible);
+      }
     } catch (error) {
       
     }

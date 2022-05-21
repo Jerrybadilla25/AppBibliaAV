@@ -9,7 +9,7 @@ import {
   Text,
   StyleSheet,
   View,
-  StatusBar,
+  
   Easing,
 } from "react-native";
 import {
@@ -34,6 +34,8 @@ import SearchPalabra from './Screen/SearchPalabra';
 
 import { UserContext } from "./Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
+
+import { StatusBar } from 'expo-status-bar';
 
 
 
@@ -64,7 +66,7 @@ const App = ({ navigation, children }) => {
       border: "#5b4475",
       social: "#91B0F3",
       bar: '#ffffff',
-      barStyle: 'dark-content',
+      barStyle: 'dark',
       inputHolder: "#7c7e83",
     },
   };
@@ -85,7 +87,7 @@ const App = ({ navigation, children }) => {
       border: "#5b4475",
       social: "#604589",
       bar: '#241c30',
-      barStyle: 'light-content',
+      barStyle: 'light',
       inputHolder: "#7c7e83",
     },
   };
@@ -167,8 +169,10 @@ const App = ({ navigation, children }) => {
       >
         <NavigationContainer theme={theme}>
           <StatusBar 
-          backgroundColor={theme.colors.bar}
-          barStyle={theme.colors.barStyle}
+          //backgroundColor={theme.colors.bar}
+          //barStyle={theme.colors.barStyle}
+          style={theme.colors.barStyle}
+          
           />
           <Stack.Navigator
             screenOptions={{
