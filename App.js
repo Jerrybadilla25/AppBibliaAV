@@ -72,6 +72,7 @@ const App = ({ navigation, children }) => {
       ...DefaultTheme.colors,
       background: "#f2f2f2",
       text: "#070e45",
+      textedit: "#827417",
       card: "#ffffff",
       textNumber: "#FF001A",
       header: "#ffffff",
@@ -93,6 +94,7 @@ const App = ({ navigation, children }) => {
       ...DarkTheme.colors,
       background: "#140e1b",
       text: "#f3f4f6",
+      textedit: "#b6a220",
       card: "#231830",
       textNumber: "#ff4d4d",
       header: "#241c30",
@@ -392,23 +394,6 @@ const App = ({ navigation, children }) => {
                 headerTintColor: `${theme.colors.text}`,
                 headerRight: () => (
                   <View style={{flexDirection: "row"}}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                    <Ionicons
-                      style={{ paddingEnd: 30 }}
-                      name="home-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-                  {/* 
-                  <TouchableOpacity onPress={() => navigation.navigate("Usuario")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="md-heart-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>*/}
                   <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
                     <Ionicons
                       style={{ paddingEnd: 30 }}
@@ -417,10 +402,19 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
+
                   <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
                     <Ionicons
                       style={{ paddingEnd: 20 }}
                       name="ios-text"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Ionicons
+                      style={{ paddingEnd: 30 }}
+                      name="home-outline"
                       size={24}
                       color={theme.colors.text}
                     />

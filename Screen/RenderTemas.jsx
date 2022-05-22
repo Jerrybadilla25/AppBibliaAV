@@ -20,6 +20,9 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
   const [arrayTema, setArrayTema] = useState(); //se llena con el tema y verses
   const [modalVisible, setModalVisible] = useState(false);
   const [idverse, setIdverse] = useState(null); // en uso
+  
+
+  
 
   React.useEffect(() => {
     getTemas(route.params._id);
@@ -34,6 +37,9 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
     } catch (error) {  
     }
   };
+
+  
+
 
   //abrir modal elimanar versiculo
   const openModal = id => {
@@ -72,6 +78,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
           setModalVisible={setModalVisible}
           deleteverse={deleteverse}
           fontZize={fontZize}
+          
         />
       ) : (
         <PreviewText colors={colors} />
@@ -89,10 +96,10 @@ const PreviewTemas = ({
   setModalVisible,
   deleteverse,
   fontZize,
+  
 }) => (
   <View>
-    <ScrollView>
-      <View>
+        <View style={{flexDirection: "column"}}>
         <Text
           style={{
             color: colors.text,
@@ -110,13 +117,21 @@ const PreviewTemas = ({
             fontSize: fontZize.fontsubtitle,
             fontFamily: 'sans-serif-condensed',
             paddingHorizontal: 10,
-            fontSize: 14
+            fontSize: 14,
+            marginBottom: 14
           }}
         >
           {arrayTema.description}
         </Text>
-      </View>
+        </View>
+      
 
+
+      
+
+
+
+      <ScrollView>
       {arrayTema.addVerses.map((item) => (
         <View
           key={item._id}
@@ -245,6 +260,16 @@ const styles = StyleSheet.create({
   buton: {
     borderRadius: 10,
     padding: 20,
+  },
+  title: {
+    fontSize: 14,
+    padding: 10,
+    textAlign: "left",
+    fontFamily: 'sans-serif-medium',
+  },
+  textInput: {
+    padding: 10,
+    marginBottom: 40
   },
 });
 

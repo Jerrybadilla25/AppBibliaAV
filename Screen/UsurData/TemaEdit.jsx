@@ -73,7 +73,7 @@ const TemaEdit = ({temas, setTemas, colors, setEstado}) => {
                 select 
                 ?
                 <View style={styles.homeLike}>
-            <Text style={[styles.title, {color: colors.text}]}>Seleccione un tema para editar</Text>
+            <Text style={[styles.title, {color: colors.textedit}]}>Seleccione un tema para editar</Text>
             <ScrollView>
               {temas && (
                 <View >
@@ -92,7 +92,7 @@ const TemaEdit = ({temas, setTemas, colors, setEstado}) => {
                       <Text
                         style={[
                           styles.textDetalles,
-                          { color: colors.text },
+                          { color: colors.textNumber },
                         ]}
                       >
                         {x.description}
@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
       marginBottom: 24
     },
     textCharter: {
-      fontSize: 18,
-      fontWeight: "100",
+      fontSize: 16,
+      //fontWeight: "100",
       fontFamily: 'sans-serif-medium'
     },
     textDetalles: {
@@ -179,7 +179,8 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 16,
       padding: 20,
-      textAlign: "center"
+      textAlign: "center",
+      fontFamily: 'sans-serif-medium'
     },
     textInput: {
       borderRadius: 8,

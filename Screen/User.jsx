@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  Modal
+  Modal,
+  Button
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -105,6 +106,7 @@ const User = ({route, navigation: { navigate } }) => {
           _id: ID,
           tema: data,
           description: descripcion,
+          comentario: "",
           addVerses : []
         }
       arrayTemas.push(temaNew)
@@ -217,10 +219,12 @@ const User = ({route, navigation: { navigate } }) => {
               style={{
                 color: colors.background,
                 textAlign: "center",
-                marginBottom: 15,
+                marginBottom: 25,
+                fontFamily: 'sans-serif-medium',
+                fontSize: 16
               }}
             >
-              Quitar de me gusta
+              Quitar de favoritos
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={cerrarModalTree}>
@@ -246,12 +250,14 @@ const User = ({route, navigation: { navigate } }) => {
     >
       <View style={styles.modalView}>
         <View style={[styles.buton2, { backgroundColor: colors.text }]}>
-          <TouchableOpacity onPress={deleteTemaUser}>
+          <TouchableOpacity onPress={deleteTemaUser} >
             <Text
               style={{
-                color: colors.background,
+                color: colors.header,
                 textAlign: "center",
-                marginBottom: 15,
+                marginBottom: 25,
+                fontFamily: 'sans-serif-medium',
+                fontSize: 16
               }}
             >
               Eliminar tema
@@ -273,6 +279,8 @@ const User = ({route, navigation: { navigate } }) => {
         <TemaEdit temas={temas} setTemas={setTemas} setEstado={setEstado} colors={colors}/>
       )
     }
+
+
     if (estado === "like") {
       return (
         <View style={styles.homeLike}>
@@ -386,7 +394,7 @@ const User = ({route, navigation: { navigate } }) => {
                  >
                   
                    <Text style={[styles.newtema, { color: colors.text }]}>
-                   <Ionicons name="pencil" size={14} color={colors.text} />
+                   <Ionicons name="ios-document-text-outline" size={14} color={colors.text} />
                    <Text>  </Text>
                     Editar tema
                    </Text>
@@ -522,9 +530,7 @@ const styles = StyleSheet.create({
     //paddingVertical: 12,
   },
   homeLike: {
-    //paddingHorizontal: 10,
-    paddingBottom: 40
-    //borderWidth: 1
+    marginBottom: 74
   },
   title: {
     paddingVertical: 20,
@@ -544,7 +550,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     paddingHorizontal: 10,
-    marginBottom: 24
+    marginBottom: 12
 
     
   },
@@ -616,7 +622,7 @@ const styles = StyleSheet.create({
   },
     modalView: {
       marginVertical: 100,
-      marginHorizontal: 75,
+      marginHorizontal: 50,
       paddingHorizontal: 10,
       paddingVertical: 30,
       borderRadius: 10,
