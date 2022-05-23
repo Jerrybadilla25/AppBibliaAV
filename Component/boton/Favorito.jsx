@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
   rowFlex: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     borderRadius: 5,
     paddingVertical: 8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     marginVertical: 30,
   },
   socialText: {
@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
     
   },
   social: {
-    fontSize: 13,
+    fontSize: 14,
     marginHorizontal: 8,
     paddingBottom: 10,
-    fontFamily: 'sans-serif-medium'
+    fontFamily: 'sans-serif-condensed'
   },
 });
 

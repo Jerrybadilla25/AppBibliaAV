@@ -6,7 +6,7 @@ import { View, Text, StyleSheet } from "react-native";
 const Msj = ({msj, colors}) => {
     return (
       <View style={[styles.rowFlex, { backgroundColor: colors.social }]}>
-        <Text style={[styles.social, { color: colors.text }]}>
+        <Text style={[styles.social, { color: colors.textNumber }]}>
           {msj}
         </Text>
       </View>
@@ -28,10 +28,10 @@ const styles = StyleSheet.create({
       paddingHorizontal: 5,
     },
     social: {
-      fontSize: 13,
+      fontSize: 14,
       marginHorizontal: 8,
       paddingBottom: 10,
-      fontFamily: 'sans-serif-medium'
+      fontFamily: 'sans-serif-condensed'
     },
   });
 

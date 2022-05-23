@@ -18,6 +18,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
   const { colors } = useTheme();
   const [temasVerse, setTemasVerse] = useState({});
   const [arrayTema, setArrayTema] = useState(); //se llena con el tema y verses
+  const [temas, setTemas]=useState(true)
   const [modalVisible, setModalVisible] = useState(false);
   const [idverse, setIdverse] = useState(null); // en uso
   
@@ -34,6 +35,11 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
       let renderTema1 = JSON.parse(tema)
       let renderSelect = renderTema1.find(x => x._id === id)
       setArrayTema(renderSelect)
+      if(renderTema1[0].addVerses.length===0){
+        setTemas(false)
+      }else{
+
+      }
     } catch (error) {  
     }
   };
@@ -78,6 +84,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
           setModalVisible={setModalVisible}
           deleteverse={deleteverse}
           fontZize={fontZize}
+          temas={temas}
           
         />
       ) : (
@@ -96,9 +103,11 @@ const PreviewTemas = ({
   setModalVisible,
   deleteverse,
   fontZize,
+  temas
   
 }) => (
   <View>
+    <ScrollView >
         <View style={{flexDirection: "column"}}>
         <Text
           style={{
@@ -118,7 +127,7 @@ const PreviewTemas = ({
             fontFamily: 'sans-serif-condensed',
             paddingHorizontal: 10,
             fontSize: 14,
-            marginBottom: 14
+            marginBottom: 8
           }}
         >
           {arrayTema.description}
@@ -131,7 +140,7 @@ const PreviewTemas = ({
 
 
 
-      <ScrollView>
+      
       {arrayTema.addVerses.map((item) => (
         <View
           key={item._id}
@@ -179,9 +188,34 @@ const PreviewTemas = ({
               {item.version}
             </Text>
           </TouchableOpacity>
+        
+
+        
+
         </View>
+
       ))}
+
+      {
+        temas ? <View></View>
+        :
+        <View style={[styles.box, {borderColor: colors.header, borderWidth: 1}]}>
+              <Text
+              style={[styles.title,{color:colors.text }]}
+              >Puedes agregar versiculos a este tema desde la pantalla de lectura de capitulos.</Text>
+              <Text
+              style={[styles.title,{color:colors.text }]}
+              >Presiona el icono <Ionicons
+              name="ios-bookmarks-outline"
+              size={16}
+              
+              color={colors.text}
+            /> en la parte superios para dirigite a la BibliaAV y agregar versiculos.</Text>
+        </View>
+      }
+      
     </ScrollView>
+
     <ModalDelete
       setModalVisible={setModalVisible}
       modalVisible={modalVisible}
@@ -220,6 +254,8 @@ const ModalDelete = ({
               color: colors.background,
               textAlign: "center",
               marginBottom: 15,
+              fontFamily: 'sans-serif-medium',
+              fontSize: 16
             }}
           >
             Eliminar versiculo
@@ -265,12 +301,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 10,
     textAlign: "left",
-    fontFamily: 'sans-serif-medium',
+    fontFamily: 'sans-serif-thin',
   },
   textInput: {
     padding: 10,
     marginBottom: 40
   },
+  box: {
+    padding: 30,
+    marginHorizontal: 20
+  }
 });
 
 export default Rendertemas;

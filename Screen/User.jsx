@@ -29,6 +29,7 @@ const User = ({route, navigation: { navigate } }) => {
   const [titleBoolean, setTitleBoolen]=useState(false); //si existe msj titulo en blanco
   const [Msjtitle, setMsjtitle]=useState(null); //guarda id tema
   const [idLike, setIDLike]=useState(null);//id like a borrar
+  const [noLikes, setNolikes]=useState(true)
   let data = "";
   let descripcion = ""
 
@@ -59,6 +60,9 @@ const User = ({route, navigation: { navigate } }) => {
       let fav = await AsyncStorage.getItem('@storage_Key_Favorito')
       let favJson = JSON.parse(fav)
       setLikes(favJson)
+      if(favJson.length===0){
+        setNolikes(false)
+      }
     } catch (error) {
       //no hacer nada
     }
@@ -316,6 +320,23 @@ const User = ({route, navigation: { navigate } }) => {
             ))}
             </View>
           </ScrollView>
+          {
+        noLikes ? <View></View>
+        :
+        <View style={[styles.box, {borderColor: colors.header, borderWidth: 1}]}>
+              <Text
+              style={[styles.title1,{color:colors.text }]}
+              >Puedes agregar capitulos en esta seccion desde la pantalla de lectura de capitulos.</Text>
+              <Text
+              style={[styles.title1,{color:colors.text }]}
+              >Presiona el icono <Ionicons
+              name="ios-bookmarks-outline"
+              size={16}
+              
+              color={colors.text}
+            /> en la parte superior, para dirigite a la BibliaAV y presionar en Agregar a favoritos. .</Text>
+        </View>
+      }
           <PreviewModalTree modalVisibleTree={modalVisibleTree}/>
         </View>
       );
@@ -538,6 +559,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: 'sans-serif-medium'
   },
+  title1: {
+    fontSize: 14,
+    padding: 10,
+    textAlign: "left",
+    fontFamily: 'sans-serif-thin',
+  },
   Item: {
     paddingHorizontal: 20,
     paddingVertical: 8,
@@ -640,6 +667,10 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       width: 100,
     },
+    box: {
+      padding: 30,
+      marginHorizontal: 20
+    }
 });
 
 export default User;
