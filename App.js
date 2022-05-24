@@ -69,12 +69,11 @@ const App = ({ navigation, children }) => {
   };
 
   const getViewBiblia = async()=>{
-    console.log(viewBiblia)
     let View = await AsyncStorage.getItem('@storage_Key_View')
     let ViewJson = JSON.parse(View)
     if(ViewJson===null){
-      await AsyncStorage.setItem('@storage_Key_View', JSON.stringify(false))
-      setViewBiblia(false)
+      await AsyncStorage.setItem('@storage_Key_View', JSON.stringify(true))
+      setViewBiblia(true)
     }else{
       setViewBiblia(ViewJson)
     }
@@ -115,7 +114,7 @@ const App = ({ navigation, children }) => {
       headerAct: "#140e1b",
       textHeader: "#f3f4f6",
       boxseting: "#292032",
-      boxTema: "#302640",
+      boxTema: "#604d80",
       border: "#5b4475",
       social: "#604589",
       bar: '#241c30',

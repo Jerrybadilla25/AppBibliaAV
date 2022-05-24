@@ -9,34 +9,52 @@ import {
   Image,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
+import { UserContext } from "../Component/Context/contexUser";
 
 const Help = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
+  const { isDarkTheme, setIsDarkTheme } = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
+  const ligth = [
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555521/Biblia_AV/creartema_skjvsi.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1645835749/Biblia_AV/Screenshot_1645835706_dmxjal.png",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1645836652/Biblia_AV/Screenshot_1_li2r7h.png",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555148/Biblia_AV/deletetema_xgs2rs.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/editar_kzfipw.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/selectEdit_rs9bdt.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555151/Biblia_AV/favoritos_uidslj.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/deletefavorito_xqhj28.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412376/Biblia_AV/bible_lista_dark_rp1bua.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412373/Biblia_AV/bible_cuadricula_dark_b4glsh.jpg"
+  ];
+  const dark = [
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412377/Biblia_AV/craer_tema_ligth_saivhv.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412376/Biblia_AV/add_verse_a_tema_ligth_j0bmgg.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653417613/Biblia_AV/Screenshot_20220524_121817_host.exp.exponent_cc99lb.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412378/Biblia_AV/quitar_tema_ligth_ch0ulp.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412378/Biblia_AV/edit_tema_ligth_dgg4oo.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412378/Biblia_AV/edit_ligth_jpepvu.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653414151/Biblia_AV/quitar_de_favoritos_ojjhmc.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412374/Biblia_AV/ajustes_ligth_sxa7u7.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412375/Biblia_AV/biblia_lista_ligth_kwfsrl.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412377/Biblia_AV/bible_cuadricula_ligth_bpnywx.jpg"
+  ];
+
   return (
     <ScrollView>
-      
       <View style={styles.container}>
-      
         <View>
           <Text
-            style={{
-              color: colors.text,
-              marginBottom: 15,
-              fontSize: 18,
-              fontFamily: 'sans-serif-medium'
-            }}
-          >
-            Como crear un tema
-          </Text>
-          <Text style={{ color: colors.text }}>
+            style={[styles.textTitle, {color: colors.text}]}> Como crear un tema</Text>
+            
+          <Text style={[styles.textText,{ color: colors.text }]}>
             Para crear un tema necesita desplazarse hasta INICIO, USUARIO, MIS
             TEMAS y dar click sobre el texto "Crear tema"{" "}
           </Text>
-          <Text style={{ color: colors.text }}>
+          <Text style={[styles.textText,{ color: colors.text }]}>
             Posteriormente introducir el nombre del tema y dar click en guardar.{" "}
           </Text>
-          <Text style={{ color: colors.text }}>
+          <Text style={[styles.textText,{ color: colors.text }]}>
             Si no desea guardar puede darle click a cerrar.{" "}
           </Text>
         </View>
@@ -50,29 +68,32 @@ const Help = ({ navigation: { navigate } }) => {
             marginVertical: 1,
           }}
         >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555521/Biblia_AV/creartema_skjvsi.jpg",
-            }}
-          />
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[0],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[0],
+              }}
+            />
+          )}
         </View>
         <View>
-          <Text
-            style={{
-              color: colors.text,
-              marginBottom: 15,
-              fontSize: 18,
-              fontFamily: 'sans-serif-medium'
-            }}
+          <Text style={[styles.textTitle, {color: colors.text}]}
           >
             Como asignar un versiculo
           </Text>
-          <Text style={{ color: colors.text }}>
+          <Text style={[styles.textText,{ color: colors.text }]}>
             Para asignar un versiculo a un tema especifico, dirigase a INICIO,
             luego a BIBLIA y luego seleccione un libro, capitulo.
           </Text>
-          <Text style={{ color: colors.text }}>
+          <Text style={[styles.textText,{ color: colors.text }]}>
             Mantenga precionado el versiculo por dos segundos, posteriormente
             seleccione un tema para agregar el versiculo. Puede agregar todos
             los que desee.
@@ -88,51 +109,63 @@ const Help = ({ navigation: { navigate } }) => {
             marginVertical: 1,
           }}
         >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1645835749/Biblia_AV/Screenshot_1645835706_dmxjal.png",
-            }}
-          />
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[1],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[1],
+              }}
+            />
+          )}
         </View>
-        <View>
-          <Text
-            style={{
-              color: colors.text,
-              marginBottom: 15,
-              fontSize: 18,
-              fontFamily: 'sans-serif-medium'
-            }}
-          >
+      
+          <Text style={[styles.textTitle, {color: colors.text}]}>
             Eliminar versiculos y temas
           </Text>
-          <Text style={{ color: colors.text }}>
+          <Text style={[styles.textText,{ color: colors.text }]}>
             Puede eliminar un versiculo de un tema manteniendo presionado por
             dos segundos, cuando aparece la ventana de dialogo, seleccionar
             eliminar versiculo.
           </Text>
-          <Text style={{ color: colors.text }}>
+          <Text style={[styles.textText,{ color: colors.text }]}>
             Use el mismo procedimiento para elimanar completamente un tema.
           </Text>
-        </View>
+        
         <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
+            padding: 20,
             //backgroundColor: colors.text,
             padding: 10,
             marginVertical: 10,
           }}
         >
-          <Image
-            style={styles.tinyLogo3}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1645836652/Biblia_AV/Screenshot_1_li2r7h.png",
-            }}
-          />
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[2],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[2],
+              }}
+            />
+          )}
         </View>
 
-        <Text style={{ color: colors.text }}>
+        <Text style={[styles.textText,{ color: colors.text }]}>
           Use el mismo procedimiento para elimanar completamente un tema.
         </Text>
         <View
@@ -144,25 +177,27 @@ const Help = ({ navigation: { navigate } }) => {
             marginVertical: 10,
           }}
         >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555148/Biblia_AV/deletetema_xgs2rs.jpg",
-            }}
-          />
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[3],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[3],
+              }}
+            />
+          )}
         </View>
 
-        <Text
-          style={{
-            color: colors.text,
-            marginBottom: 15,
-            fontSize: 18,
-            fontFamily: 'sans-serif-medium'
-          }}
-        >
+        <Text style={[styles.textTitle, {color: colors.text}]} >
           Como editar un tema{" "}
         </Text>
-        <Text style={{ color: colors.text }}>
+        <Text style={[styles.textText,{ color: colors.text }]}>
           Dirigase a Favoritos en la pestaña mis temas, mantenaga presionado por
           dos segundos la leyenda "Editar Tema"{" "}
         </Text>
@@ -176,16 +211,25 @@ const Help = ({ navigation: { navigate } }) => {
             marginVertical: 10,
           }}
         >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/editar_kzfipw.jpg",
-            }}
-          />
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[4],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[4],
+              }}
+            />
+          )}
         </View>
-        <Text style={{ color: colors.text, paddingBottom: 10 }}>
+        <Text style={[styles.textText,{ color: colors.text }]}>
           Posteriormente seleccione el tema a editar precionando la pantalla. Y
-          luego sobreescriba el data o editar.
+          luego sobreescriba el data a editar, y luego presionar Guardar.
         </Text>
         <View
           style={{
@@ -196,43 +240,30 @@ const Help = ({ navigation: { navigate } }) => {
             marginVertical: 10,
           }}
         >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/selectEdit_rs9bdt.jpg",
-            }}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            //backgroundColor: colors.text,
-            padding: 10,
-            marginVertical: 10,
-          }}
-        >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555149/Biblia_AV/editSave_wosrck.jpg",
-            }}
-          />
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[5],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[5],
+              }}
+            />
+          )}
         </View>
 
-        <Text
-          style={{
-            color: colors.text,
-            marginVertical: 15,
-            fontSize: 18,
-            fontFamily: 'sans-serif-medium'
-          }}
-        >
+        <Text style={[styles.textTitle, {color: colors.text}]}>
           Como eliminar capitulos de Favoritos
         </Text>
         <Text style={{ color: colors.text, paddingBottom: 10 }}>
           Para quitar un capitulo de Favoritos, vasta con prescionar por dos
-          segundos el recuadro con el capitulo.
+          segundos el recuadro con el capitulo y presionar en el texto quitar de
+          favoritos.
         </Text>
 
         <View
@@ -244,15 +275,27 @@ const Help = ({ navigation: { navigate } }) => {
             marginVertical: 10,
           }}
         >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555151/Biblia_AV/favoritos_uidslj.jpg",
-            }}
-          />
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[6],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[6],
+              }}
+            />
+          )}
         </View>
-        <Text style={{ color: colors.text, paddingBottom: 10 }}>
-          Y seleccinar quitar de Me gusta
+        <Text style={[styles.textTitle, {color: colors.text}]}>
+          Como cambiar la vista a cuadricula o lista en Biblia.
+        </Text>
+        <Text style={[styles.textText,{ color: colors.text }]}>
+          En ajustes deslizar la barra cambiar a vista cuadricula o lista.
         </Text>
         <View
           style={{
@@ -263,13 +306,80 @@ const Help = ({ navigation: { navigate } }) => {
             marginVertical: 10,
           }}
         >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/deletefavorito_xqhj28.jpg",
-            }}
-          />
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[7],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[7],
+              }}
+            />
+          )}
         </View>
+        <Text style={[styles.textText,{ color: colors.text }]}>
+            Vista lista.
+          </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            //backgroundColor: colors.text,
+            padding: 10,
+            marginVertical: 10,
+          }}
+        >
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[8],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[8],
+              }}
+            />
+          )}
+        </View>
+        <Text style={[styles.textText,{ color: colors.text }]}>
+            Vista cuadricula.
+          </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            //backgroundColor: colors.text,
+            padding: 10,
+            marginVertical: 10,
+            marginBottom: 60
+          }}
+        >
+          {isDarkTheme ? (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: dark[9],
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.logo}
+              source={{
+                uri: ligth[9],
+              }}
+            />
+          )}
+        </View>
+        
 
         <TouchableOpacity onPress={() => navigate("Politica")}>
           <Text
@@ -279,7 +389,7 @@ const Help = ({ navigation: { navigate } }) => {
               fontFamily: "Roboto",
               color: colors.text,
               borderTopColor: colors.text,
-              borderWidth: 1
+              borderWidth: 1,
             }}
           >
             Politica de privacidad
@@ -371,14 +481,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 20,
   },
-  tinyLogo: {
-    width: 350,
-    height: 300,
-  },
-  tinyLogo3: {
-    width: 300,
-    height: 265,
-  },
   logo: {
     width: 300,
     height: 600,
@@ -402,6 +504,18 @@ const styles = StyleSheet.create({
     fontFamily: "sans-serif-medium",
     fontSize: 18,
   },
+  textTitle:{
+    marginVertical: 15,
+    fontSize: 18,
+    fontFamily: "sans-serif-medium",
+    paddingHorizontal: 10,
+    textAlign: "center"
+  },
+  textText:{
+    paddingHorizontal: 10,
+    fontSize: 16,
+    fontFamily: "sans-serif-condensed",
+  }
 });
 
 export default Help;

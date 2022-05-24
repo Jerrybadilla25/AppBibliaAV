@@ -1,6 +1,6 @@
 
-const API = "http://api.biblia.av.hardsof.com/user/inicioAll";
-//const API = "http://api.bibliaav.ml/user/inicioAll";
+//const API = "http://api.biblia.av.hardsof.com/user/inicioAll";
+const API = "https://api.service.bibliaav.ml/user/inicioAll";
 //const API = "http://192.168.0.10:3000/user/inicioAll";
 
 const usuarioStandar = {token: "GFDCJJGJG45156@GYTDkhkhkgts"}

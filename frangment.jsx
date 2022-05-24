@@ -16,3 +16,14 @@
           <Text style={[styles.dona]}>¡ Colabora con Biblia AV !</Text>
         </TouchableOpacity>
 </View>
+
+/*
+
+{
+  modalVisible ? 
+  :
+  
+}
+
+
+*/

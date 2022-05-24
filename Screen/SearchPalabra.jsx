@@ -121,13 +121,25 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
       }}
     >
       <View style={[styles.centeredView, {backgroundColor: colors.boxTema}]}>
+      <Text 
+            style={{
+              marginBottom: 10, 
+              fontSize: 12, 
+              textAlign: "center",
+              borderColor: colors.header,
+              borderWidth: 1,
+              borderRadius: 8,
+              padding: 8,
+              color: colors.text
+              }}>Para agregar el versiculo a un tema:</Text>
+
         <View style={[styles.rowFlex, {marginBottom: 25}]}>
-           <Text style={{color: colors.text}}>Seleccione un tema</Text>
+           <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>Seleccione un tema</Text>
            
            <TouchableOpacity
            onPress={()=>setModalVisible(!modalVisible)}
            >
-              <Text style={{color: colors.textNumber}}>Cancelar</Text>
+              <Text style={{color: colors.textNumber, backgroundColor: colors.background, padding:10, borderRadius: 8}}>Cancelar</Text>
            </TouchableOpacity>
         </View>
         <ScrollView >
@@ -149,17 +161,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                 </View>
               )
             }
-            <Text 
-            style={{
-              marginTop: 10, 
-              fontSize: 12, 
-              textAlign: "center",
-              borderColor: colors.header,
-              borderWidth: 1,
-              borderRadius: 8,
-              padding: 8,
-              color: colors.text
-              }}>Agregue el versiculo a un tema</Text>
+            
         </ScrollView>
       </View>
   
@@ -320,8 +322,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   centeredView: {
-    marginVertical: 100,
-    marginHorizontal: 10,
+    marginTop: 90,
+    marginBottom: 150,
+    marginHorizontal: 20,
     paddingHorizontal: 15,
     paddingVertical: 30,
     borderRadius: 10,
@@ -343,6 +346,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     paddingVertical: 4,
   },
+  
   
 });
 
