@@ -6,7 +6,7 @@ import { View, Text, StyleSheet } from "react-native";
 const Msj = ({msj, colors}) => {
     return (
       <View style={[styles.rowFlex, { backgroundColor: colors.social }]}>
-        <Text style={[styles.social, { color: colors.textNumber }]}>
+        <Text style={[styles.social, { color: colors.text }]}>
           {msj}
         </Text>
       </View>

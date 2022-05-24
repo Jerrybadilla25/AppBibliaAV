@@ -287,11 +287,11 @@ const User = ({route, navigation: { navigate } }) => {
 
     if (estado === "like") {
       return (
-        <View style={styles.homeLike}>
+        <View style={{paddingBottom: 8}}>
           <Text style={[styles.title, { color: colors.text }]}>
             Favoritos
           </Text>
-          <ScrollView>
+          <ScrollView style={styles.homeLike}>
             <View style={styles.row}>
             {likes.map((x) => (
               <TouchableOpacity
@@ -577,7 +577,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     paddingHorizontal: 10,
-    marginBottom: 12
+    //paddingBottom: 15
+    //marginBottom: 12,
+    
 
     
   },
@@ -614,6 +616,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     //alignSelf: "flex-start",
     marginHorizontal: "1%",
+    marginVertical: "1%",
     marginBottom: 6,
     //width: 150,
     minWidth: "48%",

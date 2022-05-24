@@ -46,9 +46,11 @@ const App = ({ navigation, children }) => {
   const [versionBook, setVersionBook] = useState(null);
   const [isDarkTheme, setIsDarkTheme] = useState(null);
   const [fontZize, setfontZize] = useState(null);
+  const [viewBiblia, setViewBiblia]=useState(true)
 
   React.useEffect(() => {
     getData()
+    getViewBiblia()
   }, []);
 
 
@@ -65,6 +67,18 @@ const App = ({ navigation, children }) => {
       // error reading value
     }
   };
+
+  const getViewBiblia = async()=>{
+    console.log(viewBiblia)
+    let View = await AsyncStorage.getItem('@storage_Key_View')
+    let ViewJson = JSON.parse(View)
+    if(ViewJson===null){
+      await AsyncStorage.setItem('@storage_Key_View', JSON.stringify(false))
+      setViewBiblia(false)
+    }else{
+      setViewBiblia(ViewJson)
+    }
+  }
 
   const CustomDefaultTheme = {
     ...DefaultTheme,
@@ -182,7 +196,9 @@ const App = ({ navigation, children }) => {
           versionBook,
           setVersionBook,
           fontZize,
-          setfontZize
+          setfontZize,
+          viewBiblia, 
+          setViewBiblia
         }}
       >
         <NavigationContainer theme={theme}>

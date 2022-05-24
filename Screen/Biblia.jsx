@@ -11,6 +11,7 @@ import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
 
 
+
 import Reina from '../Component/Biblias/ReinaValera/booksReinaValera.json';
 import Oso from '../Component/Biblias/Oso/booksOso.json';
 
@@ -19,8 +20,9 @@ import Loading from "../Component/Loading";
 
 function Biblia({ navigation: { navigate } }) {
   const { colors } = useTheme();
-  const { versionBook, setVersionBook } = useContext(UserContext);
+  const { versionBook, setVersionBook, viewBiblia, setViewBiblia } = useContext(UserContext);
   const [data, setData] = useState([]);
+  
 
   const printLibros = () => {
     switch (versionBook) {
@@ -41,10 +43,12 @@ function Biblia({ navigation: { navigate } }) {
     navigate("SelectCharter", { _id: id });
   };
 
+  
+ 
   return (
     <View>
       {data
-      ? <Preview colors={colors} data={data} getBookID={getBookID} />
+      ? <Preview colors={colors} data={data} getBookID={getBookID} viewBiblia={viewBiblia} />
       : <Loading />
       }
     </View>
@@ -52,11 +56,13 @@ function Biblia({ navigation: { navigate } }) {
 }
 
 
-const Preview = ({ data, getBookID, colors }) => (
+const Preview = ({ data, getBookID, colors, viewBiblia }) => (
   <ScrollView
       
   >
-    <View style={{flex: 1,  marginVertical: 16, backgroundColor: colors.background }}>
+    {
+      viewBiblia ?
+      <View style={{flex: 1,  marginVertical: 16, backgroundColor: colors.background }}>
       <View style={styles.row}>
       {data.map((item) => (
         <TouchableOpacity
@@ -77,6 +83,29 @@ const Preview = ({ data, getBookID, colors }) => (
       ))}
     </View>
     </View>
+    :
+    <View style={{flex: 1,  marginVertical: 16, backgroundColor: colors.background }}>
+      <View style={styles.cols}>
+      {data.map((item, idx) => (
+        <TouchableOpacity
+          key={item._id}
+          onPress={() => getBookID(item._id)}
+          style={[styles.buttonCols, { backgroundColor: colors.card }]}
+        >
+          <Text style={{ color: colors.text, fontFamily: 'sans-serif-medium' }}>
+            {idx+1}{"    "}{item.book}
+          </Text>
+          
+          <Text style={{ color: colors.textNumber, textAlign: "right", fontSize: 12, fontFamily: 'sans-serif-thin' }}>
+            {item.testament}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+    </View>
+
+    }
+    
     
   </ScrollView>
 );
@@ -116,15 +145,33 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "flex-start",
   },
+  
   button: {
     paddingHorizontal: 4,
     paddingVertical: 8,
     borderRadius: 4,
-
     alignSelf: "flex-start",
     marginHorizontal: "1%",
     marginBottom: 6,
     minWidth: "48%",
+  },
+  cols: {
+    flexDirection: "column",
+    marginHorizontal: 12,
+   // paddingVertical: 30
+    //flexWrap: "wrap",
+    //justifyContent: "flex-start",
+  },
+  buttonCols: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderRadius: 4,
+    //alignSelf: "flex-start",
+    marginVertical: "1%",
+    //marginBottom: 6,
+    //minWidth: "48%",
   },
 });
 

@@ -8,14 +8,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Setting = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
-  const { isDarkTheme, setIsDarkTheme } = useContext(UserContext);
-  const { fontZize, setfontZize } = useContext(UserContext);
+  const { isDarkTheme, setIsDarkTheme, viewBiblia, setViewBiblia, fontZize, setfontZize  } = useContext(UserContext);
   
-
   const toggleSwitch = () => {
     setIsDarkTheme((isDarkTheme) => !isDarkTheme);
     storeData(!isDarkTheme);
   };
+
+  const toggleSwitchView1 = () => {
+    setIsDarkTheme((isDarkTheme) => !isDarkTheme);
+    storeData(!isDarkTheme);
+  };
+
+  const toggleSwitchView = async (vista)=>{
+    setViewBiblia(!viewBiblia)
+    await AsyncStorage.setItem('@storage_Key_View', JSON.stringify(!viewBiblia))  
+  }
 
   
   const storeData = async (theme) => {
@@ -128,22 +136,41 @@ const Setting = ({ navigation: { navigate } }) => {
           </View>
           <View style={[styles.rowBox, { borderTopColor: colors.border }]}>
             <View
-              style={[styles.rowseting, { marginTop: 15, marginBottom: 15 }]}
+              style={[styles.rowseting, {  }]}
             >
               {isDarkTheme ? (
-                <Text style={{ color: colors.text }}>Cambiar a modo claro</Text>
+                <Text style={{ color: colors.text }}>Cambiar vista a modo claro</Text>
               ) : (
                 <Text style={{ color: colors.text }}>
-                  Cambiar a modo oscuro
+                  Cambiar vista a modo oscuro
                 </Text>
               )}
 
               <Switch
                 trackColor={{ false: "#140e1b", true: "#ffffff" }}
                 thumbColor={isDarkTheme ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                //ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={isDarkTheme}
+              />
+            </View>
+            <View
+              style={[styles.rowseting, {   }]}
+            >
+              {viewBiblia ? (
+                <Text style={{ color: colors.text }}>Cambiar a vista lista</Text>
+              ) : (
+                <Text style={{ color: colors.text }}>
+                  Cambiar a vista cuadricula
+                </Text>
+              )}
+
+              <Switch
+                trackColor={{ false: "#140e1b", true: "#ffffff" }}
+                thumbColor={viewBiblia ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitchView}
+                value={viewBiblia}
               />
             </View>
           </View>
