@@ -25,6 +25,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [temas, setTemas]=useState(null)
   const [verseNew, setVerseNew]=useState(null)
+  const [validateTema, setValidateTema]=useState(false)
 
   React.useEffect(() => {
     obtainTemas()
@@ -79,6 +80,9 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
       let fulltemas = await AsyncStorage.getItem('@storage_Key_Temas')
       let arrayTemasFull = JSON.parse(fulltemas)
       setTemas(arrayTemasFull)
+      if(arrayTemasFull.length >= 1){
+        setValidateTema(false)
+      }else{setValidateTema(true)}
     } catch (error) {
 
     }
@@ -134,7 +138,14 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
               }}>Para agregar el versiculo a un tema:</Text>
 
         <View style={[styles.rowFlex, {marginBottom: 25}]}>
-           <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>Seleccione un tema</Text>
+        {
+          validateTema ?
+          <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>No hay temas creados</Text> 
+          
+          :
+          <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>Seleccione un tema</Text>     
+        }
+           
            
            <TouchableOpacity
            onPress={()=>setModalVisible(!modalVisible)}

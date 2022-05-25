@@ -17,20 +17,20 @@ const Help = ({ navigation: { navigate } }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const ligth = [
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555521/Biblia_AV/creartema_skjvsi.jpg",
-    "https://res.cloudinary.com/dyeds74sp/image/upload/v1645835749/Biblia_AV/Screenshot_1645835706_dmxjal.png",
-    "https://res.cloudinary.com/dyeds74sp/image/upload/v1645836652/Biblia_AV/Screenshot_1_li2r7h.png",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653434955/Biblia_AV/Screenshot_20220524_172155_com.alientodevida.BibliaAV_jotzhr.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653417613/Biblia_AV/Screenshot_20220524_121817_host.exp.exponent_cc99lb.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555148/Biblia_AV/deletetema_xgs2rs.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/editar_kzfipw.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/selectEdit_rs9bdt.jpg",
-    "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555151/Biblia_AV/favoritos_uidslj.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555150/Biblia_AV/deletefavorito_xqhj28.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653434954/Biblia_AV/Screenshot_20220524_172348_com.alientodevida.BibliaAV_nu4vqg.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412376/Biblia_AV/bible_lista_dark_rp1bua.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412373/Biblia_AV/bible_cuadricula_dark_b4glsh.jpg"
   ];
   const dark = [
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412377/Biblia_AV/craer_tema_ligth_saivhv.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412376/Biblia_AV/add_verse_a_tema_ligth_j0bmgg.jpg",
-    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653417613/Biblia_AV/Screenshot_20220524_121817_host.exp.exponent_cc99lb.jpg",
+    "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412379/Biblia_AV/quitar_verse_ligth_knc384.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412378/Biblia_AV/quitar_tema_ligth_ch0ulp.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412378/Biblia_AV/edit_tema_ligth_dgg4oo.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412378/Biblia_AV/edit_ligth_jpepvu.jpg",
@@ -49,13 +49,14 @@ const Help = ({ navigation: { navigate } }) => {
             
           <Text style={[styles.textText,{ color: colors.text }]}>
             Para crear un tema necesita desplazarse hasta INICIO, USUARIO, MIS
-            TEMAS y dar click sobre el texto "Crear tema"{" "}
+            TEMAS y dar clic sobre el texto "Crear tema"
+
           </Text>
           <Text style={[styles.textText,{ color: colors.text }]}>
-            Posteriormente introducir el nombre del tema y dar click en guardar.{" "}
+          Posteriormente introducir el nombre del tema y dar clic en guardar.
           </Text>
           <Text style={[styles.textText,{ color: colors.text }]}>
-            Si no desea guardar puede darle click a cerrar.{" "}
+          Si no desea guardar, puede darle clic a cerrar.
           </Text>
         </View>
         <View
@@ -87,16 +88,18 @@ const Help = ({ navigation: { navigate } }) => {
         <View>
           <Text style={[styles.textTitle, {color: colors.text}]}
           >
-            Como asignar un versiculo
+            Como asignar un versículo
           </Text>
           <Text style={[styles.textText,{ color: colors.text }]}>
-            Para asignar un versiculo a un tema especifico, dirigase a INICIO,
-            luego a BIBLIA y luego seleccione un libro, capitulo.
+            Para asignar un versículo, a un tema específico, diríjase a INICIO,
+            luego a BIBLIA y luego seleccione un libro y capitulo.
+
           </Text>
           <Text style={[styles.textText,{ color: colors.text }]}>
-            Mantenga precionado el versiculo por dos segundos, posteriormente
-            seleccione un tema para agregar el versiculo. Puede agregar todos
+           Mantenga presionado el versículo por dos segundos, posteriormente
+            seleccione un tema para agregar el versículo. Puede agregar todos
             los que desee.
+
           </Text>
         </View>
         <View
@@ -130,13 +133,12 @@ const Help = ({ navigation: { navigate } }) => {
             Eliminar versiculos y temas
           </Text>
           <Text style={[styles.textText,{ color: colors.text }]}>
-            Puede eliminar un versiculo de un tema manteniendo presionado por
+            Puede eliminar un versículo de un tema, manteniendo presionado por
             dos segundos, cuando aparece la ventana de dialogo, seleccionar
-            eliminar versiculo.
+            eliminar versículo.
+
           </Text>
-          <Text style={[styles.textText,{ color: colors.text }]}>
-            Use el mismo procedimiento para elimanar completamente un tema.
-          </Text>
+         
         
         <View
           style={{
@@ -166,7 +168,7 @@ const Help = ({ navigation: { navigate } }) => {
         </View>
 
         <Text style={[styles.textText,{ color: colors.text }]}>
-          Use el mismo procedimiento para elimanar completamente un tema.
+        Use el mismo procedimiento para eliminar completamente un tema.
         </Text>
         <View
           style={{
@@ -198,8 +200,9 @@ const Help = ({ navigation: { navigate } }) => {
           Como editar un tema{" "}
         </Text>
         <Text style={[styles.textText,{ color: colors.text }]}>
-          Dirigase a Favoritos en la pestaña mis temas, mantenaga presionado por
-          dos segundos la leyenda "Editar Tema"{" "}
+        Diríjase a Favoritos, en la pestaña mis temas, mantenga presionado por
+        dos segundos la leyenda "Editar Tema"
+
         </Text>
 
         <View
@@ -228,8 +231,10 @@ const Help = ({ navigation: { navigate } }) => {
           )}
         </View>
         <Text style={[styles.textText,{ color: colors.text }]}>
-          Posteriormente seleccione el tema a editar precionando la pantalla. Y
-          luego sobreescriba el data a editar, y luego presionar Guardar.
+        Posteriormente seleccione el tema a editar, presionando la pantalla.
+        Y luego sobrescriba el data a editar, y luego presionar Guardar.
+
+          
         </Text>
         <View
           style={{
@@ -251,7 +256,7 @@ const Help = ({ navigation: { navigate } }) => {
             <Image
               style={styles.logo}
               source={{
-                uri: dark[5],
+                uri: ligth[5],
               }}
             />
           )}
@@ -260,10 +265,11 @@ const Help = ({ navigation: { navigate } }) => {
         <Text style={[styles.textTitle, {color: colors.text}]}>
           Como eliminar capitulos de Favoritos
         </Text>
-        <Text style={{ color: colors.text, paddingBottom: 10 }}>
-          Para quitar un capitulo de Favoritos, vasta con prescionar por dos
-          segundos el recuadro con el capitulo y presionar en el texto quitar de
+        <Text style={[styles.textText,{ color: colors.text }]}>
+          Para quitar un capítulo de Favoritos, basta con presionar por dos
+          segundos el recuadro con el capítulo y presionar en el texto quitar de
           favoritos.
+
         </Text>
 
         <View
@@ -292,7 +298,7 @@ const Help = ({ navigation: { navigate } }) => {
           )}
         </View>
         <Text style={[styles.textTitle, {color: colors.text}]}>
-          Como cambiar la vista a cuadricula o lista en Biblia.
+          Como cambiar la vista cuadricula o lista en Biblia.
         </Text>
         <Text style={[styles.textText,{ color: colors.text }]}>
           En ajustes deslizar la barra cambiar a vista cuadricula o lista.
@@ -478,7 +484,7 @@ const PreviewModalDonate = ({ modalVisible, colors, setModalVisible }) => (
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
+    paddingTop: 2,
     paddingHorizontal: 20,
   },
   logo: {
@@ -506,10 +512,9 @@ const styles = StyleSheet.create({
   },
   textTitle:{
     marginVertical: 15,
-    fontSize: 18,
+    fontSize: 19,
     fontFamily: "sans-serif-medium",
-    paddingHorizontal: 10,
-    textAlign: "center"
+    paddingHorizontal: 10
   },
   textText:{
     paddingHorizontal: 10,

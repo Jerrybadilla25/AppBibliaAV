@@ -31,6 +31,7 @@ const Charter = ({ route }) => {
   const [msjView, setMsjView]=useState(false);
   const [idVerse, setidVerse]=useState({});// add versiculo seleccionado
   const [temas, setTemas]=useState([]);
+  const [validateTema, setValidateTema]=useState(false)
   
   //let cod = "null";
 
@@ -157,6 +158,9 @@ const Charter = ({ route }) => {
       let fulltemas = await AsyncStorage.getItem('@storage_Key_Temas')
       let arrayTemasFull = JSON.parse(fulltemas)
       setTemas(arrayTemasFull)
+      if(arrayTemasFull.length >= 1){
+        setValidateTema(false)
+      }else{setValidateTema(true)}
     } catch (error) {
 
     }
@@ -217,6 +221,7 @@ const Charter = ({ route }) => {
         modalVisible={modalVisible}
         temas={temas}
         addVerseTema={addVerseTema}
+        validateTema={validateTema}
 
       ></Preview>
     );
@@ -238,6 +243,7 @@ const Preview = ({
   modalVisible,
   temas,
   addVerseTema,
+  validateTema
 }) => (
   <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
     <ScrollView>
@@ -340,11 +346,12 @@ const Preview = ({
       colors={colors}
       temas={temas}
       addVerseTema={addVerseTema}
+      validateTema={validateTema}
     />
   </View>
 );
 
-const PreviewModal = ({setModalVisible, modalVisible, colors, temas, addVerseTema})=>(
+const PreviewModal = ({setModalVisible, modalVisible, colors, temas, addVerseTema, validateTema})=>(
   <Modal
     animationType="slide"
     transparent={true}
@@ -367,7 +374,13 @@ const PreviewModal = ({setModalVisible, modalVisible, colors, temas, addVerseTem
             color: colors.text
             }}>Para agregar el versiculo a un tema:</Text>
       <View style={[styles.rowFlex, {marginBottom: 25}]}>
-         <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>Seleccione un tema</Text>
+        {
+          validateTema ?
+          <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>No hay temas creados</Text> 
+          :
+          <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>Seleccione un tema</Text>      
+        }
+         
          
          <TouchableOpacity
          onPress={()=>setModalVisible(!modalVisible)}
@@ -394,6 +407,7 @@ const PreviewModal = ({setModalVisible, modalVisible, colors, temas, addVerseTem
               </View>
             )
           }
+        
           
       </ScrollView>
     </View>
