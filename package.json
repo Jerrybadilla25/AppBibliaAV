@@ -17,6 +17,7 @@
     "expo": "~44.0.0",
     "expo-font": "~10.0.4",
     "expo-in-app-purchases": "~12.1.0",
+    "expo-navigation-bar": "~1.1.1",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "expo-updates": "~0.11.7",
@@ -26,7 +27,7 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.2",
     "react-native-web": "0.17.1",
-    "expo-navigation-bar": "~1.1.1"
+    "@react-native-community/slider": "4.1.12"
   },
   "rnpm": {
     "assets": [

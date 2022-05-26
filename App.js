@@ -54,6 +54,7 @@ const App = ({ navigation, children }) => {
   }, []);
 
 
+
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem("@storage_Key_thema");

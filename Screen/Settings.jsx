@@ -1,21 +1,44 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Switch } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
 import Ejm from "../Component/boton/ejmSetting";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Slider from '@react-native-community/slider';
 
 const Setting = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
   const { isDarkTheme, setIsDarkTheme, viewBiblia, setViewBiblia, fontZize, setfontZize  } = useContext(UserContext);
+
+  const setValueText = (val1)=>{
+    setfontZize({
+      fonttitle: fontZize.fonttitle,
+      fontsubtitle: fontZize.fontsubtitle,
+      fonttext: val1,
+    });
+    storeDataZize();
+  }
+
+  const setValueTitle = (val2)=>{
+    setfontZize({
+      fonttitle: val2,
+      fontsubtitle: fontZize.fontsubtitle,
+      fonttext: fontZize.fonttext,
+    });
+    storeDataZize();
+  }
+
+  const setValueSubTitle = (val3)=>{
+    setfontZize({
+      fonttitle: fontZize.fonttitle,
+      fontsubtitle: val3,
+      fonttext: fontZize.fonttext,
+    });
+    storeDataZize();
+  }
   
   const toggleSwitch = () => {
-    setIsDarkTheme((isDarkTheme) => !isDarkTheme);
-    storeData(!isDarkTheme);
-  };
-
-  const toggleSwitchView1 = () => {
     setIsDarkTheme((isDarkTheme) => !isDarkTheme);
     storeData(!isDarkTheme);
   };
@@ -45,6 +68,7 @@ const Setting = ({ navigation: { navigate } }) => {
   };
   //
 
+  /*
   const changeFont = (variable) => {
     if (variable === "addtitle") {
       if (fontZize.fonttitle < 52) {
@@ -111,7 +135,8 @@ const Setting = ({ navigation: { navigate } }) => {
         storeDataZize();
       }
     }
-  };
+  };*/
+  
 
   return (
     <View style={{ flex: 1 }}>
@@ -120,7 +145,7 @@ const Setting = ({ navigation: { navigate } }) => {
       </View>
 
       <View
-        style={[styles.box, { flex: 2, backgroundColor: colors.boxseting }]}
+        style={[styles.box, { flex: 3, backgroundColor: colors.boxseting }]}
       >
         <View style={styles.container}>
           <View style={styles.row}>
@@ -135,11 +160,11 @@ const Setting = ({ navigation: { navigate } }) => {
             </Text>
           </View>
           <View style={[styles.rowBox, { borderTopColor: colors.border }]}>
-            <View
-              style={[styles.rowseting, {  }]}
-            >
+            <View style={[styles.rowseting, {}]}>
               {isDarkTheme ? (
-                <Text style={{ color: colors.text }}>Cambiar vista a modo claro</Text>
+                <Text style={{ color: colors.text }}>
+                  Cambiar vista a modo claro
+                </Text>
               ) : (
                 <Text style={{ color: colors.text }}>
                   Cambiar vista a modo oscuro
@@ -154,11 +179,11 @@ const Setting = ({ navigation: { navigate } }) => {
                 value={isDarkTheme}
               />
             </View>
-            <View
-              style={[styles.rowseting, {   }]}
-            >
+            <View style={[styles.rowseting, {}]}>
               {viewBiblia ? (
-                <Text style={{ color: colors.text }}>Cambiar a vista lista</Text>
+                <Text style={{ color: colors.text }}>
+                  Cambiar a vista lista
+                </Text>
               ) : (
                 <Text style={{ color: colors.text }}>
                   Cambiar a vista cuadricula
@@ -175,7 +200,64 @@ const Setting = ({ navigation: { navigate } }) => {
             </View>
           </View>
 
-          <View>
+          <View style={{  paddingBottom: 6, paddingTop: 12 }}>
+            <Text style={{ color: colors.text, textAlign: "center" }}>
+              Tamaño de letra titulos {fontZize.fonttitle && fontZize.fonttitle + 1}
+            </Text>
+            <Slider
+              style={{ width: 300, height: 40 }}
+              step={1}
+              {...fontZize.fonttitle}
+              minimumValue={14}
+              maximumValue={52}
+              minimumTrackTintColor={colors.text}
+              maximumTrackTintColor={colors.textNumber}
+              onValueChange={(val2) => setValueTitle(val2)}
+            />
+          </View>
+
+          <View style={{  paddingBottom: 6 }}>
+            <Text style={{ color: colors.text, textAlign: "center" }}>
+              Tamaño de letra subtitulo {fontZize.fontsubtitle && fontZize.fontsubtitle + 1}
+            </Text>
+            <Slider
+              style={{ width: 300, height: 40 }}
+              step={1}
+              {...fontZize.fontsubtitle}
+              minimumValue={12}
+              maximumValue={48}
+              minimumTrackTintColor={colors.text}
+              maximumTrackTintColor={colors.textNumber}
+              onValueChange={(val3) => setValueSubTitle(val3)}
+            />
+          </View>
+
+          <View style={{  paddingBottom: 6 }}>
+            <Text style={{ color: colors.text, textAlign: "center" }}>
+              Tamaño de letra texto {fontZize.fonttext && fontZize.fonttext + 1}
+            </Text>
+            <Slider
+              style={{ width: 300, height: 40 }}
+              step={1}
+              {...fontZize.fonttext}
+              minimumValue={10}
+              maximumValue={40}
+              minimumTrackTintColor={colors.text}
+              maximumTrackTintColor={colors.textNumber}
+              onValueChange={(val1) => setValueText(val1)}
+            />
+          </View>
+          
+             
+        </View>
+      </View>
+    </View>
+  );
+};
+
+/*
+
+  <View>
             <View style={styles.rowseting}>
               <Text style={{ color: colors.text, paddingBottom: 4 }}>
                 Tamaña del titulo-{fontZize.fonttitle}
@@ -235,7 +317,7 @@ const Setting = ({ navigation: { navigate } }) => {
             </View>
           </View>
 
-          <View>
+           <View>
             <View style={styles.rowseting}>
               <Text style={{ color: colors.text, paddingBottom: 4 }}>
                 Tamaña del texto-{fontZize.fonttext}
@@ -264,13 +346,9 @@ const Setting = ({ navigation: { navigate } }) => {
               </View>
             </View>
           </View>
-        </View>
-      </View>
-    </View>
-  );
-};
 
-/*
+
+
  <View >
             <View style={styles.rowseting}>
               <Text style={{ color: colors.text, paddingBottom: 4 }}>
@@ -329,14 +407,14 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "center",
-    paddingBottom: 20,
+    paddingBottom: 10,
+    
   },
   rowseting: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 5,
-    paddingTop: 5,
+    paddingBottom: 14
   },
   rowBox: {
     borderTopWidth: 1,

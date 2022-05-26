@@ -10,16 +10,15 @@ const Rewind = ({data, getCharterRewinder, colors}) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        getCharterRewinder({
+       getCharterRewinder({
           variables:{
             _id: data._id,
             version: data.version
           }
-            
         })
       }
     >
-      <Ionicons name="ios-play-back-outline" size={24} color={colors.text} />
+      <Ionicons name="ios-play-back-outline" size={30} color={colors.text} />
       
      
     </TouchableOpacity>
