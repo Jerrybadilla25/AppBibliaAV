@@ -160,7 +160,7 @@ const Setting = ({ navigation: { navigate } }) => {
             </Text>
           </View>
           <View style={[styles.rowBox, { borderTopColor: colors.border }]}>
-            <View style={[styles.rowseting, {}]}>
+            <View style={[styles.rowseting, {marginTop: 10, paddingBottom: 10}]}>
               {isDarkTheme ? (
                 <Text style={{ color: colors.text }}>
                   Cambiar vista a modo claro
@@ -179,7 +179,7 @@ const Setting = ({ navigation: { navigate } }) => {
                 value={isDarkTheme}
               />
             </View>
-            <View style={[styles.rowseting, {}]}>
+            <View style={[styles.rowseting, {paddingBottom: 10}]}>
               {viewBiblia ? (
                 <Text style={{ color: colors.text }}>
                   Cambiar a vista lista
@@ -200,7 +200,7 @@ const Setting = ({ navigation: { navigate } }) => {
             </View>
           </View>
 
-          <View style={{  paddingBottom: 6, paddingTop: 12 }}>
+          <View style={{  paddingBottom: 6, paddingTop: 8 }}>
             <Text style={{ color: colors.text, textAlign: "center" }}>
               Tamaño de letra titulos {fontZize.fonttitle && fontZize.fonttitle + 1}
             </Text>
@@ -408,13 +408,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     paddingBottom: 10,
-    
   },
   rowseting: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 14
+    
   },
   rowBox: {
     borderTopWidth: 1,
