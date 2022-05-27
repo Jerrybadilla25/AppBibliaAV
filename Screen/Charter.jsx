@@ -22,6 +22,7 @@ import Forward from "../Component/boton/Forward";
 import Favorito from "../Component/boton/Favorito";
 import Msj from "../Component/boton/Msj";
 
+
 const Charter = ({ route }) => {
   const { fontZize, setfontZize, versionBook, setVersionBook } =
     useContext(UserContext); //en uso
@@ -37,7 +38,29 @@ const Charter = ({ route }) => {
   React.useEffect(() => {
     obtainCharte(route.params._id, route.params.version);
     obtainTemas();
+    Historial(route.params._id)
   }, []);
+
+  const Historial = async (id)=>{
+    try {
+      let historia = await AsyncStorage.getItem('@storage_Key_Historial')
+      let historiaJson = JSON.parse(historia)
+      if(historiaJson===null){
+        let historial = []
+        historial.unshift(id)
+        await AsyncStorage.setItem('@storage_Key_Historial', JSON.stringify(historial))
+      }else{
+        if(historiaJson[0]===id){
+          //no hacer nada
+        }else{
+          historiaJson.unshift(id)
+          await AsyncStorage.setItem('@storage_Key_Historial', JSON.stringify(historiaJson))
+        }
+      }
+    } catch (error) {
+      //error
+    }
+  }
 
   const createTwoButtonAlert = (tema) =>
     Alert.alert("El versiculo ya pertenece al tema:", `${tema}`, [
@@ -77,9 +100,11 @@ const Charter = ({ route }) => {
         if (newIdx1 >= 0) {
           let newChacter1 = Reina[newIdx1];
           setData(newChacter1);
+          Historial(newChacter1._id)
         } else {
           let newChacter1 = Reina[0];
           setData(newChacter1);
+          Historial(newChacter1._id)
         }
         break;
       case "Biblia_del_oso_1569":
@@ -108,9 +133,11 @@ const Charter = ({ route }) => {
         if (newIdx1 <= 1188) {
           let newChacter1 = Reina[newIdx1];
           setData(newChacter1);
+          Historial(newChacter1._id)
         } else {
           let newChacter1 = Reina[1188];
           setData(newChacter1);
+          Historial(newChacter1._id)
         }
         break;
       case "Biblia_del_oso_1569":

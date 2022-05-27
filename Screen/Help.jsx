@@ -50,7 +50,6 @@ const Help = ({ navigation: { navigate } }) => {
   }, []);
 
   const getImages = async  ()=>{
-    console.log("api")
     try {
       const data = await getImageClouddinary()
       if(data){

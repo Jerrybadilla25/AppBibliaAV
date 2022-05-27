@@ -31,6 +31,7 @@ import Versiones from './Screen/Versiones';
 import HelpScreen from './Screen/Help'
 import PoliticaScreen from './Screen/Politica'
 import SearchPalabra from './Screen/SearchPalabra';
+import HistorialScreen from './Screen/Historial';
 
 import { UserContext } from "./Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
@@ -167,6 +168,60 @@ const App = ({ navigation, children }) => {
           
         </View>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
+        <View style={styles.rowIcon}>
+          <View style={{flexDirection: "column"}}>
+            <Ionicons
+            name="ios-timer-outline"
+            size={22}
+            color={theme.colors.text}
+          />
+          <Text style={{fontSize: 6, color:theme.colors.text}}>Historial</Text>
+          </View>
+          
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+        <View style={styles.rowIcon}>
+          <Ionicons name="home-outline" size={24} color={theme.colors.text} />
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const History = ({ navigation }) => (
+    <View style={{ flexDirection: "row" }}>
+      <TouchableOpacity onPress={() => navigation.navigate("Search")}>
+        <View style={styles.rowIcon}>
+          <Ionicons name="search" size={24} color={theme.colors.text} />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Buscar")}>
+        <View style={styles.rowIcon}>
+          <View style={{flexDirection: "column"}}>
+            <Ionicons
+            name="ios-search-circle-sharp"
+            size={22}
+            color={theme.colors.text}
+          />
+          <Text style={{fontSize: 6, color:theme.colors.text}}>Palabra</Text>
+          </View>
+          
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+        <View style={styles.rowIcon}>
+          <View style={{flexDirection: "column"}}>
+            <Ionicons
+            name="ios-bookmarks-outline"
+            size={22}
+            color={theme.colors.text}
+          />
+          <Text style={{fontSize: 6, color:theme.colors.text}}>Biblia</Text>
+          </View>
+          
+        </View>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Home")}>
         <View style={styles.rowIcon}>
           <Ionicons name="home-outline" size={24} color={theme.colors.text} />
@@ -228,6 +283,19 @@ const App = ({ navigation, children }) => {
                 headerStyle: { backgroundColor: theme.colors.header },
                 headerTitleStyle: { color: theme.colors.textHeader },
                 headerRight: () => <Version navigation={navigation} />,
+              })}
+            />
+
+
+              <Stack.Screen
+              name="HistorialScreen"
+              component={HistorialScreen}
+              options={({ navigation }) => ({
+                headerStyle: { backgroundColor: theme.colors.header },
+                headerTitle: "Historial",
+                headerTitleStyle: { color: theme.colors.textHeader },
+                headerTintColor: `${theme.colors.text}`,
+                headerRight: () => <History navigation={navigation} />,
               })}
             />
 
@@ -340,6 +408,14 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-timer-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                     <Ionicons
                       style={{ paddingEnd: 20 }}
@@ -418,6 +494,15 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
+                  
+                  {/*<TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-timer-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                </TouchableOpacity>*/}
 
                   <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
                     <Ionicons
