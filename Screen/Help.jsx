@@ -10,12 +10,17 @@ import {
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
+import {getImageClouddinary} from '../api.user';
 
 const Help = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
   const { isDarkTheme, setIsDarkTheme } = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const ligth = [
+  const [ligth, setLigth]=useState()
+  const [dark, setDark]=useState()
+  const [estado, setEstado]=useState(null)
+
+  const ligth1 = [
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1652555521/Biblia_AV/creartema_skjvsi.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653434955/Biblia_AV/Screenshot_20220524_172155_com.alientodevida.BibliaAV_jotzhr.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653417613/Biblia_AV/Screenshot_20220524_121817_host.exp.exponent_cc99lb.jpg",
@@ -27,7 +32,7 @@ const Help = ({ navigation: { navigate } }) => {
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412376/Biblia_AV/bible_lista_dark_rp1bua.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412373/Biblia_AV/bible_cuadricula_dark_b4glsh.jpg"
   ];
-  const dark = [
+  const dark2 = [
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412377/Biblia_AV/craer_tema_ligth_saivhv.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412376/Biblia_AV/add_verse_a_tema_ligth_j0bmgg.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412379/Biblia_AV/quitar_verse_ligth_knc384.jpg",
@@ -39,6 +44,33 @@ const Help = ({ navigation: { navigate } }) => {
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412375/Biblia_AV/biblia_lista_ligth_kwfsrl.jpg",
     "https://res.cloudinary.com/dyeds74sp/image/upload/v1653412377/Biblia_AV/bible_cuadricula_ligth_bpnywx.jpg"
   ];
+
+  React.useEffect(() => {
+    getImages()
+  }, []);
+
+  const getImages = async  ()=>{
+    console.log("api")
+    try {
+      const data = await getImageClouddinary()
+      if(data){
+        setLigth(data[0].ligth)
+        setDark(data[1].dark)
+        setEstado(true)
+      }else{
+        setLigth(ligth1)
+        setDark(dark2)
+        setEstado(true)
+      }
+    } catch (error) {
+       setLigth(ligth1)
+       setDark(dark2)
+       setEstado(true)
+    }
+    
+  }
+
+
 
   return (
     <ScrollView>
@@ -59,7 +91,9 @@ const Help = ({ navigation: { navigate } }) => {
           Si no desea guardar, puede darle clic a cerrar.
           </Text>
         </View>
-        <View
+        {
+          estado && 
+          <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -85,6 +119,8 @@ const Help = ({ navigation: { navigate } }) => {
             />
           )}
         </View>
+        }
+        
         <View>
           <Text style={[styles.textTitle, {color: colors.text}]}
           >
@@ -102,7 +138,9 @@ const Help = ({ navigation: { navigate } }) => {
 
           </Text>
         </View>
-        <View
+        {
+          estado &&
+          <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -128,6 +166,8 @@ const Help = ({ navigation: { navigate } }) => {
             />
           )}
         </View>
+        }
+        
       
           <Text style={[styles.textTitle, {color: colors.text}]}>
             Eliminar versiculos y temas
@@ -140,7 +180,9 @@ const Help = ({ navigation: { navigate } }) => {
           </Text>
          
         
-        <View
+        {
+          estado && 
+          <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -166,11 +208,15 @@ const Help = ({ navigation: { navigate } }) => {
             />
           )}
         </View>
+        }
+        
 
         <Text style={[styles.textText,{ color: colors.text }]}>
         Use el mismo procedimiento para eliminar completamente un tema.
         </Text>
-        <View
+        {
+          estado &&
+          <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -195,6 +241,8 @@ const Help = ({ navigation: { navigate } }) => {
             />
           )}
         </View>
+        }
+        
 
         <Text style={[styles.textTitle, {color: colors.text}]} >
           Como editar un tema{" "}
@@ -205,7 +253,9 @@ const Help = ({ navigation: { navigate } }) => {
 
         </Text>
 
-        <View
+        {
+          estado &&
+          <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -230,13 +280,18 @@ const Help = ({ navigation: { navigate } }) => {
             />
           )}
         </View>
+        }
+
+        
         <Text style={[styles.textText,{ color: colors.text }]}>
         Posteriormente seleccione el tema a editar, presionando la pantalla.
         Y luego sobrescriba el data a editar, y luego presionar Guardar.
 
           
         </Text>
-        <View
+        {
+          estado && 
+          <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -261,6 +316,8 @@ const Help = ({ navigation: { navigate } }) => {
             />
           )}
         </View>
+        }
+        
 
         <Text style={[styles.textTitle, {color: colors.text}]}>
           Como eliminar capitulos de Favoritos
@@ -272,7 +329,9 @@ const Help = ({ navigation: { navigate } }) => {
 
         </Text>
 
-        <View
+        {
+          estado &&
+          <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -297,13 +356,18 @@ const Help = ({ navigation: { navigate } }) => {
             />
           )}
         </View>
+        }
+        
         <Text style={[styles.textTitle, {color: colors.text}]}>
           Como cambiar la vista cuadricula o lista en Biblia.
         </Text>
         <Text style={[styles.textText,{ color: colors.text }]}>
           En ajustes deslizar la barra cambiar a vista cuadricula o lista.
         </Text>
-        <View
+
+        {
+          estado &&
+          <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -328,10 +392,14 @@ const Help = ({ navigation: { navigate } }) => {
             />
           )}
         </View>
+        }
+        
         <Text style={[styles.textText,{ color: colors.text }]}>
             Vista lista.
           </Text>
-        <View
+          {
+            estado &&
+           <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -355,11 +423,16 @@ const Help = ({ navigation: { navigate } }) => {
               }}
             />
           )}
-        </View>
+        </View> 
+          }
+        
         <Text style={[styles.textText,{ color: colors.text }]}>
             Vista cuadricula.
           </Text>
-        <View
+
+          {
+            estado &&
+           <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -384,7 +457,9 @@ const Help = ({ navigation: { navigate } }) => {
               }}
             />
           )}
-        </View>
+        </View> 
+          }
+        
         
 
         <TouchableOpacity onPress={() => navigate("Politica")}>
