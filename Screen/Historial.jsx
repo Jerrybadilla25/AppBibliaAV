@@ -165,18 +165,35 @@ const Historial = ( {navigation: { navigate }} ) => {
                 {history.map((item, idx) => (
                   <View key={idx}>
                     <TouchableOpacity onPress={() => sendingBiblia(item._id)}>
-                      <Text
+                      {
+                        idx===0 ?
+                        (<Text
                         style={[
                           styles.texthistorial,
                           {
-                            color: colors.text,
-                            backgroundColor: colors.header,
+                            color: colors.header,
+                            backgroundColor: colors.text,
                             fontSize: 16,
                           },
                         ]}
                       >
-                        {item.charter}
-                      </Text>
+                        Mas reciente - {item.charter} 
+                      </Text>)
+                        :
+                        (<Text
+                          style={[
+                            styles.texthistorial,
+                            {
+                              color: colors.text,
+                              backgroundColor: colors.header,
+                              fontSize: 16,
+                            },
+                          ]}
+                        >
+                          {item.charter}
+                        </Text>)
+                      }
+                      
                     </TouchableOpacity>
                   </View>
                 ))}
@@ -203,7 +220,7 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-condensed',
     textAlign: "center",
     paddingVertical: 12,
-    marginHorizontal: 50,
+    marginHorizontal: 35,
     marginVertical: 4,
     borderRadius: 8
  },

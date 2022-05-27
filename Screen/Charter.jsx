@@ -272,9 +272,10 @@ const Preview = ({
           style={[
             styles.title,
             {
-              color: colors.text,
+              color: colors.textNumber,
               fontSize: fontZize.fonttitle,
-              fontWeight: "700",
+              fontFamily: 'sans-serif-thin',
+              fontWeight: "bold"
             },
           ]}
         >
@@ -368,12 +369,7 @@ const Preview = ({
             {data.version}
           </Text>
         </View>
-        <Rewind
-          setData={setData}
-          data={data}
-          colors={colors}
-          getCharterRewinder={getCharterRewinder}
-        />
+       
         
       </View>
     </ScrollView>
@@ -505,8 +501,9 @@ const styles = StyleSheet.create({
   },
   rowFlex: {
     flexDirection: "row",
-    //justifyContent: "space-between",
+    flexWrap: "nowrap",
     justifyContent: "space-around",
+    alignItems: "center",
     borderRadius: 5,
     paddingVertical: 4,
     marginVertical: 4,

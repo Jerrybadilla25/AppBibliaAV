@@ -458,12 +458,13 @@ const User = ({route, navigation: { navigate } }) => {
                         {x.tema}
                       </Text>
                       <Text
+                        numberOfLines={1}
                         style={[
                           styles.textDetalles,
                           { color: colors.textNumber },
                         ]}
                       >
-                        ver...
+                        {x.description}
                       </Text>
                     </TouchableOpacity>
                   ))}

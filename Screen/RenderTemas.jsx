@@ -123,10 +123,9 @@ const PreviewTemas = ({
           style={{
             color: colors.text,
             textAlign: "left",
-            fontSize: fontZize.fontsubtitle,
+            fontSize: fontZize.fontsubtitle-1,
             fontFamily: 'sans-serif-condensed',
             paddingHorizontal: 10,
-            fontSize: 14,
             marginBottom: 8
           }}
         >

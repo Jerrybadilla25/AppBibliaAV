@@ -149,7 +149,7 @@ const App = ({ navigation, children }) => {
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
   const Search = ({ navigation }) => (
-    <View style={{ flexDirection: "row" }}>
+    <View style={{ flexDirection: "row", justifyContent:"space-around" }}>
       <TouchableOpacity onPress={() => navigation.navigate("Search")}>
         <View style={styles.rowIcon}>
           <Ionicons name="search" size={24} color={theme.colors.text} />
@@ -384,7 +384,7 @@ const App = ({ navigation, children }) => {
               component={BibliaScreen}
               options={({ navigation }) => ({
                 headerStyle: { backgroundColor: theme.colors.header },
-                headerTitle: "Libros",
+                //headerTitle: "Libros",
                 headerTitleStyle: { color: theme.colors.textHeader },
                 headerTintColor: `${theme.colors.text}`,
                 headerRight: () => <Search navigation={navigation} />,
@@ -469,7 +469,7 @@ const App = ({ navigation, children }) => {
               component={SelectCharter}
               options={({ navigation }) => ({
                 headerStyle: { backgroundColor: theme.colors.header },
-                headerTitle: "Capitulos",
+                //headerTitle: "Capitulos",
                 headerTitleStyle: { color: theme.colors.textHeader },
                 headerTintColor: `${theme.colors.text}`,
                 headerRight: () => <Search navigation={navigation} />,
@@ -577,8 +577,8 @@ const styles = StyleSheet.create({
   },
   rowIcon: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 12,
+    //justifyContent: "space-between",
+    paddingHorizontal: 18, //bajar a 8 si quiro ver el nombre
     paddingVertical: 5,
     marginHorizontal: 5,
     borderRadius: 50,
