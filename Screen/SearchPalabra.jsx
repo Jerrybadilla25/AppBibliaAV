@@ -135,7 +135,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
               borderRadius: 8,
               padding: 8,
               color: colors.text
-              }}>Para agregar el versiculo a un tema:</Text>
+              }}>Agregar versiculo a</Text>
 
         <View style={[styles.rowFlex, {marginBottom: 25}]}>
         {

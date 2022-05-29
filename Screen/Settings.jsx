@@ -160,7 +160,7 @@ const Setting = ({ navigation: { navigate } }) => {
             </Text>
           </View>
           <View style={[styles.rowBox, { borderTopColor: colors.border }]}>
-            <View style={[styles.rowseting, {marginTop: 10, paddingBottom: 10}]}>
+            <View style={[styles.rowseting, {marginTop: 14, paddingBottom: 14}]}>
               {isDarkTheme ? (
                 <Text style={{ color: colors.text }}>
                   Cambiar vista a modo claro

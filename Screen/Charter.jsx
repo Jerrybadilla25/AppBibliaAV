@@ -88,6 +88,8 @@ const Charter = ({ route }) => {
     }
   };
 
+  
+
   const getCharterRewinder = ({ variables }) => {
     setData(null);
     setMsjView(false);
@@ -415,7 +417,7 @@ const PreviewModal = ({
           color: colors.text,
         }}
       >
-        Para agregar el versiculo a un tema:
+        Agregar versiculo a
       </Text>
       <View style={[styles.rowFlex, { marginBottom: 25 }]}>
         {validateTema ? (
