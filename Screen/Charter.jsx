@@ -417,7 +417,7 @@ const PreviewModal = ({
           color: colors.text,
         }}
       >
-        Agregar versiculo a
+        Agregar versículo a
       </Text>
       <View style={[styles.rowFlex, { marginBottom: 25 }]}>
         {validateTema ? (

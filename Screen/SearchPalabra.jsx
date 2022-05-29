@@ -135,7 +135,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
               borderRadius: 8,
               padding: 8,
               color: colors.text
-              }}>Agregar versiculo a</Text>
+              }}>Agregar versículo a</Text>
 
         <View style={[styles.rowFlex, {marginBottom: 25}]}>
         {
@@ -189,7 +189,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
     <View style={[styles.container,{padding: 10}]}>
       <View >
         <Text style={[styles.textTitle, { color: colors.text }]}>
-          Buscar versiculos segun la siguiente palabra
+        Buscar versículos según la siguiente palabra
         </Text>
         <TextInput
           style={[
@@ -230,7 +230,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
       {
         filter && <Text 
         style={{color: colors.text, fontSize: 14, textAlign: "center"}}
-        >La palabra <Text style={{color: colors.textNumber}} >{palabra}</Text> aparece en <Text style={{color: colors.textNumber}}>{filter.length}</Text>  versiculos. </Text>
+        >La palabra <Text style={{color: colors.textNumber}} >{palabra}</Text> aparece en <Text style={{color: colors.textNumber}}>{filter.length}</Text>  versículos . </Text>
       }
 
       

@@ -66,7 +66,6 @@ const TemaEdit = ({temas, setTemas, colors, setEstado}) => {
 
     
 
-
     return (
         <View>
             {

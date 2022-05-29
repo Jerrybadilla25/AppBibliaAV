@@ -169,12 +169,10 @@ const Help = ({ navigation: { navigate } }) => {
         
       
           <Text style={[styles.textTitle, {color: colors.text}]}>
-            Eliminar versiculos y temas
+          Eliminar versículos y temas
           </Text>
           <Text style={[styles.textText,{ color: colors.text }]}>
-            Puede eliminar un versículo de un tema, manteniendo presionado por
-            dos segundos, cuando aparece la ventana de dialogo, seleccionar
-            eliminar versículo.
+          Puede eliminar un versículo de un tema, manteniendo presionado por 2 segundos, cuando aparece la ventana de dialogo, seleccionar eliminar versículo.
 
           </Text>
          

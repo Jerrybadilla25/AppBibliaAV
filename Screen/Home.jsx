@@ -15,11 +15,6 @@ import {getStart} from '../api.user';
 import * as InAppPurchases from 'expo-in-app-purchases';
 import * as NavigationBar from 'expo-navigation-bar';
 
-import Slider from '@react-native-community/slider';
-
-
-import Constants from 'expo-constants';
-
 
 const Home = ({ navigation: { navigate } }) => {
   
@@ -36,15 +31,6 @@ const Home = ({ navigation: { navigate } }) => {
 
   
   //const items = ['basico', 'premiun']
-
-  const setValue = (val)=>{
-    setValor(val)
-    
-  }
-
-
-  
-  
 
 
   React.useEffect(() => {

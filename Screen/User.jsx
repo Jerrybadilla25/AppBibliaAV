@@ -326,15 +326,15 @@ const User = ({route, navigation: { navigate } }) => {
         <View style={[styles.box, {borderColor: colors.header, borderWidth: 1}]}>
               <Text
               style={[styles.title1,{color:colors.text }]}
-              >Puedes agregar capitulos en esta seccion desde la pantalla de lectura de capitulos.</Text>
+              >Puedes agregar capítulos a esta sección, desde la pantalla de lectura de capítulos.</Text>
               <Text
               style={[styles.title1,{color:colors.text }]}
-              >Presiona el icono <Ionicons
+              >Presiona el icono  <Ionicons
               name="ios-bookmarks-outline"
               size={16}
               
               color={colors.text}
-            /> en la parte superior, para dirigite a la BibliaAV y presionar en Agregar a favoritos. .</Text>
+            />  en la parte superior, para dirigirte a la BibliaAV y presionar en Agregar a favoritos</Text>
         </View>
       }
           <PreviewModalTree modalVisibleTree={modalVisibleTree}/>
@@ -404,7 +404,7 @@ const User = ({route, navigation: { navigate } }) => {
                   borderWidth: 1,
                   borderRadius: 8,
                   color: colors.text
-                  }}>Puedo agregar versiculos individuales desde la pantalla de capitulos, presionando por dos segundos el versiculo.</Text>
+                  }}>Puedo agregar versículos individuales desde la pantalla de capítulos, presionando por dos segundos el versículo.</Text>
               </View>
             </View>
           ) : (

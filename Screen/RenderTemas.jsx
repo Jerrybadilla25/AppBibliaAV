@@ -201,15 +201,15 @@ const PreviewTemas = ({
         <View style={[styles.box, {borderColor: colors.header, borderWidth: 1}]}>
               <Text
               style={[styles.title,{color:colors.text }]}
-              >Puedes agregar versiculos a este tema desde la pantalla de lectura de capitulos.</Text>
+              >Puedes agregar versículos a este tema, desde la pantalla de lectura de capítulos.</Text>
               <Text
               style={[styles.title,{color:colors.text }]}
-              >Presiona el icono <Ionicons
+              >Presiona el icono  <Ionicons
               name="ios-bookmarks-outline"
               size={16}
               
               color={colors.text}
-            /> en la parte superios para dirigite a la BibliaAV y agregar versiculos.</Text>
+            />  en la parte superior para dirigirte a la BibliaAV y agregar versículos.</Text>
         </View>
       }
       
