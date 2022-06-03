@@ -24,3 +24,7 @@ para compilar aab = eas build --platform android
 eas build --platform android
 eas build --platform ios
 eas build --platform all
+
+
+
+PS F:\1_NEW_PROYECTS\AppBibliaAV> git remote set-url origin https://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:x-oauth-basic@github.com/Jerrybadilla25/AppBibliaAV.git

@@ -142,8 +142,8 @@ android {
         applicationId 'com.alientodevida.BibliaAV'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 114
-        versionName "1.0.1"
+        versionCode 115
+        versionName "1.0.2"
     }
     splits {
         abi {
