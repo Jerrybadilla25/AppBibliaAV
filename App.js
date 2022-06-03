@@ -116,7 +116,7 @@ const App = ({ navigation, children }) => {
       headerAct: "#140e1b",
       textHeader: "#f3f4f6",
       boxseting: "#292032",
-      boxTema: "#604d80",
+      boxTema: "#302640",
       border: "#5b4475",
       social: "#604589",
       bar: '#241c30',

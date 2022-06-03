@@ -8,11 +8,12 @@ import {
   ScrollView,
   Modal,
   Alert,
-  Button
+  Share
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
 
 import Versos from "../Component/Biblias/versosall.json";
 
@@ -111,6 +112,42 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
     }
   }
 
+  const onShared = async ()=>{
+    let httpBAV = "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV"
+    let titulo = verseNew.originCharter.toUpperCase()
+    let mensage =`
+    ${titulo}
+
+    ${verseNew.versiculo}
+
+    ${httpBAV}
+    `
+    try {
+      const result = await Share.share({
+        message: 'BibliaAV',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+          Share.share({
+            title: titulo,
+            message: mensage
+          })
+        } else {
+          // shared
+          Share.share({
+            title: titulo,
+            message: mensage
+          })
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
 
 
 
@@ -125,25 +162,40 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
       }}
     >
       <View style={[styles.centeredView, {backgroundColor: colors.boxTema}]}>
-      <Text 
-            style={{
-              marginBottom: 10, 
-              fontSize: 12, 
-              textAlign: "center",
-              borderColor: colors.header,
-              borderWidth: 1,
-              borderRadius: 8,
-              padding: 8,
-              color: colors.text
-              }}>Agregar versículo a</Text>
 
-        <View style={[styles.rowFlex, {marginBottom: 25}]}>
+      <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 12 }}>Que desea hacer con el versículo seleccionado.</Text>
+      <TouchableOpacity onPress={onShared}>
+        <View style={[styles.rowFlex, { marginBottom: 25 }]}>
+          <Text
+        style={{
+          color: colors.text,
+          fontFamily: "sans-serif-medium",
+          fontSize: 16,
+        }}
+      >
+        Compartir...
+      </Text>
+
+      <Ionicons 
+      name="ios-share-social-outline" 
+      size={24} 
+      color={colors.text}
+      />
+
+
+        </View>
+        
+      </TouchableOpacity>
+
+
+
+        <View style={[styles.rowFlex, {marginBottom: 25, paddingTop: 15, borderTopColor: colors.header, borderTopWidth: 1}]}>
         {
           validateTema ?
           <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>No hay temas creados</Text> 
           
           :
-          <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>Seleccione un tema</Text>     
+          <Text style={{color: colors.text, padding:10, fontFamily: 'sans-serif-medium', fontSize: 16}}>Agregarlo a un tema</Text>     
         }
            
            
@@ -253,7 +305,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                  }}
                >
               <View
-                style={[styles.item, { backgroundColor: colors.header }]}
+                style={[styles.item, {  }]}
                 
               >
                 <Text
@@ -333,12 +385,21 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   centeredView: {
-    marginTop: 90,
-    marginBottom: 150,
-    marginHorizontal: 20,
+    width: "100%",
+    bottom: 0,
+    left: 0,
+    position: "absolute",
+    maxHeight: 560,
+    //alignSelf: "baseline",
+    //alignContent: "space-around",
+    //marginTop: 10,
+    //marginBottom: 150,
+    //marginHorizontal: 10,
     paddingHorizontal: 15,
-    paddingVertical: 30,
-    borderRadius: 10,
+    paddingBottom: 50,
+    paddingTop:14,
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
   },
   rowFlex: {
     flexDirection: "row",

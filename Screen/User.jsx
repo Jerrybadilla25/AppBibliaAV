@@ -623,10 +623,10 @@ const styles = StyleSheet.create({
     minWidth: "48%",
   },
   modal: {
-    margin: 15,
+    marginVertical: 15,
     paddingHorizontal: 15,
     paddingVertical: 30,
-    borderRadius: 10,
+    //borderRadius: 10,
   },
   modal2: {
     flex: 1,

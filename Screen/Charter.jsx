@@ -7,10 +7,13 @@ import {
   ScrollView,
   Modal,
   Alert,
+  Share
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 import { UserContext } from "../Component/Context/contexUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+//import * as Sharing from 'expo-sharing';
 
 import Reina from "../Component/Biblias/ReinaValera/fullLibroReinaValera.json";
 import Oso from "../Component/Biblias/Oso/fullLibroOso.json";
@@ -31,7 +34,7 @@ const Charter = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [msj, setMsj] = useState(null);
   const [msjView, setMsjView] = useState(false);
-  const [idVerse, setidVerse] = useState({}); // add versiculo seleccionado
+  const [idVerse, setidVerse] = useState(null); // add versiculo seleccionado
   const [temas, setTemas] = useState([]);
   const [validateTema, setValidateTema] = useState(false);
 
@@ -214,6 +217,43 @@ const Charter = ({ route }) => {
     } catch (error) {}
   };
 
+
+  const onShared = async ()=>{
+    let httpBAV = "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV"
+    let titulo = idVerse.originCharter.toUpperCase()
+    let mensage =`
+    ${titulo}
+
+    ${idVerse.versiculo}
+
+    ${httpBAV}
+    `
+    try {
+      const result = await Share.share({
+        message: 'BibliaAV',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+          Share.share({
+            title: titulo,
+            message: mensage
+          })
+        } else {
+          // shared
+          Share.share({
+            title: titulo,
+            message: mensage
+          })
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   // fin de lo nuevo
 
   if (!data) return <Loading />;
@@ -237,6 +277,8 @@ const Charter = ({ route }) => {
         addVerseTema={addVerseTema}
         validateTema={validateTema}
         setData={setData}
+        onShared={onShared}
+        idVerse={idVerse}
       ></Preview>
     );
 
@@ -258,7 +300,9 @@ const Preview = ({
   temas,
   addVerseTema,
   validateTema,
-  setData
+  setData,
+  onShared,
+  idVerse
 }) => (
   <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
 
@@ -383,6 +427,8 @@ const Preview = ({
       temas={temas}
       addVerseTema={addVerseTema}
       validateTema={validateTema}
+      onShared={onShared}
+      idVerse
     />
   </View>
 );
@@ -394,6 +440,8 @@ const PreviewModal = ({
   temas,
   addVerseTema,
   validateTema,
+  onShared={onShared},
+  idVerse={idVerse}
 }) => (
   <Modal
     animationType="slide"
@@ -405,21 +453,31 @@ const PreviewModal = ({
     }}
   >
     <View style={[styles.centeredView, { backgroundColor: colors.boxTema }]}>
-      <Text
+       <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 12 }}>Que desea hacer con el versículo seleccionado.</Text>
+      <TouchableOpacity onPress={onShared}>
+        <View style={[styles.rowFlex, { marginBottom: 25 }]}>
+          <Text
         style={{
-          marginBottom: 10,
-          fontSize: 12,
-          textAlign: "center",
-          borderColor: colors.header,
-          borderWidth: 1,
-          borderRadius: 8,
-          padding: 8,
           color: colors.text,
+          fontFamily: "sans-serif-medium",
+          fontSize: 16,
         }}
       >
-        Agregar versículo a
+        Compartir...
       </Text>
-      <View style={[styles.rowFlex, { marginBottom: 25 }]}>
+
+      <Ionicons 
+      name="ios-share-social-outline" 
+      size={24} 
+      color={colors.text}
+      />
+
+
+        </View>
+        
+      </TouchableOpacity>
+      
+      <View style={[styles.rowFlex, { marginBottom: 25, paddingTop: 15, borderTopColor: colors.header, borderTopWidth: 1 }]}>
         {validateTema ? (
           <Text
             style={{
@@ -440,7 +498,7 @@ const PreviewModal = ({
               fontSize: 16,
             }}
           >
-            Seleccione un tema
+        Agregarlo a un tema
           </Text>
         )}
 
@@ -457,6 +515,9 @@ const PreviewModal = ({
           </Text>
         </TouchableOpacity>
       </View>
+
+      
+
       <ScrollView>
         {temas && (
           <View>
@@ -479,6 +540,9 @@ const PreviewModal = ({
           </View>
         )}
       </ScrollView>
+
+      
+
     </View>
   </Modal>
 );
@@ -529,12 +593,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   centeredView: {
-    marginTop: 90,
-    marginBottom: 150,
-    marginHorizontal: 20,
+    width: "100%",
+    bottom: 0,
+    left: 0,
+    position: "absolute",
+    maxHeight: 560,
+    //alignSelf: "baseline",
+    //alignContent: "space-around",
+    //marginTop: 10,
+    //marginBottom: 150,
+    //marginHorizontal: 10,
     paddingHorizontal: 15,
-    paddingVertical: 30,
-    borderRadius: 10,
+    paddingBottom: 50,
+    paddingTop:14,
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
   },
   Item: {
     paddingHorizontal: 4,
