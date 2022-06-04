@@ -163,9 +163,9 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
     >
       <View style={[styles.centeredView, {backgroundColor: colors.boxTema}]}>
 
-      <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 12 }}>Que desea hacer con el versículo seleccionado.</Text>
+      <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 16 }}>Que desea hacer con el versículo seleccionado.</Text>
       <TouchableOpacity onPress={onShared}>
-        <View style={[styles.rowFlex, { marginBottom: 25 }]}>
+        <View style={[styles.rowFlex, { marginBottom: 15, paddingTop: 15, borderTopColor: colors.header, borderTopWidth: 1 }]}>
           <Text
         style={{
           color: colors.text,
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
     //marginHorizontal: 10,
     paddingHorizontal: 15,
     paddingBottom: 50,
-    paddingTop:14,
+    paddingTop:16,
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
   },

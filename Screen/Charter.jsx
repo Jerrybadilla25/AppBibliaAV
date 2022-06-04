@@ -13,6 +13,8 @@ import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { UserContext } from "../Component/Context/contexUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar } from 'expo-status-bar';
+
 //import * as Sharing from 'expo-sharing';
 
 import Reina from "../Component/Biblias/ReinaValera/fullLibroReinaValera.json";
@@ -306,7 +308,7 @@ const Preview = ({
 }) => (
   <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
 
-    <ScrollView contentOffset={{ x: 0, y: 0 }}>
+    <ScrollView >
       <View style={styles.rowFlex}>
         <Rewind
           setData={setData}
@@ -420,7 +422,9 @@ const Preview = ({
       </View>
     </ScrollView>
 
-    <PreviewModal
+   
+    
+      <PreviewModal
       setModalVisible={setModalVisible}
       modalVisible={modalVisible}
       colors={colors}
@@ -430,6 +434,10 @@ const Preview = ({
       onShared={onShared}
       idVerse
     />
+          
+    
+
+    
   </View>
 );
 
@@ -452,10 +460,12 @@ const PreviewModal = ({
       setModalVisible(!modalVisible);
     }}
   >
+    
+ 
     <View style={[styles.centeredView, { backgroundColor: colors.boxTema }]}>
-       <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 12 }}>Que desea hacer con el versículo seleccionado.</Text>
+       <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 16 }}>Que desea hacer con el versículo seleccionado.</Text>
       <TouchableOpacity onPress={onShared}>
-        <View style={[styles.rowFlex, { marginBottom: 25 }]}>
+        <View style={[styles.rowFlex, { marginBottom: 15, paddingTop: 15, borderTopColor: colors.header, borderTopWidth: 1 }]}>
           <Text
         style={{
           color: colors.text,
@@ -598,27 +608,18 @@ const styles = StyleSheet.create({
     left: 0,
     position: "absolute",
     maxHeight: 560,
-    //alignSelf: "baseline",
-    //alignContent: "space-around",
-    //marginTop: 10,
-    //marginBottom: 150,
-    //marginHorizontal: 10,
     paddingHorizontal: 15,
     paddingBottom: 50,
-    paddingTop:14,
+    paddingTop:16,
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
   },
   Item: {
     paddingHorizontal: 4,
     paddingVertical: 4,
-    //marginVertical: 4,
-    //marginHorizontal: 4,
-    //borderRadius: 20,
   },
   textCharter: {
     fontSize: 16,
-    //fontWeight: "bold",
     padding: 10,
     borderRadius: 10,
   },

@@ -642,18 +642,14 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   newtema: {
-    //borderWidth: 1,
-    //borderRadius: 10,
-    //textAlign: "center",
     padding: 7,
-    //width: "50%",
     marginHorizontal: 30,
     marginVertical: 15,
     fontFamily: 'Roboto'
   },
     modalView: {
-      marginVertical: 100,
-      marginHorizontal: 50,
+      marginTop: 400,
+      marginBottom: 50,
       paddingHorizontal: 10,
       paddingVertical: 30,
       borderRadius: 10,

@@ -9,7 +9,6 @@ import {
   Text,
   StyleSheet,
   View,
-  
   Easing,
 } from "react-native";
 import {
@@ -257,7 +256,7 @@ const App = ({ navigation, children }) => {
         }}
       >
         <NavigationContainer theme={theme}>
-          <StatusBar 
+        <StatusBar 
           //backgroundColor={theme.colors.bar}
           //barStyle={theme.colors.barStyle}
           style={theme.colors.barStyle}
@@ -559,6 +558,7 @@ const App = ({ navigation, children }) => {
               })}
             />
           </Stack.Navigator>
+          
         </NavigationContainer>
       </UserContext.Provider>
     );
