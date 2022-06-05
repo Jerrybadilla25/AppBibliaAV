@@ -153,15 +153,11 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
 
 
   const PreviewModal = ({setModalVisible, colors, modalVisible} )=>(
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-      setModalVisible(!modalVisible);
-      }}
-    >
-      <View style={[styles.centeredView, {backgroundColor: colors.boxTema}]}>
+    <View>
+
+      {
+        modalVisible ? (
+          <View style={[styles.centeredView, {backgroundColor: colors.boxTema}]}>
 
       <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 16 }}>Que desea hacer con el versículo seleccionado.</Text>
       <TouchableOpacity onPress={onShared}>
@@ -227,8 +223,17 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
             
         </ScrollView>
       </View>
+
+        ):
+        (
+          <Text></Text>
+        )
+      }
+     
+    
+      
   
-    </Modal>
+    </View>
   )
 
 
@@ -238,10 +243,10 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
 
 
   return (
-    <View style={[styles.container,{padding: 10}]}>
-      <View >
+    <View style={[styles.container, {  }]}>
+      <View style={{padding: 10}}>
         <Text style={[styles.textTitle, { color: colors.text }]}>
-        Buscar versículos según la siguiente palabra
+          Buscar versículos según la siguiente palabra
         </Text>
         <TextInput
           style={[
@@ -279,66 +284,67 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
         )}
       </View>
 
-      {
-        filter && <Text 
-        style={{color: colors.text, fontSize: 14, textAlign: "center"}}
-        >La palabra <Text style={{color: colors.textNumber}} >{palabra}</Text> aparece en <Text style={{color: colors.textNumber}}>{filter.length}</Text>  versículos . </Text>
-      }
-
-      
+      {filter && (
+        <Text style={{ color: colors.text, fontSize: 14, textAlign: "center" }}>
+          La palabra <Text style={{ color: colors.textNumber }}>{palabra}</Text>{" "}
+          aparece en{" "}
+          <Text style={{ color: colors.textNumber }}>{filter.length}</Text>{" "}
+          versículos .{" "}
+        </Text>
+      )}
 
       {filter && (
         <ScrollView style={[styles.col, {}]}>
           <View>
             {filter.map((item) => (
-              <TouchableOpacity 
-               key={item._id}
-               onLongPress={()=>{
-                 addTema({variables:{
-                   numero: item.numero,
-                   originCharter: item.originCharter,
-                   versiculo: item.versiculo,
-                   version: "Reina_Valera_1960",
-                   _id: item._id,
-                 }});
-                 setModalVisible(!modalVisible);
-                 }}
-               >
-              <View
-                style={[styles.item, {  }]}
-                
+              <TouchableOpacity
+                key={item._id}
+                onLongPress={() => {
+                  addTema({
+                    variables: {
+                      numero: item.numero,
+                      originCharter: item.originCharter,
+                      versiculo: item.versiculo,
+                      version: "Reina_Valera_1960",
+                      _id: item._id,
+                    },
+                  });
+                  setModalVisible(!modalVisible);
+                }}
               >
-                <Text
-                  style={{
-                    color: colors.text,
-                    fontFamily: "sans-serif-medium",
-                    paddingBottom: 6,
-                    fontSize: fontZize.fontsubtitle
-                  }}
-                >
-                  {item.originCharter}
-                </Text>
+                <View style={[styles.item, {}]}>
+                  <Text
+                    style={{
+                      color: colors.text,
+                      fontFamily: "sans-serif-medium",
+                      paddingBottom: 6,
+                      fontSize: fontZize.fontsubtitle,
+                    }}
+                  >
+                    {item.originCharter}
+                  </Text>
 
-                <Text style={{ color: colors.textNumber, fontSize: fontZize.fonttext }}>
-                  {item.numero}
-                  <Text> </Text>
-                  <Text style={{ color: colors.text }}>{item.versiculo}</Text>
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      color: colors.textNumber,
+                      fontSize: fontZize.fonttext,
+                    }}
+                  >
+                    {item.numero}
+                    <Text> </Text>
+                    <Text style={{ color: colors.text }}>{item.versiculo}</Text>
+                  </Text>
+                </View>
               </TouchableOpacity>
             ))}
           </View>
-        
-            <PreviewModal
-            setModalVisible={setModalVisible}
-            modalVisible={modalVisible}
-            colors={colors}
-           />
-           
-        
-          
         </ScrollView>
       )}
+        <PreviewModal
+          setModalVisible={setModalVisible}
+          modalVisible={modalVisible}
+          colors={colors}
+        />
     </View>
   );
 };

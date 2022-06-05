@@ -650,6 +650,7 @@ const styles = StyleSheet.create({
     modalView: {
       marginTop: 400,
       marginBottom: 50,
+      marginHorizontal: 10,
       paddingHorizontal: 10,
       paddingVertical: 30,
       borderRadius: 10,

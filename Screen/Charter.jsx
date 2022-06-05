@@ -13,7 +13,7 @@ import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { UserContext } from "../Component/Context/contexUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StatusBar } from 'expo-status-bar';
+
 
 //import * as Sharing from 'expo-sharing';
 
@@ -38,7 +38,7 @@ const Charter = ({ route }) => {
   const [msjView, setMsjView] = useState(false);
   const [idVerse, setidVerse] = useState(null); // add versiculo seleccionado
   const [temas, setTemas] = useState([]);
-  const [validateTema, setValidateTema] = useState(false);
+  const [validateTema, setValidateTema] = useState(true);
 
   React.useEffect(() => {
     obtainCharte(route.params._id, route.params.version);
@@ -451,18 +451,10 @@ const PreviewModal = ({
   onShared={onShared},
   idVerse={idVerse}
 }) => (
-  <Modal
-    animationType="slide"
-    transparent={true}
-    visible={modalVisible}
-    onRequestClose={() => {
-      //Alert.alert("Modal has been closed.");
-      setModalVisible(!modalVisible);
-    }}
-  >
-    
- 
-    <View style={[styles.centeredView, { backgroundColor: colors.boxTema }]}>
+  <View>
+    {
+      modalVisible ? (
+        <View style={[styles.centeredView, { backgroundColor: colors.boxTema }]}>
        <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 16 }}>Que desea hacer con el versículo seleccionado.</Text>
       <TouchableOpacity onPress={onShared}>
         <View style={[styles.rowFlex, { marginBottom: 15, paddingTop: 15, borderTopColor: colors.header, borderTopWidth: 1 }]}>
@@ -554,13 +546,21 @@ const PreviewModal = ({
       
 
     </View>
-  </Modal>
+
+
+      ):
+      (
+        <Text></Text>
+      )
+    }
+    
+    </View>
 );
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 12,
+    //padding: 12,
   },
   numero: {
     paddingHorizontal: 5,
@@ -569,6 +569,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
+    padding: 8
   },
   title: {
     marginBottom: 8,
