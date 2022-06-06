@@ -36,6 +36,7 @@ import { UserContext } from "./Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
 
 import { StatusBar } from 'expo-status-bar';
+import * as NavigationBar from 'expo-navigation-bar';
 
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -47,13 +48,27 @@ const App = ({ navigation, children }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(null);
   const [fontZize, setfontZize] = useState(null);
   const [viewBiblia, setViewBiblia]=useState(true)
-
+  //const visibility = NavigationBar.useVisibility()
+  let navegadorBar = ""
+  //NavigationBar.setBackgroundColorAsync(`${colors.header}`);
+ 
   React.useEffect(() => {
     getData()
     getViewBiblia()
   }, []);
 
+  React.useEffect(()=>{
+    setNav()
+  }, [isDarkTheme])
 
+
+  const setNav = ()=>{
+    if(isDarkTheme===false){
+      navegadorBar = NavigationBar.setBackgroundColorAsync("#ffffff");
+    }else{
+      navegadorBar = NavigationBar.setBackgroundColorAsync("#241c30");
+    }
+  }
 
   const getData = async () => {
     try {
@@ -256,11 +271,9 @@ const App = ({ navigation, children }) => {
         }}
       >
         <NavigationContainer theme={theme}>
-        <StatusBar 
-          //backgroundColor={theme.colors.bar}
-          //barStyle={theme.colors.barStyle}
+        <StatusBar
+          backgroundColor={theme.colors.bar}
           style={theme.colors.barStyle}
-          
           />
           <Stack.Navigator
             screenOptions={{

@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 20,
     marginVertical: 30,
+    marginHorizontal: 20
   },
   socialText: {
     paddingHorizontal: 5,

@@ -13,7 +13,8 @@ import { UserContext } from "../Component/Context/contexUser";
 import {getStart} from '../api.user';
 
 import * as InAppPurchases from 'expo-in-app-purchases';
-import * as NavigationBar from 'expo-navigation-bar';
+//import * as NavigationBar from 'expo-navigation-bar';
+//import { StatusBar } from 'expo-status-bar';
 
 
 const Home = ({ navigation: { navigate } }) => {
@@ -24,7 +25,7 @@ const Home = ({ navigation: { navigate } }) => {
   const { fontZize, setfontZize } = useContext(UserContext);
   const { versionBook, setVersionBook } = useContext(UserContext);
   const { colors } = useTheme();
-  NavigationBar.setBackgroundColorAsync(`${colors.header}`);
+  //NavigationBar.setBackgroundColorAsync(`${colors.header}`);
 
 
   const verseDayDefault = {_id:"622439e198d3618ac7bb1b1c",originCharter:"Genesis 2",numero:7,versiculo:" Entonces Jehová Dios formó al hombre del polvo de la tierra, y sopló en su nariz aliento de vida, y fue el hombre un ser viviente. \n",version:"Reina_Valera_1960",userCreator:"JerryBD",testament:"Antiguo testamento",like:0,view:0,__v:0}
@@ -155,8 +156,7 @@ const Home = ({ navigation: { navigate } }) => {
           <Text style={{ paddingVertical: 10, color: colors.text, textAlign: "center", fontFamily: 'monospace' }}>
             {versionBook}
           </Text>
-
-       
+          
       </View>
 
      
