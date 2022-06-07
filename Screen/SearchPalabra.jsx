@@ -116,7 +116,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
     let httpBAV = "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV"
     let titulo = verseNew.originCharter.toUpperCase()
     let mensage =`
-    ${titulo}
+    ${titulo}:${verseNew.numero}
 
     ${verseNew.versiculo}
 

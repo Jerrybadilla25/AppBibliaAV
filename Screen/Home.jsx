@@ -173,6 +173,8 @@ const Home = ({ navigation: { navigate } }) => {
           paddingVertical: 8,
           minWidth: "32%",
           backgroundColor: colors.header,
+          //borderRadius: 20,
+          //margin: 10
         }}
       >
         <TouchableOpacity onPress={() => navigate("Biblia")}>

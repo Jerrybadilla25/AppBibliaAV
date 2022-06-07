@@ -53,7 +53,7 @@ const SelectCharter = ({route, navigation: { navigate }}) => {
 
 const Preview = ({data, getCharter, colors})=>(
    <ScrollView style={[styles.container, {backgroundColor: colors.background}]}>
-       <Text style={[styles.title, {color: colors.text}]}>{data.book}</Text>
+       <Text style={[styles.title, {color: colors.text, paddingTop: 12}]}>{data.book}</Text>
        <View style={styles.row}>
            {
                data.capitulos.map(item =>(

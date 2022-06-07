@@ -224,7 +224,7 @@ const Charter = ({ route }) => {
     let httpBAV = "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV"
     let titulo = idVerse.originCharter.toUpperCase()
     let mensage =`
-    ${titulo}
+    ${titulo}:${idVerse.numero}
 
     ${idVerse.versiculo}
 
