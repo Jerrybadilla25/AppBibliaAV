@@ -2,7 +2,7 @@
   "expo": {
     "name": "BibliaAV",
     "slug": "BibliaAV",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adat-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 118,
+      "versionCode": 119,
       "package": "com.alientodevida.BibliaAV"
     },
     "web": {

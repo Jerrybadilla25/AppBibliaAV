@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
       paddingVertical: 8,
       paddingHorizontal: 10,
       marginVertical: 30,
+      marginHorizontal: 20
     },
     socialText: {
       paddingHorizontal: 5,
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
       marginHorizontal: 8,
       paddingBottom: 10,
       fontFamily: 'sans-serif-condensed'
+      
     },
   });
 
