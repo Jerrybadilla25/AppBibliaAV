@@ -15,12 +15,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TemaEdit from './UsurData/TemaEdit';
+import Notas from './UsurData/Notas';
 
 const User = ({route, navigation: { navigate } }) => {
   const { colors } = useTheme(); //en uso
   const [likes, setLikes] = useState([]); // en uso
   const [estado, setEstado] = useState("temas"); //en uso
-  const [estadoAct, setEstadoAct] = useState(true); //true pinta rojo temas, false pinta rojo likes
+  const [estadoAct, setEstadoAct] = useState("temas"); //true pinta rojo temas, false pinta rojo likes
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleTwo, setModalVisibleTwo] = useState(false);
   const [modalVisibleTree, setModalVisibleTree] = useState(false);
@@ -168,14 +169,24 @@ const User = ({route, navigation: { navigate } }) => {
 
 
 
-  const changeEstado = () => {
+  const changeEstado = () => { 
     setEstado("temas");
-    setEstadoAct(true);
-
+    setEstadoAct("temas");
   };
+
+  const rediretNotas = ()=>{ 
+    setEstado("notas");
+    setEstadoAct("notas");
+    
+  }
+
+
+
+
   const changeEstadoTemas = () => {
     setEstado("like");
-    setEstadoAct(false);
+    setEstadoAct("like");
+    
   };
 
   const textInputChange = (val) => {
@@ -482,6 +493,10 @@ const User = ({route, navigation: { navigate } }) => {
         </View>
       );
     }
+
+    if(estado === "notas"){
+      return <Notas/>
+    }
   };
 
 
@@ -495,16 +510,16 @@ const User = ({route, navigation: { navigate } }) => {
       <View style={[styles.flex1, { backgroundColor: colors.header }]}>
         <TouchableOpacity onPress={changeEstadoTemas}>
           {
-            estadoAct 
+            estadoAct === "like"
             ? 
-            <View style={[styles.col, { backgroundColor: colors.header}]}>
-              <Ionicons name="heart-outline" size={20} color={colors.text} />
-              <Text style={{ color: colors.text, fontSize: 10 }}>Favoritos</Text>
-            </View>
-            :
             <View style={[styles.col, { backgroundColor: colors.header}]}>
               <Ionicons name="heart-outline" size={20} color={colors.textNumber} />
               <Text style={{ color: colors.textNumber, fontSize: 10 }}>Favoritos</Text>
+            </View>
+            :
+            <View style={[styles.col, { backgroundColor: colors.header}]}>
+              <Ionicons name="heart-outline" size={20} color={colors.text} />
+              <Text style={{ color: colors.text, fontSize: 10 }}>Favoritos</Text>
             </View>
 
           }
@@ -513,7 +528,7 @@ const User = ({route, navigation: { navigate } }) => {
 
         <TouchableOpacity onPress={changeEstado}>
           {
-            estadoAct 
+            estadoAct === "temas"
             ? 
             <View style={[styles.col, { backgroundColor: colors.header}]}>
               <Ionicons name="clipboard-outline" size={20} color={colors.textNumber} />
@@ -526,6 +541,23 @@ const User = ({route, navigation: { navigate } }) => {
             </View>
           }
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={rediretNotas}>
+          {
+            estadoAct === "notas"
+            ? 
+            <View style={[styles.col, { backgroundColor: colors.header}]}>
+              <Ionicons name="pricetag-outline" size={20} color={colors.textNumber} />
+              <Text style={{ color: colors.textNumber,  fontSize: 10}}>Notas</Text>
+            </View>
+           :
+            <View style={[styles.col, { backgroundColor: colors.header}]}>
+              <Ionicons name="pricetag-outline" size={20} color={colors.text} />
+              <Text style={{ color: colors.text,  fontSize: 10}}>Notas</Text>
+            </View>
+          }
+        </TouchableOpacity>
+        
 
         <TouchableOpacity onPress={redirectHelp}>
           <View style={[styles.col, { backgroundColor: colors.header}]}>

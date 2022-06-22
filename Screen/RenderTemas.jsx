@@ -16,59 +16,118 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Rendertemas = ({ route, navigation: { navigate } }) => {
   const { fontZize, setfontZize } = useContext(UserContext);
   const { colors } = useTheme();
-  const [temasVerse, setTemasVerse] = useState({});
+  //const [temasVerse, setTemasVerse] = useState({});
   const [arrayTema, setArrayTema] = useState(); //se llena con el tema y verses
-  const [temas, setTemas]=useState(true)
+  const [arrayState, setArrayState] = useState(false);
+  const [editComent, setEditComent] = useState(false);
+  const [editComentID, setEditComentID] = useState(null);
+  const [temas, setTemas] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [idverse, setIdverse] = useState(null); // en uso
-  
-
-  
+  let comentario = "";
 
   React.useEffect(() => {
     getTemas(route.params._id);
-  }, []);
+  }, [arrayState]);
 
   const getTemas = async (id) => {
     try {
-      let tema = await AsyncStorage.getItem('@storage_Key_Temas')
-      let renderTema1 = JSON.parse(tema)
-      let renderSelect = renderTema1.find(x => x._id === id)
-      setArrayTema(renderSelect)
-      if(renderTema1[0].addVerses.length===0){
-        setTemas(false)
-      }else{
-
+      let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+      let renderTema1 = JSON.parse(tema);
+      let renderSelect = renderTema1.find((x) => x._id === id);
+      //console.log(renderSelect.addVerses[0]);
+      setArrayTema(renderSelect);
+      if (renderTema1[0].addVerses.length === 0) {
+        setTemas(false);
+      } else {
       }
-    } catch (error) {  
-    }
+    } catch (error) {}
   };
 
-  
+  const addComent = async (id) => {
+    try {
+      let newarrayTema = arrayTema;
+      let idx = newarrayTema.addVerses.findIndex((x) => x._id === id);
+      let verse = newarrayTema.addVerses[idx];
+      if (verse.comentario === undefined) {
+        setEditComentID(`${id}`);
+        let coment = { comentario: null };
+        verse = Object.assign(verse, coment);
+        newarrayTema.addVerses.splice(idx, 1, verse);
+        let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+        let renderTema1 = JSON.parse(tema);
+        let idx2 = renderTema1.findIndex((x) => x._id === route.params._id);
+        renderTema1.splice(idx2, 1, newarrayTema);
+        await AsyncStorage.removeItem("@storage_Key_Temas");
+        await AsyncStorage.setItem(
+          "@storage_Key_Temas",
+          JSON.stringify(renderTema1)
+        );
+        setArrayState(!arrayState);
+        setEditComent(true);
+      } else {
+        console.log("estoy en else en addcoment");
+        setEditComent(!editComent);
+        setEditComentID(`${id}`);
+        console.log(editComentID);
+        // no hacer nada
+      }
+    } catch (error) {}
+  };
 
+  const textInputChange3 = (val) => {
+    comentario = val;
+  };
+
+  const addComenMemory = async (id) => {
+    try {
+      let newarrayTema = arrayTema;
+      let idx = newarrayTema.addVerses.findIndex((x) => x._id === id);
+      let verse = newarrayTema.addVerses[idx];
+      verse.comentario = comentario;
+      newarrayTema.addVerses.splice(idx, 1, verse);
+      let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+      let renderTema1 = JSON.parse(tema);
+      let idx2 = renderTema1.findIndex((x) => x._id === route.params._id);
+      renderTema1.splice(idx2, 1, newarrayTema);
+      await AsyncStorage.removeItem("@storage_Key_Temas");
+      await AsyncStorage.setItem(
+        "@storage_Key_Temas",
+        JSON.stringify(renderTema1)
+      );
+      setArrayState(!arrayState);
+      setEditComent(!editComent);
+      setEditComentID(null);
+    } catch (error) {}
+  };
+
+  const editComentSave = (id) => {
+    setEditComentID(`${id}`);
+  };
 
   //abrir modal elimanar versiculo
-  const openModal = id => {
-    setIdverse(id)
-    setModalVisible(!modalVisible)
+  const openModal = (id) => {
+    setIdverse(id);
+    setModalVisible(!modalVisible);
   };
 
   //delete versiculo
   const deleteverse = async () => {
-    let fullTemas = await AsyncStorage.getItem('@storage_Key_Temas')
-    let fullTemasJson = JSON.parse(fullTemas)
-    let idx = fullTemasJson.findIndex(x => x._id===arrayTema._id)
-    let idxDel = arrayTema.addVerses.findIndex(x => x._id ===idverse)
-    arrayTema.addVerses.splice(idxDel, 1)
-    fullTemasJson.splice(idx, 1, arrayTema)
-    await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(fullTemasJson))
-    setArrayTema(arrayTema)
-    setModalVisible(!modalVisible);
+    try {
+      let fullTemas = await AsyncStorage.getItem("@storage_Key_Temas");
+      let fullTemasJson = JSON.parse(fullTemas);
+      let idx = fullTemasJson.findIndex((x) => x._id === arrayTema._id);
+      let idxDel = arrayTema.addVerses.findIndex((x) => x._id === idverse);
+      arrayTema.addVerses.splice(idxDel, 1);
+      fullTemasJson.splice(idx, 1, arrayTema);
+      await AsyncStorage.setItem(
+        "@storage_Key_Temas",
+        JSON.stringify(fullTemasJson)
+      );
+      setArrayTema(arrayTema);
+      setModalVisible(!modalVisible);
+    } catch (error) {}
   };
-
-  
-
-  
 
   return (
     <View
@@ -78,14 +137,18 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
         <PreviewTemas
           arrayTema={arrayTema}
           colors={colors}
-          temasVerse={temasVerse}
+          editComent={editComent}
           openModal={openModal}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           deleteverse={deleteverse}
           fontZize={fontZize}
           temas={temas}
-          
+          addComent={addComent}
+          textInputChange3={textInputChange3}
+          addComenMemory={addComenMemory}
+          editComentID={editComentID}
+          editComentSave={editComentSave}
         />
       ) : (
         <PreviewText colors={colors} />
@@ -97,24 +160,28 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
 const PreviewTemas = ({
   arrayTema,
   colors,
-  temasVerse,
+  editComent,
   openModal,
   modalVisible,
   setModalVisible,
   deleteverse,
   fontZize,
-  temas
-  
+  temas,
+  addComent,
+  textInputChange3,
+  addComenMemory,
+  editComentID,
+  editComentSave,
 }) => (
   <View>
-    <ScrollView >
-        <View style={{flexDirection: "column"}}>
+    <ScrollView>
+      <View style={{ flexDirection: "column" }}>
         <Text
           style={{
             color: colors.text,
-            textAlign: "center",
+            paddingHorizontal: 10,
             fontSize: fontZize.fontsubtitle,
-            fontFamily: 'sans-serif-medium'
+            fontFamily: "sans-serif-medium",
           }}
         >
           {arrayTema.tema}
@@ -122,97 +189,161 @@ const PreviewTemas = ({
         <Text
           style={{
             color: colors.text,
-            textAlign: "left",
-            fontSize: fontZize.fontsubtitle-1,
-            fontFamily: 'sans-serif-condensed',
-            paddingHorizontal: 10,
-            marginBottom: 8
+            fontSize: fontZize.fontsubtitle - 1,
+            fontFamily: "sans-serif-condensed",
+            paddingHorizontal: 16,
+            marginBottom: 8,
           }}
         >
           {arrayTema.description}
         </Text>
-        </View>
-      
+      </View>
 
-
-      
-
-
-
-      
       {arrayTema.addVerses.map((item) => (
         <View
           key={item._id}
           style={[styles.boxverse, { backgroundColor: colors.header }]}
         >
-          <TouchableOpacity onLongPress={() => openModal(item._id)}>
-            <View style={styles.row}>
-              <Text
-                style={{
-                  color: colors.textNumber,
-                  fontSize: fontZize.fonttext,
-                }}
-              >
-                {item.originCharter}- 
-              </Text>
-              <Text
-                style={{
-                  color: colors.textNumber,
-                  fontSize: fontZize.fonttext,
-                  fontFamily: 'sans-serif-medium'
-                }}
-              >
-                 {item.numero}
-              </Text>
+          <View>
+            <View style={[styles.row, { justifyContent: "space-between" }]}>
+              <View style={{ flexDirection: "row" }}>
+                <Text
+                  style={{
+                    color: colors.textNumber,
+                    fontSize: fontZize.fonttext,
+                  }}
+                >
+                  {item.originCharter}-
+                </Text>
+                <Text
+                  style={{
+                    color: colors.textNumber,
+                    fontSize: fontZize.fonttext,
+                    fontFamily: "sans-serif-medium",
+                  }}
+                >
+                  {item.numero}
+                </Text>
+              </View>
+              {item.comentario !== undefined ? (
+                <TouchableOpacity onPress={() => editComentSave(item._id)}>
+                  <Ionicons
+                    name="repeat"
+                    size={24}
+                    color={colors.text}
+                    style={{ paddingRight: 10 }}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={() => addComent(item._id)}>
+                  <Ionicons
+                    name="chatbox-ellipses-outline"
+                    size={24}
+                    color={colors.text}
+                    style={{ paddingRight: 10 }}
+                  />
+                </TouchableOpacity>
+              )}
             </View>
-            <Text
-              style={{
-                color: colors.text,
-                fontSize: fontZize.fonttext,
-                textAlign: "left",
-                fontFamily: 'sans-serif-condensed'
-              }}
-            >
-              {item.versiculo}
-            </Text>
+
+            <TouchableOpacity onLongPress={() => openModal(item._id)}>
+              <Text
+                style={{
+                  color: colors.text,
+                  fontSize: fontZize.fonttext,
+                  textAlign: "left",
+                  fontFamily: "sans-serif-condensed",
+                }}
+              >
+                {item.versiculo}
+              </Text>
+            </TouchableOpacity>
+
             <Text
               style={{
                 color: colors.text,
                 fontSize: 10,
                 textAlign: "right",
                 paddingTop: 14,
-                paddingBottom: 8
+                paddingBottom: 8,
               }}
             >
               {item.version}
             </Text>
-          </TouchableOpacity>
-        
 
-        
-
+            {item.comentario !== undefined && (
+              <View
+                style={{
+                  backgroundColor: colors.background,
+                  padding: 10,
+                  borderRadius: 8,
+                }}
+              >
+                <Text
+                  style={{
+                    color: colors.textNumber,
+                    fontFamily: "sans-serif-thin",
+                  }}
+                >
+                  Comentario:
+                </Text>
+                {editComentID === item._id ? (
+                  <View>
+                    <TextInput
+                      onChangeText={(val) => textInputChange3(val)}
+                      style={{ color: colors.text }}
+                      placeholder="Agregue un comentario"
+                      placeholderTextColor={colors.inputHolder}
+                      defaultValue={item.comentario}
+                      multiline={true}
+                      numberOfLines={10}
+                      textAlignVertical="top"
+                    />
+                    <TouchableOpacity onPress={() => addComenMemory(item._id)}>
+                      <Text
+                        style={[
+                          styles.butonEdit,
+                          {
+                            backgroundColor: colors.boxTema,
+                            color: colors.text,
+                          },
+                        ]}
+                      >
+                        Guardar
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <Text style={{ color: colors.text, fontSize: fontZize.fonttext-2 }}>{item.comentario}</Text>
+                )}
+              </View>
+            )}
+          </View>
         </View>
-
       ))}
 
-      {
-        temas ? <View></View>
-        :
-        <View style={[styles.box, {borderColor: colors.header, borderWidth: 1}]}>
-              <Text
-              style={[styles.title,{color:colors.text }]}
-              >Puedes agregar versículos a este tema, desde la pantalla de lectura de capítulos.</Text>
-              <Text
-              style={[styles.title,{color:colors.text }]}
-              >Presiona el icono  <Ionicons
+      {temas ? (
+        <View></View>
+      ) : (
+        <View
+          style={[styles.box, { borderColor: colors.header, borderWidth: 1 }]}
+        >
+          <Text style={[styles.title, { color: colors.text }]}>
+            Puedes agregar versículos a este tema, desde la pantalla de lectura
+            de capítulos.
+          </Text>
+          <Text style={[styles.title, { color: colors.text }]}>
+            Presiona el icono{" "}
+            <Ionicons
               name="ios-bookmarks-outline"
               size={16}
-              
               color={colors.text}
-            />  en la parte superior para dirigirte a la BibliaAV y agregar versículos.</Text>
+            />{" "}
+            en la parte superior para dirigirte a la BibliaAV y agregar
+            versículos.
+          </Text>
         </View>
-      }
-      
+      )}
     </ScrollView>
 
     <ModalDelete
@@ -253,8 +384,8 @@ const ModalDelete = ({
               color: colors.background,
               textAlign: "center",
               marginBottom: 25,
-              fontFamily: 'sans-serif-medium',
-              fontSize: 16
+              fontFamily: "sans-serif-medium",
+              fontSize: 16,
             }}
           >
             Eliminar versiculo
@@ -301,16 +432,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 10,
     textAlign: "left",
-    fontFamily: 'sans-serif-thin',
+    fontFamily: "sans-serif-thin",
   },
   textInput: {
     padding: 10,
-    marginBottom: 40
+    marginBottom: 40,
   },
   box: {
     padding: 30,
-    marginHorizontal: 20
-  }
+    marginHorizontal: 20,
+  },
+  butonEdit: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    width: 100,
+    borderRadius: 12,
+    textAlign: "center",
+  },
 });
 
 export default Rendertemas;

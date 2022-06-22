@@ -4,7 +4,7 @@
     "slug": "BibliaAV",
     "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/adat-icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
