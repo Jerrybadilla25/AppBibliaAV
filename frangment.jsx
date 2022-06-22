@@ -20,10 +20,37 @@
 /*
 
 {
-  modalVisible ? 
-  :
-  
-}
+  <View style={{flexDirection: "row", justifyContent:"space-between"}}>
+                    <TouchableOpacity onPress={() => addComenMemory(item._id)}>
+                      <Text
+                        style={[
+                          styles.butonEdit,
+                          {
+                            backgroundColor: colors.boxTema,
+                            color: colors.text,
+                          },
+                        ]}
+                      >
+                        Guardar
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => deleteComenMemory(item._id)}>
+                      <Text
+                        style={[
+                          styles.butonEdit,
+                          {
+                            backgroundColor: colors.textNumber,
+                            color: colors.text,
+                          },
+                        ]}
+                      >
+                        Eliminar
+                      </Text>
+                    </TouchableOpacity>
+                    </View>
+ 
 
 
 */
+
+

@@ -141,7 +141,7 @@ const Notas = () => {
 
     
     return (
-      <View>
+      <View style={{paddingBottom: 8}}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text
             style={{
@@ -233,8 +233,8 @@ const Notas = () => {
                         style={{
                           color: colors.textNumber,
                           fontFamily: 'sans-serif-medium',
-                          paddingBottom: 10,
-                          fontSize: fontZize.fontsubtitle-4,
+                          paddingBottom: 5,
+                          fontSize: fontZize.fontsubtitle-3,
                           width: "90%"
                         }}
                       >
@@ -299,7 +299,7 @@ const Notas = () => {
                       style={{
                         color: colors.text,
                         fontFamily: 'sans-serif-thin',
-                        paddingBottom: 8,
+                        paddingBottom: 10,
                         fontSize: fontZize.fontsubtitle-6,
                       }}
                     >

@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   Modal,
+  Button
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
@@ -316,35 +317,23 @@ const PreviewTemas = ({
                       placeholderTextColor={colors.inputHolder}
                       defaultValue={item.comentario}
                       multiline={true}
-                      numberOfLines={10}
+                      numberOfLines={6}
                       textAlignVertical="top"
                     />
-                    <View style={{flexDirection: "row", justifyContent:"space-between"}}>
-                    <TouchableOpacity onPress={() => addComenMemory(item._id)}>
-                      <Text
-                        style={[
-                          styles.butonEdit,
-                          {
-                            backgroundColor: colors.boxTema,
-                            color: colors.text,
-                          },
-                        ]}
-                      >
-                        Guardar
-                      </Text>
+                    <View style={{flexDirection: "row", justifyContent: "space-around"}}>
+                    <TouchableOpacity >
+                      <Button
+                      title="Guardar"
+                      color={colors.header}
+                      onPress={() => addComenMemory(item._id)}
+                      />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => deleteComenMemory(item._id)}>
-                      <Text
-                        style={[
-                          styles.butonEdit,
-                          {
-                            backgroundColor: colors.textNumber,
-                            color: colors.text,
-                          },
-                        ]}
-                      >
-                        Eliminar
-                      </Text>
+                    <TouchableOpacity >
+                      <Button
+                      title="Eliminar"
+                      color={colors.textNumber}
+                      onPress={() => deleteComenMemory(item._id)}
+                      />
                     </TouchableOpacity>
                     </View>
                   </View>
@@ -412,7 +401,7 @@ const ModalDelete = ({
     }}
   >
     <View style={styles.modalView}>
-      <View style={[styles.buton, { backgroundColor: colors.text }]}>
+    <View style={[styles.buton, { backgroundColor: colors.text }]}>
         <TouchableOpacity onPress={deleteverse}>
           <Text
             style={{
@@ -478,13 +467,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   butonEdit: {
-    paddingVertical: 12,
+    paddingVertical: 8,
     paddingHorizontal: 8,
-    width: 190,
     borderRadius: 8,
     textAlign: "center",
     fontFamily: "sans-serif-medium",
-    fontWeight: "bold"
+    width: 150
   },
 });
 
