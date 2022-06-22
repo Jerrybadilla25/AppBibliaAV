@@ -24,12 +24,14 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
   const [temas, setTemas] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [idverse, setIdverse] = useState(null); // en uso
-  let comentario = "";
+  const [comentario, setComentario]=useState("")
+  //let comentario = "";
 
   React.useEffect(() => {
     getTemas(route.params._id);
   }, [arrayState]);
 
+  
   const getTemas = async (id) => {
     try {
       let tema = await AsyncStorage.getItem("@storage_Key_Temas");
@@ -66,17 +68,17 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
         setArrayState(!arrayState);
         setEditComent(true);
       } else {
-        console.log("estoy en else en addcoment");
         setEditComent(!editComent);
         setEditComentID(`${id}`);
-        console.log(editComentID);
         // no hacer nada
       }
     } catch (error) {}
   };
 
   const textInputChange3 = (val) => {
-    comentario = val;
+    //console.log(val)
+    setComentario(val)
+    //comentario = val;
   };
 
   const addComenMemory = async (id) => {
@@ -104,6 +106,22 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
   const editComentSave = (id) => {
     setEditComentID(`${id}`);
   };
+
+  const deleteComenMemory = async (id)=>{
+      try {
+        let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+        let renderTema1 = JSON.parse(tema);
+        let idx2 = renderTema1.findIndex((w) => w._id === route.params._id)
+        let idx = renderTema1[idx2].addVerses.findIndex(x => x._id === id)
+        let verse = renderTema1[idx2].addVerses[idx]
+        delete verse.comentario
+        renderTema1[idx2].addVerses.splice(idx, 1, verse)
+        await AsyncStorage.setItem("@storage_Key_Temas", JSON.stringify(renderTema1))
+        setArrayState(!arrayState);
+      } catch (error) {
+        
+      }
+  }
 
   //abrir modal elimanar versiculo
   const openModal = (id) => {
@@ -149,6 +167,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
           addComenMemory={addComenMemory}
           editComentID={editComentID}
           editComentSave={editComentSave}
+          deleteComenMemory={deleteComenMemory}
         />
       ) : (
         <PreviewText colors={colors} />
@@ -172,6 +191,7 @@ const PreviewTemas = ({
   addComenMemory,
   editComentID,
   editComentSave,
+  deleteComenMemory
 }) => (
   <View>
     <ScrollView>
@@ -299,6 +319,7 @@ const PreviewTemas = ({
                       numberOfLines={10}
                       textAlignVertical="top"
                     />
+                    <View style={{flexDirection: "row", justifyContent:"space-between"}}>
                     <TouchableOpacity onPress={() => addComenMemory(item._id)}>
                       <Text
                         style={[
@@ -312,6 +333,20 @@ const PreviewTemas = ({
                         Guardar
                       </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => deleteComenMemory(item._id)}>
+                      <Text
+                        style={[
+                          styles.butonEdit,
+                          {
+                            backgroundColor: colors.textNumber,
+                            color: colors.text,
+                          },
+                        ]}
+                      >
+                        Eliminar
+                      </Text>
+                    </TouchableOpacity>
+                    </View>
                   </View>
                 ) : (
                   <Text style={{ color: colors.text, fontSize: fontZize.fonttext-2 }}>{item.comentario}</Text>
@@ -443,11 +478,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   butonEdit: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    width: 100,
-    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    width: 190,
+    borderRadius: 8,
     textAlign: "center",
+    fontFamily: "sans-serif-medium",
+    fontWeight: "bold"
   },
 });
 

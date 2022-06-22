@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, ScrollView, TouchableOpacity, TextInput } from 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { UserContext } from "../../Component/Context/contexUser";
+import { UserContext } from "../Component/Context/contexUser";
 
 
 const Notas = () => {
@@ -233,8 +233,8 @@ const Notas = () => {
                         style={{
                           color: colors.textNumber,
                           fontFamily: 'sans-serif-medium',
-                          paddingVertical: 10,
-                          fontSize: fontZize.fontsubtitle-2,
+                          paddingBottom: 10,
+                          fontSize: fontZize.fontsubtitle-4,
                           width: "90%"
                         }}
                       >
@@ -299,8 +299,8 @@ const Notas = () => {
                       style={{
                         color: colors.text,
                         fontFamily: 'sans-serif-thin',
-                        paddingBottom: 10,
-                        fontSize: fontZize.fontsubtitle-2,
+                        paddingBottom: 8,
+                        fontSize: fontZize.fontsubtitle-6,
                       }}
                     >
                       {x.subtitle}
@@ -310,7 +310,7 @@ const Notas = () => {
                     <Text
                       style={{
                         color: colors.text,
-                        paddingBottom: 10,
+                        paddingBottom: 8,
                         fontSize: fontZize.fonttext-2,
                       }}
                     >
@@ -345,9 +345,11 @@ const styles = StyleSheet.create({
         textAlign: "center"
       },
       boxNota:{
-        paddingHorizontal: 20,
+        borderRadius: 8,
+        paddingHorizontal: 12,
         paddingVertical: 10,
         marginVertical: 5,
+        marginHorizontal: 8
         
       },
       

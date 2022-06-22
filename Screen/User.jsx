@@ -25,7 +25,7 @@ const User = ({route, navigation: { navigate } }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleTwo, setModalVisibleTwo] = useState(false);
   const [modalVisibleTree, setModalVisibleTree] = useState(false);
-  const [temas, setTemas] = useState([]);
+  const [temas, setTemas] = useState(null);
   const [title, setTitle]=useState(null); //guarda id tema
   const [titleBoolean, setTitleBoolen]=useState(false); //si existe msj titulo en blanco
   const [Msjtitle, setMsjtitle]=useState(null); //guarda id tema
@@ -50,9 +50,16 @@ const User = ({route, navigation: { navigate } }) => {
 
   //en uso
   React.useEffect(() => {
+    //deleteAll()
     getUserLikes();
     getTemasUser();
   }, []);
+
+  /*
+  const deleteAll = async ()=>{
+    await AsyncStorage.removeItem("@storage_Key_Temas")
+  }
+  */
 
 
   //en uso
@@ -114,12 +121,23 @@ const User = ({route, navigation: { navigate } }) => {
           comentario: "",
           addVerses : []
         }
-      arrayTemas.push(temaNew)
-      await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(arrayTemas))
-      setTemas(arrayTemas);
-      setMsjtitle(null)
-      setTitleBoolen(false)
-      setModalVisible(!modalVisible);
+        if(arrayTemas===null){
+          let arrayTema = []
+          arrayTema.push(temaNew)
+          await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(arrayTema))
+          setTemas(arrayTema);
+          setMsjtitle(null)
+          setTitleBoolen(false)
+          setModalVisible(!modalVisible);
+        }else{
+          arrayTemas.push(temaNew)
+          await AsyncStorage.setItem('@storage_Key_Temas', JSON.stringify(arrayTemas))
+          setTemas(arrayTemas);
+          setMsjtitle(null)
+          setTitleBoolen(false)
+          setModalVisible(!modalVisible);
+        }
+    
       }else{
         setMsjtitle("El tema es requerido")
         setTitleBoolen(true)
@@ -134,7 +152,12 @@ const User = ({route, navigation: { navigate } }) => {
     try {
       let tema = await AsyncStorage.getItem('@storage_Key_Temas')
       let arrayTemasjson = JSON.parse(tema)
-      setTemas(arrayTemasjson);
+      if(arrayTemasjson===null){
+        //setTemas([{_id: "1", tema: "ejemplo", description: "description"}])
+      }else{
+        setTemas(arrayTemasjson);
+      }
+      
     } catch (error) {
       
     }
@@ -175,9 +198,7 @@ const User = ({route, navigation: { navigate } }) => {
   };
 
   const rediretNotas = ()=>{ 
-    setEstado("notas");
-    setEstadoAct("notas");
-    
+    navigate('Notas')
   }
 
 
@@ -199,20 +220,12 @@ const User = ({route, navigation: { navigate } }) => {
 
   
   
-  
-
-  
 
   const cerrarModalTwo = ()=>{
     setModalVisibleTwo(!modalVisibleTwo)
   }
 
   
-
-  
-
-
-
   const redirectHelp = ()=>{
     navigate('Help');
   }
@@ -494,9 +507,11 @@ const User = ({route, navigation: { navigate } }) => {
       );
     }
 
+    
     if(estado === "notas"){
       return <Notas/>
     }
+    
   };
 
 
