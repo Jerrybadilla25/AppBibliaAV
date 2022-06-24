@@ -209,7 +209,7 @@ const Notas = () => {
   //render uno sola nota
   if (renderView === false) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {backgroundColor: colors.header}]}>
         <View
           style={{
             flexDirection: "row",
@@ -239,7 +239,7 @@ const Notas = () => {
             placeholder="Titulo"
             placeholderTextColor={colors.inputHolder}
             defaultValue={newNota.title}
-            //multiline={true}
+            multiline={true}
             //numberOfLines={10}
             //textAlignVertical="top"
           />
@@ -254,7 +254,7 @@ const Notas = () => {
             placeholder="Subtitulo"
             placeholderTextColor={colors.inputHolder}
             defaultValue={newNota.subtitle}
-            //multiline={true}
+            multiline={true}
             //numberOfLines={10}
             //textAlignVertical="top"
           />
@@ -263,7 +263,7 @@ const Notas = () => {
             style={{
               color: colors.text,
               marginBottom: 5,
-              marginTop: 14,
+              marginTop: 8,
               fontSize: fontZize.fonttext,
               fontFamily: "sans-serif-medium",
             }}
@@ -348,14 +348,13 @@ const Notas = () => {
   //render todas las notas
   if (renderView === true) {
     return (
-      <View style={{ flex: 1, paddingBottom: 8, marginTop: 15 }}>
+      <View style={{ flex: 1, paddingBottom: 8, paddingTop: 15, backgroundColor: colors.header }}>
         
           <ScrollView style={{ marginBottom: 8 }}>
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "flex-start",
-                //alignSelf: "auto",
                 flexWrap: "wrap",
               }}
             >
@@ -366,7 +365,7 @@ const Notas = () => {
                       key={x._id}
                       style={[
                         styles.boxNota,
-                        { backgroundColor: colors.header },
+                        { borderColor: colors.text },
                       ]}
                     >
                       <TouchableOpacity onPress={() => viewAllNote(x._id)}>
@@ -437,7 +436,7 @@ const Notas = () => {
             backgroundColor: colors.background,
             borderRadius: 50,
             borderColor: colors.text,
-            borderWidth: 4
+            borderWidth: 3
           }}
         >
           <TouchableOpacity onPress={addNewNota}>
@@ -469,6 +468,7 @@ const styles = StyleSheet.create({
   },
   boxNota: {
     width: "48%",
+    borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 10,

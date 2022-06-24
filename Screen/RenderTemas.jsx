@@ -231,9 +231,9 @@ const PreviewTemas = ({
         <Text
           style={{
             color: colors.text,
-            fontSize: fontZize.fontsubtitle - 1,
+            fontSize: fontZize.fontsubtitle -3,
             fontFamily: "sans-serif-condensed",
-            paddingHorizontal: 16,
+            paddingHorizontal: 10,
             marginBottom: 8,
           }}
         >
@@ -334,19 +334,19 @@ const PreviewTemas = ({
                   <View>
                     <TextInput
                       onChangeText={(val) => textInputChange3(val)}
-                      style={{ color: colors.text, fontSize: fontZize.fonttext-2 }}
+                      style={{ color: colors.text, fontSize: fontZize.fonttext-4 }}
                       placeholder="Agregue un comentario"
                       placeholderTextColor={colors.inputHolder}
                       defaultValue={item.comentario}
                       multiline={true}
-                      numberOfLines={6}
+                      numberOfLines={4}
                       textAlignVertical="top"
                     />
                     <View style={{flexDirection: "row", justifyContent: "space-around"}}>
                     <TouchableOpacity >
                       <Button
                       title="Guardar"
-                      color={colors.header}
+                      color={colors.inputHolder}
                       onPress={() => addComenMemory(item._id)}
                       />
                     </TouchableOpacity>
@@ -360,7 +360,7 @@ const PreviewTemas = ({
                     </View>
                   </View>
                 ) : (
-                  <Text style={{ color: colors.text, fontSize: fontZize.fonttext-4, padding: 6 }}>{item.comentario}</Text>
+                  <Text style={{ color: colors.text, fontSize: fontZize.fonttext-6, padding: 6 }}>{item.comentario}</Text>
                 )}
               </View>
             )}

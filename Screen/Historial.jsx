@@ -218,9 +218,10 @@ const styles = StyleSheet.create({
  },
  texthistorial:{
     fontFamily: 'sans-serif-condensed',
-    textAlign: "center",
+    textAlign: "left",
     paddingVertical: 12,
-    marginHorizontal: 35,
+    paddingLeft: 60,
+    marginHorizontal: 50,
     marginVertical: 4,
     borderRadius: 8
  },
