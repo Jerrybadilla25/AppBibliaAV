@@ -93,13 +93,10 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
   const addVerseTema = async id=>{
     try {
       let temaSelect = temas.find(x => x._id === id)
-      //console.log(temaSelect)
-      //console.log(verseNew)
       let validar = temaSelect.addVerses.find(x => x._id === verseNew._id)
       if(validar){
         setModalVisible(!modalVisible);
         createTwoButtonAlert(temaSelect.tema)
-        //console.log("El versiculo ya exixte")
       }else{
         temaSelect.addVerses.push(verseNew)
         let idx = temas.findIndex(x => x._id === id)

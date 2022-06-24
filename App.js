@@ -31,7 +31,8 @@ import HelpScreen from './Screen/Help'
 import PoliticaScreen from './Screen/Politica'
 import SearchPalabra from './Screen/SearchPalabra';
 import HistorialScreen from './Screen/Historial';
-import ScreenNotas from './Screen/Notas';
+//import ScreenNotas from './Screen/Notas';
+import ScreenNotas from './Screen/NotasDos';
 
 import { UserContext } from "./Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
@@ -46,7 +47,7 @@ const Stack = createNativeStackNavigator();
 
 const App = ({ navigation, children }) => {
   const [versionBook, setVersionBook] = useState(null);
-  const [isDarkTheme, setIsDarkTheme] = useState(null);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [fontZize, setfontZize] = useState(null);
   const [viewBiblia, setViewBiblia]=useState(true)
   //const visibility = NavigationBar.useVisibility()
@@ -78,7 +79,7 @@ const App = ({ navigation, children }) => {
       if (valueJson !== null) {
         setIsDarkTheme(valueJson);
       } else {
-        setIsDarkTheme(true);
+        //setIsDarkTheme(false);
       }
     } catch (e) {
       // error reading value

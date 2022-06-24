@@ -38,7 +38,6 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
       let tema = await AsyncStorage.getItem("@storage_Key_Temas");
       let renderTema1 = JSON.parse(tema);
       let renderSelect = renderTema1.find((x) => x._id === id);
-      //console.log(renderSelect.addVerses[0]);
       setArrayTema(renderSelect);
       if (renderTema1[0].addVerses.length === 0) {
         setTemas(false);
@@ -77,7 +76,6 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
   };
 
   const textInputChange3 = (val) => {
-    //console.log(val)
     setComentario(val)
     //comentario = val;
   };
@@ -87,25 +85,48 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
       let newarrayTema = arrayTema;
       let idx = newarrayTema.addVerses.findIndex((x) => x._id === id);
       let verse = newarrayTema.addVerses[idx];
-      verse.comentario = comentario;
-      newarrayTema.addVerses.splice(idx, 1, verse);
-      let tema = await AsyncStorage.getItem("@storage_Key_Temas");
-      let renderTema1 = JSON.parse(tema);
-      let idx2 = renderTema1.findIndex((x) => x._id === route.params._id);
-      renderTema1.splice(idx2, 1, newarrayTema);
-      await AsyncStorage.removeItem("@storage_Key_Temas");
-      await AsyncStorage.setItem(
-        "@storage_Key_Temas",
-        JSON.stringify(renderTema1)
-      );
-      setArrayState(!arrayState);
-      setEditComent(!editComent);
-      setEditComentID(null);
+      if(verse.comentario===null){
+        verse.comentario = comentario;
+        newarrayTema.addVerses.splice(idx, 1, verse);
+        let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+        let renderTema1 = JSON.parse(tema);
+        let idx2 = renderTema1.findIndex((x) => x._id === route.params._id);
+        renderTema1.splice(idx2, 1, newarrayTema);
+        await AsyncStorage.removeItem("@storage_Key_Temas");
+        await AsyncStorage.setItem(
+          "@storage_Key_Temas",
+          JSON.stringify(renderTema1)
+        );
+        setArrayState(!arrayState);
+        setEditComent(!editComent);
+        setEditComentID(null);
+      }else{
+        let coment = verse.comentario
+        verse.comentario = coment;
+        newarrayTema.addVerses.splice(idx, 1, verse);
+        let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+        let renderTema1 = JSON.parse(tema);
+        let idx2 = renderTema1.findIndex((x) => x._id === route.params._id);
+        renderTema1.splice(idx2, 1, newarrayTema);
+        await AsyncStorage.removeItem("@storage_Key_Temas");
+        await AsyncStorage.setItem(
+          "@storage_Key_Temas",
+          JSON.stringify(renderTema1)
+        );
+        setArrayState(!arrayState);
+        setEditComent(!editComent);
+        setEditComentID(null);
+      }
+      
     } catch (error) {}
   };
 
   const editComentSave = (id) => {
-    setEditComentID(`${id}`);
+    if(editComentID===id){
+      setEditComentID("1")
+    }else{
+      setEditComentID(`${id}`);
+    }
   };
 
   const deleteComenMemory = async (id)=>{
@@ -249,7 +270,7 @@ const PreviewTemas = ({
               {item.comentario !== undefined ? (
                 <TouchableOpacity onPress={() => editComentSave(item._id)}>
                   <Ionicons
-                    name="repeat"
+                    name="ellipsis-horizontal-sharp"
                     size={24}
                     color={colors.text}
                     style={{ paddingRight: 10 }}
@@ -297,6 +318,7 @@ const PreviewTemas = ({
                 style={{
                   backgroundColor: colors.background,
                   padding: 10,
+                  marginBottom:4,
                   borderRadius: 8,
                 }}
               >
@@ -312,7 +334,7 @@ const PreviewTemas = ({
                   <View>
                     <TextInput
                       onChangeText={(val) => textInputChange3(val)}
-                      style={{ color: colors.text }}
+                      style={{ color: colors.text, fontSize: fontZize.fonttext-2 }}
                       placeholder="Agregue un comentario"
                       placeholderTextColor={colors.inputHolder}
                       defaultValue={item.comentario}
@@ -338,7 +360,7 @@ const PreviewTemas = ({
                     </View>
                   </View>
                 ) : (
-                  <Text style={{ color: colors.text, fontSize: fontZize.fonttext-2 }}>{item.comentario}</Text>
+                  <Text style={{ color: colors.text, fontSize: fontZize.fonttext-4, padding: 6 }}>{item.comentario}</Text>
                 )}
               </View>
             )}

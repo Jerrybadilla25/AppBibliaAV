@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import TemaEdit from './UsurData/TemaEdit';
 import Notas from './UsurData/Notas';
 
+
 const User = ({route, navigation: { navigate } }) => {
   const { colors } = useTheme(); //en uso
   const [likes, setLikes] = useState([]); // en uso
@@ -48,6 +49,8 @@ const User = ({route, navigation: { navigate } }) => {
 
 
 
+
+
   //en uso
   React.useEffect(() => {
     //deleteAll()
@@ -60,6 +63,7 @@ const User = ({route, navigation: { navigate } }) => {
     await AsyncStorage.removeItem("@storage_Key_Temas")
   }
   */
+
 
 
   //en uso
@@ -511,6 +515,8 @@ const User = ({route, navigation: { navigate } }) => {
     if(estado === "notas"){
       return <Notas/>
     }
+
+    return (<Text>Cargando</Text>)
     
   };
 

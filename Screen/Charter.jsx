@@ -208,7 +208,6 @@ const Charter = ({ route }) => {
       if (validar) {
         setModalVisible(!modalVisible);
         createTwoButtonAlert(temaSelect.tema);
-        //console.log("el versiculo ya existe")
       } else {
         temaSelect.addVerses.push(idVerse);
         let idx = temas.findIndex((x) => x._id === id);

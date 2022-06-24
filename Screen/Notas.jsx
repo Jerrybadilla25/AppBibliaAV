@@ -13,7 +13,7 @@ const Notas = () => {
     const [estadoNewNota, setEstadoNewNota]=useState(false) // boton new Nota
     const [controlRender, setControlRender]=useState(false) //use efect renderiza al cambiar
     const [getNotas, setGetNOtas]=useState(null) //array de notas
-    //const [addmas, setAddMas]=useState(false)
+    const [renderView, setRenderView]=useState(true) // true render lista de notas // false visualiza unica nota
     const [addID, setAddID]=useState(null)
 
     const [newNota, setNewNota]=useState({
@@ -138,9 +138,15 @@ const Notas = () => {
         })
       }; 
 
+    if(renderView===false){
+      return (
+        <Text>hola nota unica</Text>
+      )
+    }  
 
-    
-    return (
+
+    if(renderView===true){
+      return (
       <View style={{paddingBottom: 8}}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text
@@ -216,10 +222,11 @@ const Notas = () => {
           </View>
         ) : (
           <ScrollView style={{ marginBottom: 70 }}>
-            {getNotas !== null && (
+           <View style={{flexDirection: "row", justifyContent: "flex-start", flexWrap: "wrap"}}>
+           {getNotas !== null && (
               <>
                 {getNotas.map((x) => (
-                  <View
+                    <View
                     key={x._id}
                     style={[styles.boxNota, { backgroundColor: colors.header }]}
                   >
@@ -317,13 +324,17 @@ const Notas = () => {
                       {x.descripcion}
                     </Text>
                   </View>
+                  
                 ))}
               </>
             )}
+           </View>
           </ScrollView>
         )}
       </View>
     );
+    }
+    
 }
 
 const styles = StyleSheet.create({
@@ -345,11 +356,12 @@ const styles = StyleSheet.create({
         textAlign: "center"
       },
       boxNota:{
+        width: "48%",
         borderRadius: 8,
-        paddingHorizontal: 12,
+        paddingHorizontal: 10,
         paddingVertical: 10,
-        marginVertical: 5,
-        marginHorizontal: 8
+        marginVertical: "1%",
+        marginHorizontal: "1%"
         
       },
       
