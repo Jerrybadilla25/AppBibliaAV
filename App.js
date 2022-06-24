@@ -33,6 +33,7 @@ import SearchPalabra from './Screen/SearchPalabra';
 import HistorialScreen from './Screen/Historial';
 //import ScreenNotas from './Screen/Notas';
 import ScreenNotas from './Screen/NotasDos';
+import NewNota from './Screen/NewNota';
 
 import { UserContext } from "./Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
@@ -448,6 +449,46 @@ const App = ({ navigation, children }) => {
               <Stack.Screen
               name="Notas"
               component={ScreenNotas}
+              options={({ navigation })=>({
+                headerStyle: { backgroundColor: theme.colors.header },
+                headerTitleStyle: { color: theme.colors.textHeader },
+                headerRight: () => (
+                  <View style={{flexDirection: "row"}}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+                    <Ionicons
+                      style={{ paddingEnd: 30 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-timer-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="home-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+
+                  </View>
+                  
+                ),
+              })}
+            />
+
+            <Stack.Screen
+              name="Nueva Nota"
+              component={NewNota}
               options={({ navigation })=>({
                 headerStyle: { backgroundColor: theme.colors.header },
                 headerTitleStyle: { color: theme.colors.textHeader },

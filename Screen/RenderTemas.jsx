@@ -360,7 +360,7 @@ const PreviewTemas = ({
                     </View>
                   </View>
                 ) : (
-                  <Text style={{ color: colors.text, fontSize: fontZize.fonttext-6, padding: 6 }}>{item.comentario}</Text>
+                  <Text style={{ color: colors.text, fontSize: fontZize.fonttext-4, padding: 6 }}>{item.comentario}</Text>
                 )}
               </View>
             )}

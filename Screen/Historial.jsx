@@ -220,8 +220,8 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-condensed',
     textAlign: "left",
     paddingVertical: 12,
-    paddingLeft: 60,
-    marginHorizontal: 50,
+    paddingLeft: 40,
+    marginHorizontal: 20,
     marginVertical: 4,
     borderRadius: 8
  },

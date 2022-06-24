@@ -4,8 +4,7 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  TouchableOpacity,
-  TextInput,
+  TouchableOpacity
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,21 +12,15 @@ import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { UserContext } from "../Component/Context/contexUser";
 
-const Notas = () => {
+const Notas = ({ navigation }) => {
   const { colors } = useTheme(); //en uso
   const { fontZize, setfontZize } = useContext(UserContext); //en uso
-  const [estadoNewNota, setEstadoNewNota] = useState(true); // boton new Nota
   const [controlRender, setControlRender] = useState(false); //use efect renderiza al cambiar
   const [getNotas, setGetNOtas] = useState(null); //array de notas
   const [renderView, setRenderView] = useState(true); // true render lista de notas // false visualiza unica nota
-  const [addID, setAddID] = useState(false);
 
-  const [newNota, setNewNota] = useState({
-    title: "",
-    subtitle: "",
-    descripcion: "",
-    _id: null,
-  });
+  
+  
 
   const generateUUID = () => {
     var d = new Date().getTime();
@@ -42,43 +35,33 @@ const Notas = () => {
     return uuid;
   };
 
+  
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setControlRender(!controlRender)
+      // Call any action
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+
+
   React.useEffect(() => {
     obtNotas();
   }, [controlRender]);
 
   const viewAllNote = (id) => {
-    let oneNota = getNotas.find((x) => x._id === id);
-    setNewNota(oneNota);
-    setRenderView(false);
+    setControlRender(!renderView)
+    navigation.navigate("Nueva Nota", {_id: id})
   };
 
-  const autoSaveNota = async () => {
-    //await AsyncStorage.removeItem("@storage_Key_Notas")
 
-    let notas = await AsyncStorage.getItem("@storage_Key_Notas");
-    let jsonNota = JSON.parse(notas);
-    if (jsonNota === null) {
-      let arrayN = [];
-      arrayN.push(newNota);
-
-      await AsyncStorage.setItem("@storage_Key_Notas", JSON.stringify(arrayN));
-    } else {
-      let idx = jsonNota.findIndex((x) => x._id === newNota._id);
-      if (idx >= 0) {
-        jsonNota.splice(idx, 1, newNota);
-
-        await AsyncStorage.setItem(
-          "@storage_Key_Notas",
-          JSON.stringify(jsonNota)
-        );
-      } else {
-        jsonNota.unshift(newNota);
-        await AsyncStorage.setItem(
-          "@storage_Key_Notas",
-          JSON.stringify(jsonNota)
-        );
-      }
-    }
+  const addNewNota = () => {
+    let id = generateUUID()
+    setControlRender(!renderView)
+    navigation.navigate("Nueva Nota", {_id: id})
   };
 
   const obtNotas = async () => {
@@ -87,268 +70,16 @@ const Notas = () => {
     if (jsonArrayNotas === null) {
       // no hacer nada
     } else {
+      //await AsyncStorage.removeItem("@storage_Key_Notas")
       setGetNOtas(jsonArrayNotas);
-      //setEstadoNewNota(true)
     }
   };
 
-  const deleteNota = async () => {
-    let notas = getNotas;
-    let idx = notas.findIndex((x) => x._id === newNota._id);
-    notas.splice(idx, 1);
-    await AsyncStorage.setItem("@storage_Key_Notas", JSON.stringify(notas));
-    setRenderView(true);
-    setControlRender(!controlRender);
-    setNewNota({ title: "", subtitle: "", descripcion: "", _id: null });
-  };
-
-  const editNota = (id) => {
-    let notas = getNotas;
-    let idx = notas.findIndex((x) => x._id === id);
-    let nota = notas[idx];
-    setNewNota({
-      _id: nota._id,
-      descripcion: nota.descripcion,
-      subtitle: nota.subtitle,
-      title: nota.title,
-    });
-    setEstadoNewNota(!estadoNewNota);
-  };
-
-  const regresarNotas = () => {
-    setAddID(false);
-    setNewNota({ title: "", subtitle: "", descripcion: "", _id: null });
-    setRenderView(true);
-    setControlRender(!controlRender);
-  };
-
-  const threePoind = () => {
-    setAddID(!addID);
-  };
-
-  const threePoind2 = () => {
-    setAddID(!addID);
-  };
-
-  const addNewNota = () => {
-    setAddID(false);
-    setNewNota({ title: "", subtitle: "", descripcion: "", _id: null });
-    setNewNota({
-      ...newNota,
-      _id: generateUUID(),
-    });
-    setRenderView(false);
-    //setEstadoNewNota(!estadoNewNota)
-  };
-
-  const saveNota = async () => {
-    if (newNota._id) {
-      let notas = await AsyncStorage.getItem("@storage_Key_Notas");
-      let jsonNota = JSON.parse(notas);
-      let idx = jsonNota.findIndex((x) => x._id === newNota._id);
-      jsonNota.splice(idx, 1, newNota);
-      await AsyncStorage.setItem(
-        "@storage_Key_Notas",
-        JSON.stringify(jsonNota)
-      );
-      setControlRender(!controlRender);
-      setNewNota({ title: "", subtitle: "", descripcion: "" });
-      setAddID(null);
-    } else {
-      let notas = await AsyncStorage.getItem("@storage_Key_Notas");
-      let jsonNota = JSON.parse(notas);
-      if (jsonNota === null) {
-        let Notas = [];
-        let a = generateUUID();
-        let id = { _id: a };
-        let object1 = Object.assign(id, newNota);
-        Notas.push(object1);
-        await AsyncStorage.setItem("@storage_Key_Notas", JSON.stringify(Notas));
-        setControlRender(!controlRender);
-        setNewNota({ title: "", subtitle: "", descripcion: "" });
-      } else {
-        let b = generateUUID();
-        let id = { _id: b };
-        let object2 = Object.assign(id, newNota);
-        jsonNota.unshift(object2);
-        await AsyncStorage.setItem(
-          "@storage_Key_Notas",
-          JSON.stringify(jsonNota)
-        );
-        setControlRender(!controlRender);
-        setNewNota({ title: "", subtitle: "", descripcion: "" });
-      }
-    }
-  };
-
-  const inputChangeTitle = (val) => {
-    setNewNota({
-      ...newNota,
-      title: val,
-    });
-    autoSaveNota();
-  };
-
-  const inputChangeSubtitle = (val) => {
-    setNewNota({
-      ...newNota,
-      subtitle: val,
-    });
-    autoSaveNota();
-  };
-
-  const inputChangeDescription = (val) => {
-    setNewNota({
-      ...newNota,
-      descripcion: val,
-    });
-    autoSaveNota();
-  };
-
-
-  //render uno sola nota
-  if (renderView === false) {
-    return (
-      <View style={[styles.container, {backgroundColor: colors.header}]}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-          }}
-        >
-          <TouchableOpacity onPress={threePoind}>
-            <Ionicons
-              name="ellipsis-horizontal-sharp"
-              size={24}
-              color={colors.text}
-              //style={{padding: 2}}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{ paddingHorizontal: 4 }}>
-          <TextInput
-            onChangeText={(val) => inputChangeTitle(val)}
-            style={{
-              color: colors.textNumber,
-              marginBottom: 5,
-              fontSize: fontZize.fonttitle,
-              fontFamily: "sans-serif-medium",
-            }}
-            placeholder="Titulo"
-            placeholderTextColor={colors.inputHolder}
-            defaultValue={newNota.title}
-            multiline={true}
-            //numberOfLines={10}
-            //textAlignVertical="top"
-          />
-          <TextInput
-            onChangeText={(val) => inputChangeSubtitle(val)}
-            style={{
-              color: colors.text,
-              marginBottom: 5,
-              fontSize: fontZize.fontsubtitle,
-              fontFamily: "sans-serif-thin",
-            }}
-            placeholder="Subtitulo"
-            placeholderTextColor={colors.inputHolder}
-            defaultValue={newNota.subtitle}
-            multiline={true}
-            //numberOfLines={10}
-            //textAlignVertical="top"
-          />
-          <TextInput
-            onChangeText={(val) => inputChangeDescription(val)}
-            style={{
-              color: colors.text,
-              marginBottom: 5,
-              marginTop: 8,
-              fontSize: fontZize.fonttext,
-              fontFamily: "sans-serif-medium",
-            }}
-            placeholder="Descripcion"
-            placeholderTextColor={colors.inputHolder}
-            defaultValue={newNota.descripcion}
-            multiline={true}
-            numberOfLines={5}
-            //textAlignVertical="top"
-          />
-        </View>
-
-        <View
-          style={{
-            position: "absolute",
-            bottom: 20,
-            left: 0,
-            //backgroundColor: colors.header,
-            paddingHorizontal: 40,
-            paddingVertical: 10,
-            borderRadius: 10,
-          }}
-        >
-          <TouchableOpacity
-            onPress={regresarNotas}
-            style={{ flexDirection: "row" }}
-          >
-            <Ionicons
-              name="arrow-back-outline"
-              size={24}
-              color={colors.textNumber}
-            />
-            <Text
-              style={{
-                color: colors.textNumber,
-                paddingLeft: 10,
-                fontSize: 18,
-                paddingBottom: 4,
-              }}
-            >
-              Regresar
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {addID === true && (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              position: "absolute",
-              top: 20,
-              right: 30,
-              backgroundColor: colors.header,
-              paddingHorizontal: 40,
-              paddingVertical: 10,
-              borderRadius: 10,
-            }}
-          >
-            <TouchableOpacity onPress={deleteNota}>
-              <Ionicons
-                name="trash-outline"
-                size={20}
-                color={colors.text}
-                style={{ paddingRight: 40 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={threePoind2}>
-              <Ionicons
-                name="chevron-up"
-                size={20}
-                color={colors.text}
-                style={{ paddingRight: 2 }}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-    );
-  }
 
   //render todas las notas
-  if (renderView === true) {
+  
     return (
-      <View style={{ flex: 1, paddingBottom: 8, paddingTop: 15, backgroundColor: colors.header }}>
+      <View style={{ flex: 1, paddingBottom: 8, paddingTop: 15, backgroundColor: colors.background }}>
         
           <ScrollView style={{ marginBottom: 8 }}>
             <View
@@ -445,7 +176,10 @@ const Notas = () => {
         </View>
       </View>
     );
-  }
+  
+
+  
+    
 };
 
 const styles = StyleSheet.create({
@@ -454,6 +188,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   boxContainer: {
+
     //marginHorizontal: 2,
     paddingHorizontal: 15,
     paddingVertical: 10,
