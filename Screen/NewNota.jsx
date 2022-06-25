@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Share
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -182,6 +183,54 @@ const Notas = ({route, navigation}) => {
   };
 
 
+  //compartir
+
+  const onShared = async ()=>{
+    if(newNota.title.length>1){
+    let httpBAV = "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV"
+    let titulo = newNota.title.toUpperCase()
+    let mensage =
+    `
+    ${newNota.title}
+
+    ${newNota.subtitle}
+
+    ${newNota.descripcion}
+
+  
+
+    ${httpBAV}
+    `
+    try {
+      const result = await Share.share({
+        message: 'BibliaAV',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+          Share.share({
+            title: titulo,
+            message: mensage
+          })
+        } else {
+          // shared
+          Share.share({
+            title: titulo,
+            message: mensage
+          })
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+    }else{
+      // no hacer nada
+    }
+  }
+
+
   //render uno sola nota
 
   if(newNota){
@@ -268,33 +317,47 @@ const Notas = ({route, navigation}) => {
           {addID === true && (
             <View
               style={{
-                flexDirection: "row",
+                flexDirection: "column",
                 justifyContent: "space-between",
                 position: "absolute",
                 top: 20,
-                right: 0,
-                backgroundColor: colors.background,
-                paddingHorizontal: 40,
-                paddingVertical: 10,
+                right: 20,
+                backgroundColor: colors.header,
+                paddingHorizontal: 10,
+                paddingVertical: 12,
                 borderRadius: 10,
+                height: 175,
+                borderColor: colors.text,
+                borderWidth: 1
               }}
             >
-              <TouchableOpacity onPress={deleteNota}>
+              <TouchableOpacity onPress={threePoind2} >
+                <Ionicons
+                  name="chevron-up"
+                  size={24}
+                  color={colors.textNumber}
+                  style={{ marginBottom:10, textAlign: "center" }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={onShared} style={{flexDirection: "row"}}>
+                <Ionicons
+                  name="ios-share-social-outline"
+                  size={20}
+                  color={colors.text}
+                  style={{ marginBottom:10 }}
+                />
+                <Text style={{fontSize: 14, marginLeft: 8}}>Compartir</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={deleteNota} style={{flexDirection: "row"}}>
                 <Ionicons
                   name="trash-outline"
                   size={20}
                   color={colors.text}
-                  style={{ paddingRight: 40 }}
+                  style={{ marginBottom:10 }}
                 />
+                 <Text style={{fontSize: 14, marginLeft: 8}}>Eliminar</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={threePoind2}>
-                <Ionicons
-                  name="chevron-up"
-                  size={20}
-                  color={colors.text}
-                  style={{ paddingRight: 2 }}
-                />
-              </TouchableOpacity>
+              
             </View>
           )}
         </View>
@@ -305,6 +368,8 @@ const Notas = ({route, navigation}) => {
     
   
 };
+
+//<Ionicons name="ios-share-social-outline" size={24} color="black" />
 
 const styles = StyleSheet.create({
   textNewNota: {

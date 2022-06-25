@@ -31,7 +31,6 @@ import HelpScreen from './Screen/Help'
 import PoliticaScreen from './Screen/Politica'
 import SearchPalabra from './Screen/SearchPalabra';
 import HistorialScreen from './Screen/Historial';
-//import ScreenNotas from './Screen/Notas';
 import ScreenNotas from './Screen/NotasDos';
 import NewNota from './Screen/NewNota';
 

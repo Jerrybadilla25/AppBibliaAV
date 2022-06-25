@@ -25,7 +25,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
   const [temas, setTemas] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [idverse, setIdverse] = useState(null); // en uso
-  const [comentario, setComentario]=useState("")
+  const [comentario, setComentario]=useState(null)
   //let comentario = "";
 
   React.useEffect(() => {
@@ -77,7 +77,6 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
 
   const textInputChange3 = (val) => {
     setComentario(val)
-    //comentario = val;
   };
 
   const addComenMemory = async (id) => {
@@ -86,7 +85,6 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
       let idx = newarrayTema.addVerses.findIndex((x) => x._id === id);
       let verse = newarrayTema.addVerses[idx];
       if(verse.comentario===null){
-        console.log("estoy en 1")
         verse.comentario = comentario;
         newarrayTema.addVerses.splice(idx, 1, verse);
         let tema = await AsyncStorage.getItem("@storage_Key_Temas");
@@ -102,21 +100,38 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
         setEditComent(!editComent);
         setEditComentID(null);
       }else{
-        console.log("estoy en 2")
-        verse.comentario = comentario;
-        newarrayTema.addVerses.splice(idx, 1, verse);
-        let tema = await AsyncStorage.getItem("@storage_Key_Temas");
-        let renderTema1 = JSON.parse(tema);
-        let idx2 = renderTema1.findIndex((x) => x._id === route.params._id);
-        renderTema1.splice(idx2, 1, newarrayTema);
-        await AsyncStorage.removeItem("@storage_Key_Temas");
-        await AsyncStorage.setItem(
-          "@storage_Key_Temas",
-          JSON.stringify(renderTema1)
-        );
-        setArrayState(!arrayState);
-        setEditComent(!editComent);
-        setEditComentID(null);
+        let coment = verse.comentario
+        if(comentario===null){
+          verse.comentario = coment;
+          newarrayTema.addVerses.splice(idx, 1, verse);
+          let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+          let renderTema1 = JSON.parse(tema);
+          let idx2 = renderTema1.findIndex((x) => x._id === route.params._id);
+          renderTema1.splice(idx2, 1, newarrayTema);
+          await AsyncStorage.removeItem("@storage_Key_Temas");
+          await AsyncStorage.setItem(
+            "@storage_Key_Temas",
+            JSON.stringify(renderTema1)
+          );
+          setArrayState(!arrayState);
+          setEditComent(!editComent);
+          setEditComentID(null);
+        }else{
+          verse.comentario = comentario;
+          newarrayTema.addVerses.splice(idx, 1, verse);
+          let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+          let renderTema1 = JSON.parse(tema);
+          let idx2 = renderTema1.findIndex((x) => x._id === route.params._id);
+          renderTema1.splice(idx2, 1, newarrayTema);
+          await AsyncStorage.removeItem("@storage_Key_Temas");
+          await AsyncStorage.setItem(
+            "@storage_Key_Temas",
+            JSON.stringify(renderTema1)
+          );
+          setArrayState(!arrayState);
+          setEditComent(!editComent);
+          setEditComentID(null);
+        }
       }
       
     } catch (error) {}
