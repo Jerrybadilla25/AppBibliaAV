@@ -86,6 +86,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
       let idx = newarrayTema.addVerses.findIndex((x) => x._id === id);
       let verse = newarrayTema.addVerses[idx];
       if(verse.comentario===null){
+        console.log("estoy en 1")
         verse.comentario = comentario;
         newarrayTema.addVerses.splice(idx, 1, verse);
         let tema = await AsyncStorage.getItem("@storage_Key_Temas");
@@ -101,8 +102,8 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
         setEditComent(!editComent);
         setEditComentID(null);
       }else{
-        let coment = verse.comentario
-        verse.comentario = coment;
+        console.log("estoy en 2")
+        verse.comentario = comentario;
         newarrayTema.addVerses.splice(idx, 1, verse);
         let tema = await AsyncStorage.getItem("@storage_Key_Temas");
         let renderTema1 = JSON.parse(tema);

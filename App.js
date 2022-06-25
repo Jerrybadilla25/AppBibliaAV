@@ -487,7 +487,7 @@ const App = ({ navigation, children }) => {
             />
 
             <Stack.Screen
-              name="Nueva Nota"
+              name="Nota"
               component={NewNota}
               options={({ navigation })=>({
                 headerStyle: { backgroundColor: theme.colors.header },

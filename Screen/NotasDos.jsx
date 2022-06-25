@@ -54,14 +54,14 @@ const Notas = ({ navigation }) => {
 
   const viewAllNote = (id) => {
     setControlRender(!renderView)
-    navigation.navigate("Nueva Nota", {_id: id})
+    navigation.navigate("Nota", {_id: id})
   };
 
 
   const addNewNota = () => {
     let id = generateUUID()
     setControlRender(!renderView)
-    navigation.navigate("Nueva Nota", {_id: id})
+    navigation.navigate("Nota", {_id: id})
   };
 
   const obtNotas = async () => {
