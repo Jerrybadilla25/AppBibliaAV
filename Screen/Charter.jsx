@@ -353,15 +353,6 @@ const Preview = ({
               }
             >
               <View>
-                {/* 
-                {
-                  item.title && 
-                  <Text style={{ color: colors.text, textAlign: "center", paddingBottom: 16, fontFamily: 'sans-serif-medium'  }}>
-                  {item.title}
-                </Text>
-                }
-                */}
-
                 <View style={[styles.row, { paddingBottom: 16 }]}>
                   <Text
                     style={[
@@ -447,113 +438,146 @@ const PreviewModal = ({
   temas,
   addVerseTema,
   validateTema,
-  onShared={onShared},
-  idVerse={idVerse}
+  onShared = { onShared },
+  idVerse = { idVerse },
 }) => (
   <View>
-    {
-      modalVisible ? (
-        <View style={[styles.centeredView, { backgroundColor: colors.boxTema }]}>
-       <Text style={{color:colors.text, textAlign: "center", fontSize: 12, paddingBottom: 16 }}>Que desea hacer con el versículo seleccionado.</Text>
-      <TouchableOpacity onPress={onShared}>
-        <View style={[styles.rowFlex, { marginBottom: 15, paddingTop: 15, borderTopColor: colors.header, borderTopWidth: 1 }]}>
-          <Text
-        style={{
-          color: colors.text,
-          fontFamily: "sans-serif-medium",
-          fontSize: 16,
-        }}
-      >
-        Compartir...
-      </Text>
-
-      <Ionicons 
-      name="ios-share-social-outline" 
-      size={24} 
-      color={colors.text}
-      />
-
-
-        </View>
-        
-      </TouchableOpacity>
-      
-      <View style={[styles.rowFlex, { marginBottom: 25, paddingTop: 15, borderTopColor: colors.header, borderTopWidth: 1 }]}>
-        {validateTema ? (
-          <Text
-            style={{
-              color: colors.text,
-              padding: 10,
-              fontFamily: "sans-serif-medium",
-              fontSize: 16,
-            }}
+    {modalVisible ? (
+      <View style={[styles.centeredView, { backgroundColor: colors.boxTema }]}>
+        <Text
+          style={{
+            color: colors.text,
+            textAlign: "center",
+            fontSize: 12,
+            paddingBottom: 16,
+          }}
+        >
+          Que desea hacer con el versículo seleccionado.
+        </Text>
+        <TouchableOpacity onPress={onShared}>
+          <View
+            style={[
+              styles.rowFlex,
+              {
+                marginBottom: 15,
+                paddingTop: 15,
+                borderTopColor: colors.header,
+                borderTopWidth: 1,
+              },
+            ]}
           >
-            No hay temas creados
-          </Text>
-        ) : (
-          <Text
-            style={{
-              color: colors.text,
-              padding: 10,
-              fontFamily: "sans-serif-medium",
-              fontSize: 16,
-            }}
-          >
-        Agregarlo a un tema
-          </Text>
-        )}
+            <Text
+              style={{
+                color: colors.text,
+                fontFamily: "sans-serif-medium",
+                fontSize: 16,
+              }}
+            >
+              Compartir...
+            </Text>
 
-        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-          <Text
-            style={{
-              color: colors.textNumber,
-              backgroundColor: colors.background,
-              padding: 10,
-              borderRadius: 8,
-            }}
-          >
-            Cancelar
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      
-
-      <ScrollView>
-        {temas && (
-          <View>
-            {temas.map((item) => (
-              <TouchableOpacity
-                key={item._id}
-                style={styles.Item}
-                onPress={() => addVerseTema(item._id)}
-              >
-                <Text
-                  style={[
-                    styles.textCharter,
-                    { backgroundColor: colors.background, color: colors.text },
-                  ]}
-                >
-                  {item.tema}
-                </Text>
-              </TouchableOpacity>
-            ))}
+            <Ionicons
+              name="ios-share-social-outline"
+              size={24}
+              color={colors.text}
+            />
           </View>
-        )}
-      </ScrollView>
+        </TouchableOpacity>
 
-      
+        <View
+          style={[
+            styles.rowFlex,
+            {
+              marginBottom: 12,
+              paddingTop: 10,
+              borderTopColor: colors.header,
+              borderTopWidth: 1,
+            },
+          ]}
+        >
+          {validateTema ? (
+            <Text
+              style={{
+                color: colors.text,
+                padding: 10,
+                fontFamily: "sans-serif-medium",
+                fontSize: 16,
+              }}
+            >
+              No hay temas creados
+            </Text>
+          ) : (
+            <Text
+              style={{
+                color: colors.text,
+                padding: 10,
+                fontFamily: "sans-serif-medium",
+                fontSize: 16,
+              }}
+            >
+              Agregarlo a un tema
+            </Text>
+          )}
+        </View>
 
-    </View>
+        <ScrollView style={{ marginBottom: 20 }}>
+          {temas && (
+            <View>
+              {temas.map((item) => (
+                <TouchableOpacity
+                  key={item._id}
+                  style={styles.Item}
+                  onPress={() => addVerseTema(item._id)}
+                >
+                  <Text
+                    style={[
+                      styles.textCharter,
+                      {
+                        backgroundColor: colors.background,
+                        color: colors.text,
+                      },
+                    ]}
+                  >
+                    {item.tema}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </ScrollView>
 
-
-      ):
-      (
-        <Text></Text>
-      )
-    }
-    
-    </View>
+        <View
+          style={{
+            marginTop: 10,
+            paddingVertical: 10,
+            marginHorizontal: 10,
+            borderTopColor: colors.header,
+            borderTopWidth: 1
+          }}
+        >
+          <TouchableOpacity
+            style={{ alignSelf: "center" }}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            <Text
+              style={{
+                width: 100,
+                textAlign: "center",
+                color: colors.textNumber,
+                backgroundColor: colors.background,
+                padding: 10,
+                borderRadius: 8,
+              }}
+            >
+              Cancelar
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    ) : (
+      <Text></Text>
+    )}
+  </View>
 );
 
 const styles = StyleSheet.create({
@@ -609,7 +633,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     maxHeight: 560,
     paddingHorizontal: 15,
-    paddingBottom: 50,
+    paddingBottom: 20,
     paddingTop:16,
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,

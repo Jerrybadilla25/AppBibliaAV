@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,9 +19,6 @@ const Notas = ({ navigation }) => {
   const [getNotas, setGetNOtas] = useState(null); //array de notas
   const [renderView, setRenderView] = useState(true); // true render lista de notas // false visualiza unica nota
 
-  
-  
-
   const generateUUID = () => {
     var d = new Date().getTime();
     var uuid = "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(
@@ -35,10 +32,9 @@ const Notas = ({ navigation }) => {
     return uuid;
   };
 
-  
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setControlRender(!controlRender)
+    const unsubscribe = navigation.addListener("focus", () => {
+      setControlRender(!controlRender);
       // Call any action
     });
 
@@ -46,22 +42,19 @@ const Notas = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-
-
   React.useEffect(() => {
     obtNotas();
   }, [controlRender]);
 
   const viewAllNote = (id) => {
-    setControlRender(!renderView)
-    navigation.navigate("Nota", {_id: id})
+    setControlRender(!renderView);
+    navigation.navigate("Nota", { _id: id });
   };
 
-
   const addNewNota = () => {
-    let id = generateUUID()
-    setControlRender(!renderView)
-    navigation.navigate("Nota", {_id: id})
+    let id = generateUUID();
+    setControlRender(!renderView);
+    navigation.navigate("Nota", { _id: id });
   };
 
   const obtNotas = async () => {
@@ -75,111 +68,105 @@ const Notas = ({ navigation }) => {
     }
   };
 
-
   //render todas las notas
-  
-    return (
-      <View style={{ flex: 1, paddingBottom: 8, paddingTop: 15, backgroundColor: colors.background }}>
-        
-          <ScrollView style={{ marginBottom: 8 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                flexWrap: "wrap",
-              }}
-            >
-              {getNotas !== null && (
-                <>
-                  {getNotas.map((x) => (
-                    <View
-                      key={x._id}
-                      style={[
-                        styles.boxNota,
-                        { borderColor: colors.text },
-                      ]}
-                    >
-                      <TouchableOpacity onPress={() => viewAllNote(x._id)}>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              color: colors.textNumber,
-                              fontFamily: "sans-serif-medium",
-                              paddingBottom: 5,
-                              fontSize: fontZize.fontsubtitle - 4,
-                              width: "90%",
-                            }}
-                          >
-                            {x.title}
-                          </Text>
-                        </View>
 
-                        {x.subtitle === "" ? (
-                          <></>
-                        ) : (
-                          <Text
-                            style={{
-                              color: colors.text,
-                              fontFamily: "sans-serif-thin",
-                              paddingBottom: 10,
-                              fontSize: fontZize.fontsubtitle - 7,
-                            }}
-                          >
-                            {x.subtitle}
-                          </Text>
-                        )}
-
-                        <View style={{maxHeight: 125, overflow: "hidden"}}>
-                           <Text
-                          style={{
-                            color: colors.text,
-                            paddingBottom: 12,
-                            fontSize: fontZize.fonttext - 3,
-                            
-                          }}
-                        >
-                          {x.descripcion}
-                        </Text> 
-                        </View>
-
-                        
-                      </TouchableOpacity>
-                    </View>
-                  ))}
-                </>
-              )}
-            </View>
-          </ScrollView>
-      
-
+  return (
+    <View
+      style={{
+        flex: 1,
+        paddingBottom: 8,
+        paddingTop: 15,
+        backgroundColor: colors.background,
+      }}
+    >
+      <ScrollView style={{ marginBottom: 8 }}>
         <View
           style={{
-            position: "absolute",
-            bottom: 10,
-            right: 20,
-            paddingVertical: 6,
-            paddingHorizontal: 30,
-            backgroundColor: colors.background,
-            borderRadius: 50,
-            borderColor: colors.text,
-            borderWidth: 3
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",
           }}
         >
-          <TouchableOpacity onPress={addNewNota}>
-            <Ionicons name="add-circle-outline" size={40} color={colors.text} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  
+          {getNotas !== null && (
+            <>
+              {getNotas.map((x) => (
+                <View
+                  key={x._id}
+                  style={[styles.boxNota, { borderColor: colors.text }]}
+                >
+                  <TouchableOpacity onPress={() => viewAllNote(x._id)}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: colors.textNumber,
+                          fontFamily: "sans-serif-medium",
+                          paddingBottom: 5,
+                          fontSize: fontZize.fontsubtitle - 4,
+                          width: "90%",
+                        }}
+                      >
+                        {x.title}
+                      </Text>
+                    </View>
 
-  
-    
+                    {x.subtitle === "" ? (
+                      <></>
+                    ) : (
+                      <Text
+                        style={{
+                          color: colors.text,
+                          fontFamily: "sans-serif-thin",
+                          paddingBottom: 10,
+                          fontSize: fontZize.fontsubtitle - 7,
+                        }}
+                      >
+                        {x.subtitle}
+                      </Text>
+                    )}
+
+                    <View style={{ maxHeight: 125, overflow: "hidden" }}>
+                      <Text
+                        style={{
+                          color: colors.text,
+                          paddingBottom: 12,
+                          fontSize: fontZize.fonttext - 3,
+                        }}
+                      >
+                        {x.descripcion}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </>
+          )}
+        </View>
+      </ScrollView>
+
+      <View
+        style={{
+          position: "absolute",
+          bottom: 10,
+          right: 20,
+          paddingVertical: 6,
+          paddingHorizontal: 30,
+          backgroundColor: colors.background,
+          borderRadius: 50,
+          borderColor: colors.text,
+          borderWidth: 3,
+        }}
+      >
+        <TouchableOpacity onPress={addNewNota}>
+          <Ionicons name="add-circle-outline" size={40} color={colors.text} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -188,7 +175,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   boxContainer: {
-
     //marginHorizontal: 2,
     paddingHorizontal: 15,
     paddingVertical: 10,

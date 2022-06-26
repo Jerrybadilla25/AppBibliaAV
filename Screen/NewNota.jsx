@@ -189,18 +189,17 @@ const Notas = ({route, navigation}) => {
     if(newNota.title.length>1){
     let httpBAV = "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV"
     let titulo = newNota.title.toUpperCase()
+
     let mensage =
     `
     ${newNota.title}
-
     ${newNota.subtitle}
 
     ${newNota.descripcion}
 
-  
-
     ${httpBAV}
     `
+    
     try {
       const result = await Share.share({
         message: 'BibliaAV',
@@ -346,7 +345,7 @@ const Notas = ({route, navigation}) => {
                   color={colors.text}
                   style={{ marginBottom:10 }}
                 />
-                <Text style={{fontSize: 14, marginLeft: 8}}>Compartir</Text>
+                <Text style={{fontSize: 14, marginLeft: 8, color: colors.text}}>Compartir</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={deleteNota} style={{flexDirection: "row"}}>
                 <Ionicons
@@ -355,7 +354,7 @@ const Notas = ({route, navigation}) => {
                   color={colors.text}
                   style={{ marginBottom:10 }}
                 />
-                 <Text style={{fontSize: 14, marginLeft: 8}}>Eliminar</Text>
+                 <Text style={{fontSize: 14, marginLeft: 8, color: colors.text}}>  Eliminar</Text>
               </TouchableOpacity>
               
             </View>

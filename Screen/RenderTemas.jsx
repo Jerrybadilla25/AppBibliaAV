@@ -7,7 +7,7 @@ import {
   ScrollView,
   TextInput,
   Modal,
-  Button
+  Button,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
@@ -25,14 +25,13 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
   const [temas, setTemas] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [idverse, setIdverse] = useState(null); // en uso
-  const [comentario, setComentario]=useState(null)
+  const [comentario, setComentario] = useState(null);
   //let comentario = "";
 
   React.useEffect(() => {
     getTemas(route.params._id);
   }, [arrayState]);
 
-  
   const getTemas = async (id) => {
     try {
       let tema = await AsyncStorage.getItem("@storage_Key_Temas");
@@ -76,7 +75,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
   };
 
   const textInputChange3 = (val) => {
-    setComentario(val)
+    setComentario(val);
   };
 
   const addComenMemory = async (id) => {
@@ -84,7 +83,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
       let newarrayTema = arrayTema;
       let idx = newarrayTema.addVerses.findIndex((x) => x._id === id);
       let verse = newarrayTema.addVerses[idx];
-      if(verse.comentario===null){
+      if (verse.comentario === null) {
         verse.comentario = comentario;
         newarrayTema.addVerses.splice(idx, 1, verse);
         let tema = await AsyncStorage.getItem("@storage_Key_Temas");
@@ -99,9 +98,9 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
         setArrayState(!arrayState);
         setEditComent(!editComent);
         setEditComentID(null);
-      }else{
-        let coment = verse.comentario
-        if(comentario===null){
+      } else {
+        let coment = verse.comentario;
+        if (comentario === null) {
           verse.comentario = coment;
           newarrayTema.addVerses.splice(idx, 1, verse);
           let tema = await AsyncStorage.getItem("@storage_Key_Temas");
@@ -116,7 +115,7 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
           setArrayState(!arrayState);
           setEditComent(!editComent);
           setEditComentID(null);
-        }else{
+        } else {
           verse.comentario = comentario;
           newarrayTema.addVerses.splice(idx, 1, verse);
           let tema = await AsyncStorage.getItem("@storage_Key_Temas");
@@ -133,33 +132,33 @@ const Rendertemas = ({ route, navigation: { navigate } }) => {
           setEditComentID(null);
         }
       }
-      
     } catch (error) {}
   };
 
   const editComentSave = (id) => {
-    if(editComentID===id){
-      setEditComentID("1")
-    }else{
+    if (editComentID === id) {
+      setEditComentID("1");
+    } else {
       setEditComentID(`${id}`);
     }
   };
 
-  const deleteComenMemory = async (id)=>{
-      try {
-        let tema = await AsyncStorage.getItem("@storage_Key_Temas");
-        let renderTema1 = JSON.parse(tema);
-        let idx2 = renderTema1.findIndex((w) => w._id === route.params._id)
-        let idx = renderTema1[idx2].addVerses.findIndex(x => x._id === id)
-        let verse = renderTema1[idx2].addVerses[idx]
-        delete verse.comentario
-        renderTema1[idx2].addVerses.splice(idx, 1, verse)
-        await AsyncStorage.setItem("@storage_Key_Temas", JSON.stringify(renderTema1))
-        setArrayState(!arrayState);
-      } catch (error) {
-        
-      }
-  }
+  const deleteComenMemory = async (id) => {
+    try {
+      let tema = await AsyncStorage.getItem("@storage_Key_Temas");
+      let renderTema1 = JSON.parse(tema);
+      let idx2 = renderTema1.findIndex((w) => w._id === route.params._id);
+      let idx = renderTema1[idx2].addVerses.findIndex((x) => x._id === id);
+      let verse = renderTema1[idx2].addVerses[idx];
+      delete verse.comentario;
+      renderTema1[idx2].addVerses.splice(idx, 1, verse);
+      await AsyncStorage.setItem(
+        "@storage_Key_Temas",
+        JSON.stringify(renderTema1)
+      );
+      setArrayState(!arrayState);
+    } catch (error) {}
+  };
 
   //abrir modal elimanar versiculo
   const openModal = (id) => {
@@ -229,7 +228,7 @@ const PreviewTemas = ({
   addComenMemory,
   editComentID,
   editComentSave,
-  deleteComenMemory
+  deleteComenMemory,
 }) => (
   <View>
     <ScrollView>
@@ -247,7 +246,7 @@ const PreviewTemas = ({
         <Text
           style={{
             color: colors.text,
-            fontSize: fontZize.fontsubtitle -3,
+            fontSize: fontZize.fontsubtitle - 3,
             fontFamily: "sans-serif-condensed",
             paddingHorizontal: 10,
             marginBottom: 8,
@@ -334,8 +333,8 @@ const PreviewTemas = ({
                 style={{
                   backgroundColor: colors.background,
                   padding: 10,
-                  marginBottom:4,
-                  borderRadius: 8,
+                  marginBottom: 10,
+                  borderRadius: 10,
                 }}
               >
                 <Text
@@ -350,33 +349,48 @@ const PreviewTemas = ({
                   <View>
                     <TextInput
                       onChangeText={(val) => textInputChange3(val)}
-                      style={{ color: colors.text, fontSize: fontZize.fonttext-4 }}
+                      style={{
+                        color: colors.text,
+                        fontSize: fontZize.fonttext - 4,
+                      }}
                       placeholder="Agregue un comentario"
                       placeholderTextColor={colors.inputHolder}
                       defaultValue={item.comentario}
                       multiline={true}
                       numberOfLines={4}
-                      textAlignVertical="top"
                     />
-                    <View style={{flexDirection: "row", justifyContent: "space-around"}}>
-                    <TouchableOpacity >
-                      <Button
-                      title="Guardar"
-                      color={colors.inputHolder}
-                      onPress={() => addComenMemory(item._id)}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity >
-                      <Button
-                      title="Eliminar"
-                      color={colors.textNumber}
-                      onPress={() => deleteComenMemory(item._id)}
-                      />
-                    </TouchableOpacity>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <TouchableOpacity>
+                        <Button
+                          title="Guardar"
+                          color={colors.inputHolder}
+                          onPress={() => addComenMemory(item._id)}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Button
+                          title="Eliminar"
+                          color={colors.textNumber}
+                          onPress={() => deleteComenMemory(item._id)}
+                        />
+                      </TouchableOpacity>
                     </View>
                   </View>
                 ) : (
-                  <Text style={{ color: colors.text, fontSize: fontZize.fonttext-4, padding: 6 }}>{item.comentario}</Text>
+                  <Text
+                    style={{
+                      color: colors.text,
+                      fontSize: fontZize.fonttext - 4,
+                      padding: 8,
+                    }}
+                  >
+                    {item.comentario}
+                  </Text>
                 )}
               </View>
             )}
@@ -439,7 +453,7 @@ const ModalDelete = ({
     }}
   >
     <View style={styles.modalView}>
-    <View style={[styles.buton, { backgroundColor: colors.text }]}>
+      <View style={[styles.buton, { backgroundColor: colors.text }]}>
         <TouchableOpacity onPress={deleteverse}>
           <Text
             style={{
@@ -473,10 +487,12 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   boxverse: {
+    marginBottom: 6,
+    marginHorizontal: 6,
     paddingVertical: 6,
     paddingHorizontal: 10,
     marginTop: 10,
-    //borderRadius: 10
+    borderRadius: 10,
   },
   modalView: {
     marginTop: 400,
@@ -510,7 +526,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     textAlign: "center",
     fontFamily: "sans-serif-medium",
-    width: 150
+    width: 150,
   },
 });
 

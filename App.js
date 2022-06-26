@@ -4,19 +4,12 @@ import {
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native";
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  View,
-  Easing,
-} from "react-native";
+import { TouchableOpacity, Text, StyleSheet, View, Easing } from "react-native";
 import {
   createNativeStackNavigator,
   TransitionSpecs,
 } from "@react-navigation/native-stack";
-  
-  
+
 //archivos
 import BibliaScreen from "./Screen/Biblia";
 import SearchScreen from "./Screen/Searc";
@@ -25,21 +18,20 @@ import SelectCharter from "./Screen/SelectCharter";
 import CharterScreen from "./Screen/Charter";
 import SettingsScrean from "./Screen/Settings";
 import UsuarioScreen from "./Screen/User";
-import RenderTemas from './Screen/RenderTemas';
-import Versiones from './Screen/Versiones';
-import HelpScreen from './Screen/Help'
-import PoliticaScreen from './Screen/Politica'
-import SearchPalabra from './Screen/SearchPalabra';
-import HistorialScreen from './Screen/Historial';
-import ScreenNotas from './Screen/NotasDos';
-import NewNota from './Screen/NewNota';
+import RenderTemas from "./Screen/RenderTemas";
+import Versiones from "./Screen/Versiones";
+import HelpScreen from "./Screen/Help";
+import PoliticaScreen from "./Screen/Politica";
+import SearchPalabra from "./Screen/SearchPalabra";
+import HistorialScreen from "./Screen/Historial";
+import ScreenNotas from "./Screen/NotasDos";
+import NewNota from "./Screen/NewNota";
 
 import { UserContext } from "./Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
 
-import { StatusBar } from 'expo-status-bar';
-import * as NavigationBar from 'expo-navigation-bar';
-
+import { StatusBar } from "expo-status-bar";
+import * as NavigationBar from "expo-navigation-bar";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -49,28 +41,27 @@ const App = ({ navigation, children }) => {
   const [versionBook, setVersionBook] = useState(null);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [fontZize, setfontZize] = useState(null);
-  const [viewBiblia, setViewBiblia]=useState(true)
+  const [viewBiblia, setViewBiblia] = useState(true);
   //const visibility = NavigationBar.useVisibility()
-  let navegadorBar = ""
+  let navegadorBar = "";
   //NavigationBar.setBackgroundColorAsync(`${colors.header}`);
- 
+
   React.useEffect(() => {
-    getData()
-    getViewBiblia()
+    getData();
+    getViewBiblia();
   }, []);
 
-  React.useEffect(()=>{
-    setNav()
-  }, [isDarkTheme])
+  React.useEffect(() => {
+    setNav();
+  }, [isDarkTheme]);
 
-
-  const setNav = ()=>{
-    if(isDarkTheme===false){
+  const setNav = () => {
+    if (isDarkTheme === false) {
       navegadorBar = NavigationBar.setBackgroundColorAsync("#ffffff");
-    }else{
+    } else {
       navegadorBar = NavigationBar.setBackgroundColorAsync("#241c30");
     }
-  }
+  };
 
   const getData = async () => {
     try {
@@ -86,17 +77,18 @@ const App = ({ navigation, children }) => {
     }
   };
 
-  const getViewBiblia = async()=>{
-    let View = await AsyncStorage.getItem('@storage_Key_View')
-    let ViewJson = JSON.parse(View)
-    if(ViewJson===null){
-      await AsyncStorage.setItem('@storage_Key_View', JSON.stringify(true))
-      setViewBiblia(true)
-    }else{
-      setViewBiblia(ViewJson)
+  const getViewBiblia = async () => {
+    let View = await AsyncStorage.getItem("@storage_Key_View");
+    let ViewJson = JSON.parse(View);
+    if (ViewJson === null) {
+      await AsyncStorage.setItem("@storage_Key_View", JSON.stringify(true));
+      setViewBiblia(true);
+    } else {
+      setViewBiblia(ViewJson);
     }
-  }
+  };
 
+  // fuerte f2f2f2 debil ffffff
   const CustomDefaultTheme = {
     ...DefaultTheme,
     colors: {
@@ -113,11 +105,13 @@ const App = ({ navigation, children }) => {
       boxTema: "#c2bcbc",
       border: "#5b4475",
       social: "#91B0F3",
-      bar: '#ffffff',
-      barStyle: 'dark',
+      bar: "#ffffff",
+      barStyle: "dark",
       inputHolder: "#7c7e83",
     },
   };
+
+  // fuerte 140e1b debil 241c30
 
   const CustomDarkTheme = {
     ...DarkTheme,
@@ -135,8 +129,8 @@ const App = ({ navigation, children }) => {
       boxTema: "#302640",
       border: "#5b4475",
       social: "#604589",
-      bar: '#241c30',
-      barStyle: 'light',
+      bar: "#241c30",
+      barStyle: "light",
       inputHolder: "#7c7e83",
     },
   };
@@ -160,12 +154,10 @@ const App = ({ navigation, children }) => {
     },
   };
 
-  
-
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
   const Search = ({ navigation }) => (
-    <View style={{ flexDirection: "row", justifyContent:"space-around" }}>
+    <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
       <TouchableOpacity onPress={() => navigation.navigate("Search")}>
         <View style={styles.rowIcon}>
           <Ionicons name="search" size={24} color={theme.colors.text} />
@@ -173,28 +165,30 @@ const App = ({ navigation, children }) => {
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Buscar")}>
         <View style={styles.rowIcon}>
-          <View style={{flexDirection: "column"}}>
+          <View style={{ flexDirection: "column" }}>
             <Ionicons
-            name="ios-search-circle-sharp"
-            size={22}
-            color={theme.colors.text}
-          />
-          <Text style={{fontSize: 6, color:theme.colors.text}}>Palabra</Text>
+              name="ios-search-circle-sharp"
+              size={22}
+              color={theme.colors.text}
+            />
+            <Text style={{ fontSize: 6, color: theme.colors.text }}>
+              Palabra
+            </Text>
           </View>
-          
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
         <View style={styles.rowIcon}>
-          <View style={{flexDirection: "column"}}>
+          <View style={{ flexDirection: "column" }}>
             <Ionicons
-            name="ios-timer-outline"
-            size={22}
-            color={theme.colors.text}
-          />
-          <Text style={{fontSize: 6, color:theme.colors.text}}>Historial</Text>
+              name="ios-timer-outline"
+              size={22}
+              color={theme.colors.text}
+            />
+            <Text style={{ fontSize: 6, color: theme.colors.text }}>
+              Historial
+            </Text>
           </View>
-          
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Home")}>
@@ -214,28 +208,30 @@ const App = ({ navigation, children }) => {
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Buscar")}>
         <View style={styles.rowIcon}>
-          <View style={{flexDirection: "column"}}>
+          <View style={{ flexDirection: "column" }}>
             <Ionicons
-            name="ios-search-circle-sharp"
-            size={22}
-            color={theme.colors.text}
-          />
-          <Text style={{fontSize: 6, color:theme.colors.text}}>Palabra</Text>
+              name="ios-search-circle-sharp"
+              size={22}
+              color={theme.colors.text}
+            />
+            <Text style={{ fontSize: 6, color: theme.colors.text }}>
+              Palabra
+            </Text>
           </View>
-          
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
         <View style={styles.rowIcon}>
-          <View style={{flexDirection: "column"}}>
+          <View style={{ flexDirection: "column" }}>
             <Ionicons
-            name="ios-bookmarks-outline"
-            size={22}
-            color={theme.colors.text}
-          />
-          <Text style={{fontSize: 6, color:theme.colors.text}}>Biblia</Text>
+              name="ios-bookmarks-outline"
+              size={22}
+              color={theme.colors.text}
+            />
+            <Text style={{ fontSize: 6, color: theme.colors.text }}>
+              Biblia
+            </Text>
           </View>
-          
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Home")}>
@@ -246,103 +242,298 @@ const App = ({ navigation, children }) => {
     </View>
   );
 
-
-
   const Version = ({ navigation }) => (
-    <TouchableOpacity 
-    onPress={() => navigation.navigate("Versiones")}
-    style={{ width: 140 }}>
-        <View style={{ paddingLeft: 50, paddingTop: 10 }}>
-          <Text style={{ color: theme.colors.text }}>Versiones</Text>
-        </View>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Versiones")}
+      style={{ width: 140 }}
+    >
+      <View style={{ paddingLeft: 50, paddingTop: 10 }}>
+        <Text style={{ color: theme.colors.text }}>Versiones</Text>
+      </View>
     </TouchableOpacity>
   );
 
-
-    return (
-      <UserContext.Provider
-        value={{
-          isDarkTheme,
-          setIsDarkTheme,
-          versionBook,
-          setVersionBook,
-          fontZize,
-          setfontZize,
-          viewBiblia, 
-          setViewBiblia
-        }}
-      >
-        <NavigationContainer theme={theme}>
+  return (
+    <UserContext.Provider
+      value={{
+        isDarkTheme,
+        setIsDarkTheme,
+        versionBook,
+        setVersionBook,
+        fontZize,
+        setfontZize,
+        viewBiblia,
+        setViewBiblia,
+      }}
+    >
+      <NavigationContainer theme={theme}>
         <StatusBar
           backgroundColor={theme.colors.bar}
           style={theme.colors.barStyle}
+        />
+        <Stack.Navigator
+          screenOptions={{
+            headerMode: "screen",
+            animation: "slide_from_left",
+            gestureEnable: true,
+            gestureDirecction: "horizontal",
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+          }}
+        >
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              headerTitle: "Inicio",
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerRight: () => <Version navigation={navigation} />,
+            })}
           />
-          <Stack.Navigator
-            screenOptions={{
-              headerMode: "screen",
-              animation: "slide_from_left",
-              gestureEnable: true,
-              gestureDirecction: "horizontal",
-              transitionSpec: {
-                open: config,
-                close: closeConfig,
-              },
+
+          <Stack.Screen
+            name="HistorialScreen"
+            component={HistorialScreen}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitle: "Historial",
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerTintColor: `${theme.colors.text}`,
+              headerRight: () => <History navigation={navigation} />,
+            })}
+          />
+
+          <Stack.Screen
+            name="Help"
+            component={HelpScreen}
+            options={({ navigation }) => ({
+              headerTitle: "Ayuda",
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
+            })}
+          />
+
+          <Stack.Screen
+            name="Versiones"
+            component={Versiones}
+            options={({ navigation }) => ({
+              headerTitle: "Versiones",
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
+            })}
+          />
+
+          <Stack.Screen
+            name="Usuario"
+            component={UsuarioScreen}
+            options={({ navigation }) => ({
+              headerTitle: "Datos de usuario",
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerRight: () => (
+                <View style={{ flexDirection: "row", paddingLeft: 14 }}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Biblia")}
+                  >
+                    <Ionicons
+                      style={{ paddingEnd: 30 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="home-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="Politica"
+            component={PoliticaScreen}
+            options={({ navigation }) => ({
+              headerTitle: "Politica de Privacidad",
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerRight: () => (
+                <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                  <Ionicons
+                    style={{ paddingEnd: 20 }}
+                    name="home-outline"
+                    size={24}
+                    color={theme.colors.text}
+                  />
+                </TouchableOpacity>
+              ),
+            })}
+          />
+
+          <Stack.Screen
+            name="Search"
+            component={SearchScreen}
+            options={{
+              headerTitle: "Buscar",
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
             }}
-          >
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={({navigation})=>({
-                headerTitle: "Inicio",
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerRight: () => <Version navigation={navigation} />,
-              })}
-            />
+          />
 
+          <Stack.Screen
+            name="Biblia"
+            component={BibliaScreen}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              //headerTitle: "Libros",
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerTintColor: `${theme.colors.text}`,
+              headerRight: () => <Search navigation={navigation} />,
+            })}
+          />
 
-              <Stack.Screen
-              name="HistorialScreen"
-              component={HistorialScreen}
-              options={({ navigation }) => ({
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitle: "Historial",
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerTintColor: `${theme.colors.text}`,
-                headerRight: () => <History navigation={navigation} />,
-              })}
-            />
+          <Stack.Screen
+            name="Temas"
+            component={RenderTemas}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerRight: () => (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Biblia")}
+                  >
+                    <Ionicons
+                      style={{ paddingEnd: 30 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("HistorialScreen")}
+                  >
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-timer-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="home-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ),
+            })}
+          />
 
-             <Stack.Screen
-              name="Help"
-              component={HelpScreen}
-              options={({navigation})=>({
-                headerTitle: "Ayuda",
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-              })}
-            />
+          <Stack.Screen
+            name="Notas"
+            component={ScreenNotas}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerRight: () => (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Biblia")}
+                  >
+                    <Ionicons
+                      style={{ paddingEnd: 30 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("HistorialScreen")}
+                  >
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-timer-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="home-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ),
+            })}
+          />
 
-             <Stack.Screen
-              name="Versiones"
-              component={Versiones}
-              options={({navigation})=>({
-                headerTitle: "Versiones",
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-              })}
-            />
+          <Stack.Screen
+            name="Nota"
+            component={NewNota}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerRight: () => (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Biblia")}
+                  >
+                    <Ionicons
+                      style={{ paddingEnd: 30 }}
+                      name="ios-bookmarks-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("HistorialScreen")}
+                  >
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="ios-timer-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Ionicons
+                      style={{ paddingEnd: 20 }}
+                      name="home-outline"
+                      size={24}
+                      color={theme.colors.text}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ),
+            })}
+          />
 
-            <Stack.Screen
-              name="Usuario"
-              component={UsuarioScreen}
-              options={({navigation})=>({
-                headerTitle: "Datos de usuario",
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerRight: () => (
-                  <View style={{flexDirection: "row", paddingLeft: 14}}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+          <Stack.Screen
+            name="Buscar"
+            component={SearchPalabra}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitle: "Buscar palabra",
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerRight: () => (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Biblia")}
+                  >
                     <Ionicons
                       style={{ paddingEnd: 30 }}
                       name="ios-bookmarks-outline"
@@ -358,229 +549,36 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
-                  </View>
-                  
-                ),
-              })}
-            />
-            <Stack.Screen
-              name="Politica"
-              component={PoliticaScreen}
-              options={({navigation})=>({
-                headerTitle: "Politica de Privacidad",
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerRight: () => (
-                  <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="home-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-                ),
-              })}
-            />
+                </View>
+              ),
+            })}
+          />
 
-            <Stack.Screen
-              name="Search"
-              component={SearchScreen}
-              options={{
-                headerTitle: "Buscar",
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-              }}
-            />
+          <Stack.Screen
+            name="SelectCharter"
+            component={SelectCharter}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              //headerTitle: "Capitulos",
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerTintColor: `${theme.colors.text}`,
+              headerRight: () => <Search navigation={navigation} />,
+            })}
+          />
 
-            <Stack.Screen
-              name="Biblia"
-              component={BibliaScreen}
-              options={({ navigation }) => ({
-                headerStyle: { backgroundColor: theme.colors.header },
-                //headerTitle: "Libros",
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerTintColor: `${theme.colors.text}`,
-                headerRight: () => <Search navigation={navigation} />,
-              })}
-            />
-
-              <Stack.Screen
-              name="Temas"
-              component={RenderTemas}
-              options={({ navigation })=>({
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerRight: () => (
-                  <View style={{flexDirection: "row"}}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
-                    <Ionicons
-                      style={{ paddingEnd: 30 }}
-                      name="ios-bookmarks-outline"
-                      size={24}
-                      
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="ios-timer-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="home-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-
-                  </View>
-                  
-                ),
-              })}
-            />
-
-              <Stack.Screen
-              name="Notas"
-              component={ScreenNotas}
-              options={({ navigation })=>({
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerRight: () => (
-                  <View style={{flexDirection: "row"}}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
-                    <Ionicons
-                      style={{ paddingEnd: 30 }}
-                      name="ios-bookmarks-outline"
-                      size={24}
-                      
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="ios-timer-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="home-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-
-                  </View>
-                  
-                ),
-              })}
-            />
-
-            <Stack.Screen
-              name="Nota"
-              component={NewNota}
-              options={({ navigation })=>({
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerRight: () => (
-                  <View style={{flexDirection: "row"}}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
-                    <Ionicons
-                      style={{ paddingEnd: 30 }}
-                      name="ios-bookmarks-outline"
-                      size={24}
-                      
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="ios-timer-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="home-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-
-                  </View>
-                  
-                ),
-              })}
-            />
-
-              <Stack.Screen
-              name="Buscar"
-              component={SearchPalabra}
-              options={({ navigation })=>({
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitle: "Buscar palabra",
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerRight: () => (
-                  <View style={{flexDirection: "row"}}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
-                    <Ionicons
-                      style={{ paddingEnd: 30 }}
-                      name="ios-bookmarks-outline"
-                      size={24}
-                      
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                    <Ionicons
-                      style={{ paddingEnd: 20 }}
-                      name="home-outline"
-                      size={24}
-                      color={theme.colors.text}
-                    />
-                  </TouchableOpacity>
-
-                  </View>
-                  
-                ),
-              })}
-            />
-
-            <Stack.Screen
-              name="SelectCharter"
-              component={SelectCharter}
-              options={({ navigation }) => ({
-                headerStyle: { backgroundColor: theme.colors.header },
-                //headerTitle: "Capitulos",
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerTintColor: `${theme.colors.text}`,
-                headerRight: () => <Search navigation={navigation} />,
-              })}
-            />
-
-            <Stack.Screen
-              name="Charter"
-              component={CharterScreen}
-              options={({ navigation }) => ({
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitle: "Biblia AV",
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerTintColor: `${theme.colors.text}`,
-                headerRight: () => (
-                  <View style={{flexDirection: "row"}}>
-                  <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+          <Stack.Screen
+            name="Charter"
+            component={CharterScreen}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitle: "Biblia AV",
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerTintColor: `${theme.colors.text}`,
+              headerRight: () => (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Biblia")}
+                  >
                     <Ionicons
                       style={{ paddingEnd: 30 }}
                       name="ios-bookmarks-outline"
@@ -588,7 +586,7 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
-                  
+
                   {/*<TouchableOpacity onPress={() => navigation.navigate("HistorialScreen")}>
                     <Ionicons
                       style={{ paddingEnd: 20 }}
@@ -598,7 +596,9 @@ const App = ({ navigation, children }) => {
                     />
                 </TouchableOpacity>*/}
 
-                  <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Settings")}
+                  >
                     <Ionicons
                       style={{ paddingEnd: 20 }}
                       name="ios-text"
@@ -614,25 +614,25 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
+                </View>
+              ),
+              //headerRight: () => <Search navigation={navigation} />,
+            })}
+          />
 
-                  </View>
-                  
-                ),
-                //headerRight: () => <Search navigation={navigation} />,
-              })}
-            />
-
-            <Stack.Screen
-              name="Settings"
-              component={SettingsScrean}
-              options={({ navigation }) => ({
-                headerStyle: { backgroundColor: theme.colors.header },
-                headerTitle: "Ajustes",
-                headerTitleStyle: { color: theme.colors.textHeader },
-                headerTintColor: `${theme.colors.text}`,
-                headerRight: () => (
-                  <View style={{flexDirection: "row"}}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Biblia")}>
+          <Stack.Screen
+            name="Settings"
+            component={SettingsScrean}
+            options={({ navigation }) => ({
+              headerStyle: { backgroundColor: theme.colors.header },
+              headerTitle: "Ajustes",
+              headerTitleStyle: { color: theme.colors.textHeader },
+              headerTintColor: `${theme.colors.text}`,
+              headerRight: () => (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Biblia")}
+                  >
                     <Ionicons
                       style={{ paddingEnd: 30 }}
                       name="ios-bookmarks-outline"
@@ -648,16 +648,14 @@ const App = ({ navigation, children }) => {
                       color={theme.colors.text}
                     />
                   </TouchableOpacity>
-                  </View>
-                ),
-              })}
-            />
-          </Stack.Navigator>
-          
-        </NavigationContainer>
-      </UserContext.Provider>
-    );
-  
+                </View>
+              ),
+            })}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserContext.Provider>
+  );
 };
 
 const styles = StyleSheet.create({
