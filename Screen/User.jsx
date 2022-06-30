@@ -568,28 +568,6 @@ const User = ({ route, navigation: { navigate } }) => {
       </View>
 
       <View style={[styles.flex1, { backgroundColor: colors.header }]}>
-        <TouchableOpacity onPress={changeEstadoTemas}>
-          {estadoAct === "like" ? (
-            <View style={[styles.col, { backgroundColor: colors.header }]}>
-              <Ionicons
-                name="heart-outline"
-                size={20}
-                color={colors.textNumber}
-              />
-              <Text style={{ color: colors.textNumber, fontSize: 10 }}>
-                Favoritos
-              </Text>
-            </View>
-          ) : (
-            <View style={[styles.col, { backgroundColor: colors.header }]}>
-              <Ionicons name="heart-outline" size={20} color={colors.text} />
-              <Text style={{ color: colors.text, fontSize: 10 }}>
-                Favoritos
-              </Text>
-            </View>
-          )}
-        </TouchableOpacity>
-
         <TouchableOpacity onPress={changeEstado}>
           {estadoAct === "temas" ? (
             <View style={[styles.col, { backgroundColor: colors.header }]}>
@@ -611,6 +589,28 @@ const User = ({ route, navigation: { navigate } }) => {
               />
               <Text style={{ color: colors.text, fontSize: 10 }}>
                 Mis temas
+              </Text>
+            </View>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={changeEstadoTemas}>
+          {estadoAct === "like" ? (
+            <View style={[styles.col, { backgroundColor: colors.header }]}>
+              <Ionicons
+                name="heart-outline"
+                size={20}
+                color={colors.textNumber}
+              />
+              <Text style={{ color: colors.textNumber, fontSize: 10 }}>
+                Favoritos
+              </Text>
+            </View>
+          ) : (
+            <View style={[styles.col, { backgroundColor: colors.header }]}>
+              <Ionicons name="heart-outline" size={20} color={colors.text} />
+              <Text style={{ color: colors.text, fontSize: 10 }}>
+                Favoritos
               </Text>
             </View>
           )}

@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Share
+  Share,
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -14,7 +14,7 @@ import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { UserContext } from "../Component/Context/contexUser";
 
-const Notas = ({route, navigation}) => {
+const Notas = ({ route, navigation }) => {
   const { colors } = useTheme(); //en uso
   const { fontZize, setfontZize } = useContext(UserContext); //en uso
   const [estadoNewNota, setEstadoNewNota] = useState(true); // boton new Nota
@@ -44,26 +44,24 @@ const Notas = ({route, navigation}) => {
   };
 
   React.useEffect(() => {
-    receiveNota(route.params._id)
+    receiveNota(route.params._id);
     //obtNotas();
   }, []);
 
-
-
-  const receiveNota = async (id)=>{
+  const receiveNota = async (id) => {
     let arrayNotas = await AsyncStorage.getItem("@storage_Key_Notas");
     let jsonArrayNotas = JSON.parse(arrayNotas);
-    if(jsonArrayNotas===null){
-        setNewNota({ title: "", subtitle: "", descripcion: "", _id: id })
-    }else{
-        let oneNota = jsonArrayNotas.find((x) => x._id === id);
-        if(oneNota===undefined){
-            setNewNota({ title: "", subtitle: "", descripcion: "", _id: id })
-        }else{
-            setNewNota(oneNota)  
-        }   
+    if (jsonArrayNotas === null) {
+      setNewNota({ title: "", subtitle: "", descripcion: "", _id: id });
+    } else {
+      let oneNota = jsonArrayNotas.find((x) => x._id === id);
+      if (oneNota === undefined) {
+        setNewNota({ title: "", subtitle: "", descripcion: "", _id: id });
+      } else {
+        setNewNota(oneNota);
+      }
     }
-  }
+  };
 
   const autoSaveNota = async () => {
     //await AsyncStorage.removeItem("@storage_Key_Notas")
@@ -94,19 +92,16 @@ const Notas = ({route, navigation}) => {
     }
   };
 
-
   const deleteNota = async () => {
     let notas = newNota;
     let Notas = await AsyncStorage.getItem("@storage_Key_Notas");
     let jsonNota = JSON.parse(Notas);
-    let idx = jsonNota.findIndex((x) => x._id === notas._id)
+    let idx = jsonNota.findIndex((x) => x._id === notas._id);
     jsonNota.splice(idx, 1);
     await AsyncStorage.setItem("@storage_Key_Notas", JSON.stringify(jsonNota));
     setNewNota({ title: "", subtitle: "", descripcion: "", _id: null });
-    navigation.navigate("Notas")
+    navigation.navigate("Notas");
   };
-
-
 
   const threePoind = () => {
     setAddID(!addID);
@@ -115,8 +110,6 @@ const Notas = ({route, navigation}) => {
   const threePoind2 = () => {
     setAddID(!addID);
   };
-
-  
 
   const saveNota = async () => {
     if (newNota._id) {
@@ -182,69 +175,70 @@ const Notas = ({route, navigation}) => {
     autoSaveNota();
   };
 
-
   //compartir
 
-  const onShared = async ()=>{
-    if(newNota.title.length>1){
-    let httpBAV = "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV"
-    let titulo = newNota.title.toUpperCase()
+  const onShared = async () => {
+    if (newNota.title.length > 1) {
+      let httpBAV =
+        "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV";
+      let titulo = newNota.title.toUpperCase();
 
-    let mensage =
-    `
-    ${newNota.title}
+      let mensage = `
     ${newNota.subtitle}
 
     ${newNota.descripcion}
 
     ${httpBAV}
-    `
-    
-    try {
-      const result = await Share.share({
-        message: 'BibliaAV',
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-          Share.share({
-            title: titulo,
-            message: mensage
-          })
-        } else {
-          // shared
-          Share.share({
-            title: titulo,
-            message: mensage
-          })
+    `;
+
+      try {
+        const result = await Share.share({
+          message: "BibliaAV",
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+            Share.share({
+              title: titulo,
+              message: mensage,
+            });
+          } else {
+            // shared
+            Share.share({
+              title: titulo,
+              message: mensage,
+            });
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
         }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
+      } catch (error) {
+        alert(error.message);
       }
-    } catch (error) {
-      alert(error.message);
-    }
-    }else{
+    } else {
       // no hacer nada
     }
-  }
-
+  };
 
   //render uno sola nota
 
-  if(newNota){
+  if (newNota) {
     return (
-        <View style={[styles.container, {backgroundColor: colors.background}]}>
-          
-          <View style={{ paddingHorizontal: 4, paddingHorizontal:20, paddingVertical: 20 }}>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View
+          style={{
+            paddingHorizontal: 4,
+            paddingHorizontal: 20,
+            paddingVertical: 20,
+          }}
+        >
           <ScrollView>
-          
             <TextInput
               onChangeText={(val) => inputChangeTitle(val)}
               style={{
                 color: colors.textNumber,
                 marginBottom: 5,
-                fontSize: fontZize.fonttitle-3,
+                fontSize: fontZize.fonttitle - 3,
                 fontFamily: "sans-serif-medium",
                 width: "80%",
               }}
@@ -260,7 +254,7 @@ const Notas = ({route, navigation}) => {
               style={{
                 color: colors.text,
                 marginBottom: 5,
-                fontSize: fontZize.fontsubtitle-4,
+                fontSize: fontZize.fontsubtitle - 4,
                 fontFamily: "sans-serif-thin",
               }}
               placeholder="Subtitulo"
@@ -276,7 +270,7 @@ const Notas = ({route, navigation}) => {
                 color: colors.text,
                 marginBottom: 5,
                 marginTop: 8,
-                fontSize: fontZize.fonttext-3,
+                fontSize: fontZize.fonttext - 3,
                 fontFamily: "sans-serif-medium",
               }}
               placeholder="Descripcion"
@@ -286,86 +280,91 @@ const Notas = ({route, navigation}) => {
               numberOfLines={5}
               //textAlignVertical="top"
             />
-          
           </ScrollView>
-          </View>
-  
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            top: 20,
+            right: 20,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+          }}
+        >
+          <TouchableOpacity onPress={threePoind}>
+            <Ionicons
+              name="ellipsis-horizontal-sharp"
+              size={20}
+              color={colors.text}
+              //style={{padding: 2}}
+            />
+          </TouchableOpacity>
+        </View>
+
+        {addID === true && (
           <View
             style={{
+              flexDirection: "column",
+              justifyContent: "space-between",
               position: "absolute",
               top: 20,
               right: 20,
-              flexDirection: "row",
-              justifyContent: "flex-end",
-              paddingVertical: 10,
-              paddingHorizontal: 20,
+              backgroundColor: colors.header,
+              paddingHorizontal: 10,
+              paddingVertical: 12,
+              borderRadius: 10,
+              height: 175,
+              borderColor: colors.text,
+              borderWidth: 1,
             }}
           >
-            <TouchableOpacity onPress={threePoind}>
+            <TouchableOpacity onPress={threePoind2}>
               <Ionicons
-                name="ellipsis-horizontal-sharp"
-                size={20}
-                color={colors.text}
-                //style={{padding: 2}}
+                name="chevron-up"
+                size={24}
+                color={colors.textNumber}
+                style={{ marginBottom: 10, textAlign: "center" }}
               />
             </TouchableOpacity>
-          </View>
-  
-  
-          
-          {addID === true && (
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "space-between",
-                position: "absolute",
-                top: 20,
-                right: 20,
-                backgroundColor: colors.header,
-                paddingHorizontal: 10,
-                paddingVertical: 12,
-                borderRadius: 10,
-                height: 175,
-                borderColor: colors.text,
-                borderWidth: 1
-              }}
+            <TouchableOpacity
+              onPress={onShared}
+              style={{ flexDirection: "row" }}
             >
-              <TouchableOpacity onPress={threePoind2} >
-                <Ionicons
-                  name="chevron-up"
-                  size={24}
-                  color={colors.textNumber}
-                  style={{ marginBottom:10, textAlign: "center" }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={onShared} style={{flexDirection: "row"}}>
-                <Ionicons
-                  name="ios-share-social-outline"
-                  size={20}
-                  color={colors.text}
-                  style={{ marginBottom:10 }}
-                />
-                <Text style={{fontSize: 14, marginLeft: 8, color: colors.text}}>Compartir</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={deleteNota} style={{flexDirection: "row"}}>
-                <Ionicons
-                  name="trash-outline"
-                  size={20}
-                  color={colors.text}
-                  style={{ marginBottom:10 }}
-                />
-                 <Text style={{fontSize: 14, marginLeft: 8, color: colors.text}}>  Eliminar</Text>
-              </TouchableOpacity>
-              
-            </View>
-          )}
-        </View>
-      );
+              <Ionicons
+                name="ios-share-social-outline"
+                size={20}
+                color={colors.text}
+                style={{ marginBottom: 10 }}
+              />
+              <Text style={{ fontSize: 14, marginLeft: 8, color: colors.text }}>
+                Compartir
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={deleteNota}
+              style={{ flexDirection: "row" }}
+            >
+              <Ionicons
+                name="trash-outline"
+                size={20}
+                color={colors.text}
+                style={{ marginBottom: 10 }}
+              />
+              <Text style={{ fontSize: 14, marginLeft: 8, color: colors.text }}>
+                {" "}
+                Eliminar
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    );
   }
 
-  return (<Text>Cargando</Text>)
-    
-  
+  return <Text>Cargando</Text>;
 };
 
 //<Ionicons name="ios-share-social-outline" size={24} color="black" />
@@ -376,7 +375,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   boxContainer: {
-
     //marginHorizontal: 2,
     paddingHorizontal: 15,
     paddingVertical: 10,

@@ -14,7 +14,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { UserContext } from "../Component/Context/contexUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 //import * as Sharing from 'expo-sharing';
 
 import Reina from "../Component/Biblias/ReinaValera/fullLibroReinaValera.json";
@@ -27,7 +26,6 @@ import Forward from "../Component/boton/Forward";
 import Favorito from "../Component/boton/Favorito";
 import Msj from "../Component/boton/Msj";
 
-
 const Charter = ({ route }) => {
   const { fontZize, setfontZize, versionBook, setVersionBook } =
     useContext(UserContext); //en uso
@@ -39,33 +37,111 @@ const Charter = ({ route }) => {
   const [idVerse, setidVerse] = useState(null); // add versiculo seleccionado
   const [temas, setTemas] = useState([]);
   const [validateTema, setValidateTema] = useState(true);
+  const [msjSuccess, setMsjSuccess] = useState(null);
+  
+
+
+  const generateUUID = () => {
+    var d = new Date().getTime();
+    var uuid = "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+      }
+    );
+    return uuid;
+  };
 
   React.useEffect(() => {
     obtainCharte(route.params._id, route.params.version);
     obtainTemas();
-    Historial(route.params._id)
+    Historial(route.params._id);
   }, []);
 
-  const Historial = async (id)=>{
+  const viewMessage = (msj) => {
+    setMsjSuccess("Success");
+    msjTimeOut();
+  };
+
+  const msjTimeOut = () => {
+    setTimeout(function () {
+      setMsjSuccess(null);
+    }, 2000);
+  };
+
+  const addNotaNew = async () => {
     try {
-      let historia = await AsyncStorage.getItem('@storage_Key_Historial')
-      let historiaJson = JSON.parse(historia)
-      if(historiaJson===null){
-        let historial = []
-        historial.unshift(id)
-        await AsyncStorage.setItem('@storage_Key_Historial', JSON.stringify(historial))
-      }else{
-        if(historiaJson[0]===id){
+      let notas = await AsyncStorage.getItem("@storage_Key_Notas");
+      let jsonNota = JSON.parse(notas);
+      if (jsonNota === null) {
+        let Notas = [];
+        let id = generateUUID();
+        let Nota = {
+          _id: id,
+          title: idVerse.originCharter,
+          subtitle: `Versiculo ${idVerse.numero}`,
+          descripcion: idVerse.versiculo,
+        };
+        Notas.push(Nota);
+        await AsyncStorage.setItem("@storage_Key_Notas", JSON.stringify(Notas));
+        setModalVisible(!modalVisible);
+      } else {
+        let id = generateUUID();
+        let Nota = {
+          _id: id,
+          title: idVerse.originCharter,
+          subtitle: `Versiculo ${idVerse.numero}`,
+          descripcion: idVerse.versiculo,
+        };
+        if (jsonNota.length === 0) {
+          jsonNota.push(Nota);
+          await AsyncStorage.setItem(
+            "@storage_Key_Notas",
+            JSON.stringify(jsonNota)
+          );
+          setModalVisible(!modalVisible);
+        } else {
+          jsonNota.unshift(Nota);
+          await AsyncStorage.setItem(
+            "@storage_Key_Notas",
+            JSON.stringify(jsonNota)
+          );
+          setModalVisible(!modalVisible);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const Historial = async (id) => {
+    try {
+      let historia = await AsyncStorage.getItem("@storage_Key_Historial");
+      let historiaJson = JSON.parse(historia);
+      if (historiaJson === null) {
+        let historial = [];
+        historial.unshift(id);
+        await AsyncStorage.setItem(
+          "@storage_Key_Historial",
+          JSON.stringify(historial)
+        );
+      } else {
+        if (historiaJson[0] === id) {
           //no hacer nada
-        }else{
-          historiaJson.unshift(id)
-          await AsyncStorage.setItem('@storage_Key_Historial', JSON.stringify(historiaJson))
+        } else {
+          historiaJson.unshift(id);
+          await AsyncStorage.setItem(
+            "@storage_Key_Historial",
+            JSON.stringify(historiaJson)
+          );
         }
       }
     } catch (error) {
       //error
     }
-  }
+  };
 
   const createTwoButtonAlert = (tema) =>
     Alert.alert("El versiculo ya pertenece al tema:", `${tema}`, [
@@ -93,8 +169,6 @@ const Charter = ({ route }) => {
     }
   };
 
-  
-
   const getCharterRewinder = ({ variables }) => {
     setData(null);
     setMsjView(false);
@@ -107,11 +181,11 @@ const Charter = ({ route }) => {
         if (newIdx1 >= 0) {
           let newChacter1 = Reina[newIdx1];
           setData(newChacter1);
-          Historial(newChacter1._id)
+          Historial(newChacter1._id);
         } else {
           let newChacter1 = Reina[0];
           setData(newChacter1);
-          Historial(newChacter1._id)
+          Historial(newChacter1._id);
         }
         break;
       case "Biblia_del_oso_1569":
@@ -140,11 +214,11 @@ const Charter = ({ route }) => {
         if (newIdx1 <= 1188) {
           let newChacter1 = Reina[newIdx1];
           setData(newChacter1);
-          Historial(newChacter1._id)
+          Historial(newChacter1._id);
         } else {
           let newChacter1 = Reina[1188];
           setData(newChacter1);
-          Historial(newChacter1._id)
+          Historial(newChacter1._id);
         }
         break;
       case "Biblia_del_oso_1569":
@@ -214,38 +288,37 @@ const Charter = ({ route }) => {
         temas.splice(idx, 1, temaSelect);
         await AsyncStorage.setItem("@storage_Key_Temas", JSON.stringify(temas));
         setModalVisible(!modalVisible);
+        viewMessage("Agredado al tema");
       }
     } catch (error) {}
   };
 
-
-  const onShared = async ()=>{
-    let httpBAV = "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV"
-    let titulo = idVerse.originCharter.toUpperCase()
-    let mensage =`
-    ${titulo}:${idVerse.numero}
-
-    ${idVerse.versiculo}
+  const onShared = async () => {
+    let httpBAV =
+      "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV";
+    let titulo = idVerse.originCharter.toUpperCase();
+    let mensage = `
+    ${idVerse.numero}:  ${idVerse.versiculo}
 
     ${httpBAV}
-    `
+    `;
     try {
       const result = await Share.share({
-        message: 'BibliaAV',
+        message: "BibliaAV",
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           // shared with activity type of result.activityType
           Share.share({
             title: titulo,
-            message: mensage
-          })
+            message: mensage,
+          });
         } else {
           // shared
           Share.share({
             title: titulo,
-            message: mensage
-          })
+            message: mensage,
+          });
         }
       } else if (result.action === Share.dismissedAction) {
         // dismissed
@@ -253,7 +326,7 @@ const Charter = ({ route }) => {
     } catch (error) {
       alert(error.message);
     }
-  }
+  };
 
   // fin de lo nuevo
 
@@ -280,6 +353,8 @@ const Charter = ({ route }) => {
         setData={setData}
         onShared={onShared}
         idVerse={idVerse}
+        msjSuccess={msjSuccess}
+        addNotaNew={addNotaNew}
       ></Preview>
     );
 
@@ -303,11 +378,12 @@ const Preview = ({
   validateTema,
   setData,
   onShared,
-  idVerse
+  idVerse,
+  msjSuccess,
+  addNotaNew
 }) => (
   <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-
-    <ScrollView >
+    <ScrollView>
       <View style={styles.rowFlex}>
         <Rewind
           setData={setData}
@@ -321,8 +397,8 @@ const Preview = ({
             {
               color: colors.textNumber,
               fontSize: fontZize.fonttitle,
-              fontFamily: 'sans-serif-thin',
-              fontWeight: "bold"
+              fontFamily: "sans-serif-thin",
+              fontWeight: "bold",
             },
           ]}
         >
@@ -383,10 +459,7 @@ const Preview = ({
         </View>
       )}
 
-      <View
-        style={[styles.rowFlex, {  }]}
-      >
-        
+      <View style={[styles.rowFlex, {}]}>
         <View style={{ flexDirection: "column" }}>
           <Text
             style={[
@@ -407,14 +480,10 @@ const Preview = ({
             {data.version}
           </Text>
         </View>
-       
-        
       </View>
     </ScrollView>
 
-   
-    
-      <PreviewModal
+    <PreviewModal
       setModalVisible={setModalVisible}
       modalVisible={modalVisible}
       colors={colors}
@@ -422,14 +491,35 @@ const Preview = ({
       addVerseTema={addVerseTema}
       validateTema={validateTema}
       onShared={onShared}
-      idVerse
+      addNotaNew={addNotaNew}
+      idVerse={idVerse}
     />
-          
-    
 
-    
+    {msjSuccess !== null && (
+        <View
+          style={{
+            position: "absolute",
+            top: 10,
+            right: 20,
+            backgroundColor: colors.header,
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            borderRadius: 10,
+          }}
+        >
+          <Text
+            style={{
+              color: colors.text,
+            }}
+          >
+            {msjSuccess}
+          </Text>
+        </View>
+    )}
   </View>
 );
+
+
 
 const PreviewModal = ({
   setModalVisible,
@@ -440,6 +530,7 @@ const PreviewModal = ({
   validateTema,
   onShared = { onShared },
   idVerse = { idVerse },
+  addNotaNew = { addNotaNew },
 }) => (
   <View>
     {modalVisible ? (
@@ -470,7 +561,7 @@ const PreviewModal = ({
               style={{
                 color: colors.text,
                 fontFamily: "sans-serif-medium",
-                fontSize: 16,
+                fontSize: 14,
               }}
             >
               Compartir...
@@ -481,6 +572,32 @@ const PreviewModal = ({
               size={24}
               color={colors.text}
             />
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={addNotaNew}>
+          <View
+            style={[
+              styles.rowFlex,
+              {
+                marginBottom: 15,
+                paddingTop: 15,
+                borderTopColor: colors.header,
+                borderTopWidth: 1,
+              },
+            ]}
+          >
+            <Text
+              style={{
+                color: colors.text,
+                fontFamily: "sans-serif-medium",
+                fontSize: 14,
+              }}
+            >
+              Agregarlo a notas
+            </Text>
+
+            <Ionicons name="pricetag-outline" size={24} color={colors.text} />
           </View>
         </TouchableOpacity>
 
@@ -500,8 +617,8 @@ const PreviewModal = ({
               style={{
                 color: colors.text,
                 padding: 10,
-                fontFamily: "sans-serif-medium",
-                fontSize: 16,
+                fontFamily: "notoserif",
+                fontSize: 14,
               }}
             >
               No hay temas creados
@@ -512,7 +629,7 @@ const PreviewModal = ({
                 color: colors.text,
                 padding: 10,
                 fontFamily: "sans-serif-medium",
-                fontSize: 16,
+                fontSize: 14,
               }}
             >
               Agregarlo a un tema
@@ -552,7 +669,7 @@ const PreviewModal = ({
             paddingVertical: 10,
             marginHorizontal: 10,
             borderTopColor: colors.header,
-            borderTopWidth: 1
+            borderTopWidth: 1,
           }}
         >
           <TouchableOpacity
@@ -592,7 +709,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 8
+    padding: 8,
   },
   title: {
     marginBottom: 8,
@@ -634,7 +751,7 @@ const styles = StyleSheet.create({
     maxHeight: 560,
     paddingHorizontal: 15,
     paddingBottom: 20,
-    paddingTop:16,
+    paddingTop: 16,
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
   },

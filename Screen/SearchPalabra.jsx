@@ -33,6 +33,19 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
     obtainTemas();
   }, []);
 
+  const generateUUID = () => {
+    var d = new Date().getTime();
+    var uuid = "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+      }
+    );
+    return uuid;
+  };
+
   const createTwoButtonAlert = (tema) =>
     Alert.alert("El versiculo ya pertenece al tema:", `${tema}`, [
       {
@@ -108,9 +121,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
       "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV";
     let titulo = verseNew.originCharter.toUpperCase();
     let mensage = `
-    ${titulo}:${verseNew.numero}
-
-    ${verseNew.versiculo}
+    ${verseNew.numero}: ${verseNew.versiculo}
 
     ${httpBAV}
     `;
@@ -137,6 +148,51 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
       }
     } catch (error) {
       alert(error.message);
+    }
+  };
+
+  const addNotaNew = async () => {
+    try {
+      let notas = await AsyncStorage.getItem("@storage_Key_Notas");
+      let jsonNota = JSON.parse(notas);
+      if (jsonNota === null) {
+        let Notas = [];
+        let id = generateUUID();
+        let Nota = {
+          _id: id,
+          title: verseNew.originCharter,
+          subtitle: `Versiculo ${verseNew.numero}`,
+          descripcion: verseNew.versiculo,
+        };
+        Notas.push(Nota);
+        await AsyncStorage.setItem("@storage_Key_Notas", JSON.stringify(Notas));
+        setModalVisible(!modalVisible);
+      } else {
+        let id = generateUUID();
+        let Nota = {
+          _id: id,
+          title: verseNew.originCharter,
+          subtitle: `Versiculo ${verseNew.numero}`,
+          descripcion: verseNew.versiculo,
+        };
+        if (jsonNota.length === 0) {
+          jsonNota.push(Nota);
+          await AsyncStorage.setItem(
+            "@storage_Key_Notas",
+            JSON.stringify(jsonNota)
+          );
+          setModalVisible(!modalVisible);
+        } else {
+          jsonNota.unshift(Nota);
+          await AsyncStorage.setItem(
+            "@storage_Key_Notas",
+            JSON.stringify(jsonNota)
+          );
+          setModalVisible(!modalVisible);
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -172,7 +228,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                 style={{
                   color: colors.text,
                   fontFamily: "sans-serif-medium",
-                  fontSize: 16,
+                  fontSize: 14,
                 }}
               >
                 Compartir...
@@ -183,6 +239,31 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                 size={24}
                 color={colors.text}
               />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={addNotaNew}>
+            <View
+              style={[
+                styles.rowFlex,
+                {
+                  marginBottom: 15,
+                  paddingTop: 15,
+                  borderTopColor: colors.header,
+                  borderTopWidth: 1,
+                },
+              ]}
+            >
+              <Text
+                style={{
+                  color: colors.text,
+                  fontFamily: "sans-serif-medium",
+                  fontSize: 14,
+                }}
+              >
+                Agregarlo a notas
+              </Text>
+
+              <Ionicons name="pricetag-outline" size={24} color={colors.text} />
             </View>
           </TouchableOpacity>
 
@@ -203,7 +284,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                   color: colors.text,
                   padding: 10,
                   fontFamily: "sans-serif-medium",
-                  fontSize: 16,
+                  fontSize: 14,
                 }}
               >
                 No hay temas creados
@@ -214,7 +295,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                   color: colors.text,
                   padding: 10,
                   fontFamily: "sans-serif-medium",
-                  fontSize: 16,
+                  fontSize: 14,
                 }}
               >
                 Agregarlo a un tema
