@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Switch } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Switch, ScrollView } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { UserContext } from "../Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
 import Ejm from "../Component/boton/ejmSetting";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
-import { ScrollView } from "react-native-web";
+
 
 const Setting = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
@@ -76,76 +76,7 @@ const Setting = ({ navigation: { navigate } }) => {
       // saving error
     }
   };
-  //
-
-  /*
-  const changeFont = (variable) => {
-    if (variable === "addtitle") {
-      if (fontZize.fonttitle < 52) {
-        setfontZize({
-          fonttitle: fontZize.fonttitle + 2,
-          fontsubtitle: fontZize.fontsubtitle,
-          fonttext: fontZize.fonttext,
-        });
-        storeDataZize();
-      }
-    }
-    if (variable === "lesstitle") {
-      if (fontZize.fonttitle > 14) {
-        setfontZize({
-          fonttitle: fontZize.fonttitle - 2,
-          fontsubtitle: fontZize.fontsubtitle,
-          fonttext: fontZize.fonttext,
-        });
-        storeDataZize();
-      }
-    }
-
-    if (variable === "addtext") {
-      if (fontZize.fonttext < 42) {
-        setfontZize({
-          fonttitle: fontZize.fonttitle,
-          fontsubtitle: fontZize.fontsubtitle,
-          fonttext: fontZize.fonttext + 1,
-        });
-        storeDataZize();
-      }
-    }
-    if (variable === "lesstext") {
-      if (fontZize.fonttext > 10) {
-        setfontZize({
-          fonttitle: fontZize.fonttitle,
-          fontsubtitle: fontZize.fontsubtitle,
-          fonttext: fontZize.fonttext - 1,
-        });
-
-        storeDataZize();
-      }
-    }
-
-    if (variable === "addsubtitle") {
-      if (fontZize.fontsubtitle < 48) {
-        setfontZize({
-          fonttitle: fontZize.fonttitle,
-          fontsubtitle: fontZize.fontsubtitle + 1,
-          fonttext: fontZize.fonttext,
-        });
-
-        storeDataZize();
-      }
-    }
-    if (variable === "lesssubtitle") {
-      if (fontZize.fontsubtitle > 12) {
-        setfontZize({
-          fonttitle: fontZize.fonttitle,
-          fontsubtitle: fontZize.fontsubtitle - 1,
-          fonttext: fontZize.fonttext,
-        });
-
-        storeDataZize();
-      }
-    }
-  };*/
+  
 
   return (
     <View style={{ flex: 1 }}>
