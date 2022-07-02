@@ -229,6 +229,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                   color: colors.text,
                   fontFamily: "sans-serif-medium",
                   fontSize: 14,
+                  paddingHorizontal: 10
                 }}
               >
                 Compartir...
@@ -258,6 +259,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                   color: colors.text,
                   fontFamily: "sans-serif-medium",
                   fontSize: 14,
+                  paddingHorizontal: 10
                 }}
               >
                 Agregarlo a notas
@@ -285,6 +287,7 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
                   padding: 10,
                   fontFamily: "sans-serif-medium",
                   fontSize: 14,
+                  paddingHorizontal: 10
                 }}
               >
                 No hay temas creados
@@ -528,7 +531,7 @@ const styles = StyleSheet.create({
   },
   rowFlex: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
     borderRadius: 5,
     paddingVertical: 4,
     marginVertical: 4,

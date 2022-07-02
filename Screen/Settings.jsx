@@ -5,58 +5,68 @@ import { UserContext } from "../Component/Context/contexUser";
 import { Ionicons } from "@expo/vector-icons";
 import Ejm from "../Component/boton/ejmSetting";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Slider from '@react-native-community/slider';
+import Slider from "@react-native-community/slider";
+import { ScrollView } from "react-native-web";
 
 const Setting = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
-  const { isDarkTheme, setIsDarkTheme, viewBiblia, setViewBiblia, fontZize, setfontZize  } = useContext(UserContext);
+  const {
+    isDarkTheme,
+    setIsDarkTheme,
+    viewBiblia,
+    setViewBiblia,
+    fontZize,
+    setfontZize,
+  } = useContext(UserContext);
 
-  const setValueText = (val1)=>{
+  const setValueText = (val1) => {
     setfontZize({
       fonttitle: fontZize.fonttitle,
       fontsubtitle: fontZize.fontsubtitle,
       fonttext: val1,
     });
     storeDataZize();
-  }
+  };
 
-  const setValueTitle = (val2)=>{
+  const setValueTitle = (val2) => {
     setfontZize({
       fonttitle: val2,
       fontsubtitle: fontZize.fontsubtitle,
       fonttext: fontZize.fonttext,
     });
     storeDataZize();
-  }
+  };
 
-  const setValueSubTitle = (val3)=>{
+  const setValueSubTitle = (val3) => {
     setfontZize({
       fonttitle: fontZize.fonttitle,
       fontsubtitle: val3,
       fonttext: fontZize.fonttext,
     });
     storeDataZize();
-  }
-  
+  };
+
   const toggleSwitch = () => {
     setIsDarkTheme((isDarkTheme) => !isDarkTheme);
     storeData(!isDarkTheme);
   };
 
-  const toggleSwitchView = async (vista)=>{
-    setViewBiblia(!viewBiblia)
-    await AsyncStorage.setItem('@storage_Key_View', JSON.stringify(!viewBiblia))  
-  }
+  const toggleSwitchView = async (vista) => {
+    setViewBiblia(!viewBiblia);
+    await AsyncStorage.setItem(
+      "@storage_Key_View",
+      JSON.stringify(!viewBiblia)
+    );
+  };
 
-  
   const storeData = async (theme) => {
     try {
-      let valueJson = JSON.stringify(theme)
-      await AsyncStorage.setItem('@storage_Key_thema', valueJson)
+      let valueJson = JSON.stringify(theme);
+      await AsyncStorage.setItem("@storage_Key_thema", valueJson);
     } catch (e) {
       // saving error
     }
-  }
+  };
 
   const storeDataZize = async () => {
     try {
@@ -136,7 +146,6 @@ const Setting = ({ navigation: { navigate } }) => {
       }
     }
   };*/
-  
 
   return (
     <View style={{ flex: 1 }}>
@@ -147,109 +156,114 @@ const Setting = ({ navigation: { navigate } }) => {
       <View
         style={[styles.box, { flex: 3, backgroundColor: colors.boxseting }]}
       >
-        <View style={styles.container}>
-          <View style={styles.row}>
-            <Ionicons
-              name="ios-settings-outline"
-              size={24}
-              color={colors.text}
-            />
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <Ionicons
+                name="ios-settings-outline"
+                size={24}
+                color={colors.text}
+              />
 
-            <Text style={{ color: colors.text, marginHorizontal: 10 }}>
-              Ajustes
-            </Text>
-          </View>
-          <View style={[styles.rowBox, { borderTopColor: colors.border }]}>
-            <View style={[styles.rowseting, {marginTop: 14, paddingBottom: 14}]}>
-              {isDarkTheme ? (
-                <Text style={{ color: colors.text }}>
-                  Cambiar vista a modo claro
-                </Text>
-              ) : (
-                <Text style={{ color: colors.text }}>
-                  Cambiar vista a modo oscuro
-                </Text>
-              )}
+              <Text style={{ color: colors.text, marginHorizontal: 10 }}>
+                Ajustes
+              </Text>
+            </View>
+            <View style={[styles.rowBox, { borderTopColor: colors.border }]}>
+              <View
+                style={[styles.rowseting, { marginTop: 14, paddingBottom: 14 }]}
+              >
+                {isDarkTheme ? (
+                  <Text style={{ color: colors.text }}>
+                    Cambiar vista a modo claro
+                  </Text>
+                ) : (
+                  <Text style={{ color: colors.text }}>
+                    Cambiar vista a modo oscuro
+                  </Text>
+                )}
 
-              <Switch
-                trackColor={{ false: "#140e1b", true: "#ffffff" }}
-                thumbColor={isDarkTheme ? "#f5dd4b" : "#f4f3f4"}
-                //ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isDarkTheme}
+                <Switch
+                  trackColor={{ false: "#140e1b", true: "#ffffff" }}
+                  thumbColor={isDarkTheme ? "#f5dd4b" : "#f4f3f4"}
+                  //ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isDarkTheme}
+                />
+              </View>
+              <View style={[styles.rowseting, { paddingBottom: 10 }]}>
+                {viewBiblia ? (
+                  <Text style={{ color: colors.text }}>
+                    Cambiar a vista lista
+                  </Text>
+                ) : (
+                  <Text style={{ color: colors.text }}>
+                    Cambiar a vista cuadricula
+                  </Text>
+                )}
+
+                <Switch
+                  trackColor={{ false: "#140e1b", true: "#ffffff" }}
+                  thumbColor={viewBiblia ? "#f5dd4b" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitchView}
+                  value={viewBiblia}
+                />
+              </View>
+            </View>
+
+            <View style={{ paddingBottom: 6, paddingTop: 8 }}>
+              <Text style={{ color: colors.text, textAlign: "center" }}>
+                Tamaño de letra titulos{" "}
+                {fontZize.fonttitle && fontZize.fonttitle + 1}
+              </Text>
+              <Slider
+                style={{ width: 300, height: 40 }}
+                step={1}
+                {...fontZize.fonttitle}
+                minimumValue={14}
+                maximumValue={52}
+                minimumTrackTintColor={colors.text}
+                maximumTrackTintColor={colors.textNumber}
+                onValueChange={(val2) => setValueTitle(val2)}
               />
             </View>
-            <View style={[styles.rowseting, {paddingBottom: 10}]}>
-              {viewBiblia ? (
-                <Text style={{ color: colors.text }}>
-                  Cambiar a vista lista
-                </Text>
-              ) : (
-                <Text style={{ color: colors.text }}>
-                  Cambiar a vista cuadricula
-                </Text>
-              )}
 
-              <Switch
-                trackColor={{ false: "#140e1b", true: "#ffffff" }}
-                thumbColor={viewBiblia ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitchView}
-                value={viewBiblia}
+            <View style={{ paddingBottom: 6 }}>
+              <Text style={{ color: colors.text, textAlign: "center" }}>
+                Tamaño de letra subtitulo{" "}
+                {fontZize.fontsubtitle && fontZize.fontsubtitle + 1}
+              </Text>
+              <Slider
+                style={{ width: 300, height: 40 }}
+                step={1}
+                {...fontZize.fontsubtitle}
+                minimumValue={12}
+                maximumValue={48}
+                minimumTrackTintColor={colors.text}
+                maximumTrackTintColor={colors.textNumber}
+                onValueChange={(val3) => setValueSubTitle(val3)}
+              />
+            </View>
+
+            <View style={{ paddingBottom: 6 }}>
+              <Text style={{ color: colors.text, textAlign: "center" }}>
+                Tamaño de letra texto{" "}
+                {fontZize.fonttext && fontZize.fonttext + 1}
+              </Text>
+              <Slider
+                style={{ width: 300, height: 40 }}
+                step={1}
+                {...fontZize.fonttext}
+                minimumValue={10}
+                maximumValue={40}
+                minimumTrackTintColor={colors.text}
+                maximumTrackTintColor={colors.textNumber}
+                onValueChange={(val1) => setValueText(val1)}
               />
             </View>
           </View>
-
-          <View style={{  paddingBottom: 6, paddingTop: 8 }}>
-            <Text style={{ color: colors.text, textAlign: "center" }}>
-              Tamaño de letra titulos {fontZize.fonttitle && fontZize.fonttitle + 1}
-            </Text>
-            <Slider
-              style={{ width: 300, height: 40 }}
-              step={1}
-              {...fontZize.fonttitle}
-              minimumValue={14}
-              maximumValue={52}
-              minimumTrackTintColor={colors.text}
-              maximumTrackTintColor={colors.textNumber}
-              onValueChange={(val2) => setValueTitle(val2)}
-            />
-          </View>
-
-          <View style={{  paddingBottom: 6 }}>
-            <Text style={{ color: colors.text, textAlign: "center" }}>
-              Tamaño de letra subtitulo {fontZize.fontsubtitle && fontZize.fontsubtitle + 1}
-            </Text>
-            <Slider
-              style={{ width: 300, height: 40 }}
-              step={1}
-              {...fontZize.fontsubtitle}
-              minimumValue={12}
-              maximumValue={48}
-              minimumTrackTintColor={colors.text}
-              maximumTrackTintColor={colors.textNumber}
-              onValueChange={(val3) => setValueSubTitle(val3)}
-            />
-          </View>
-
-          <View style={{  paddingBottom: 6 }}>
-            <Text style={{ color: colors.text, textAlign: "center" }}>
-              Tamaño de letra texto {fontZize.fonttext && fontZize.fonttext + 1}
-            </Text>
-            <Slider
-              style={{ width: 300, height: 40 }}
-              step={1}
-              {...fontZize.fonttext}
-              minimumValue={10}
-              maximumValue={40}
-              minimumTrackTintColor={colors.text}
-              maximumTrackTintColor={colors.textNumber}
-              onValueChange={(val1) => setValueText(val1)}
-            />
-          </View>
-          
-             
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -413,7 +427,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    
   },
   rowBox: {
     borderTopWidth: 1,

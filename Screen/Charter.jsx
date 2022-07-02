@@ -38,7 +38,6 @@ const Charter = ({ route }) => {
   const [temas, setTemas] = useState([]);
   const [validateTema, setValidateTema] = useState(true);
   const [msjSuccess, setMsjSuccess] = useState(null);
-  
 
 
   const generateUUID = () => {
@@ -61,7 +60,7 @@ const Charter = ({ route }) => {
   }, []);
 
   const viewMessage = (msj) => {
-    setMsjSuccess("Success");
+    setMsjSuccess("Exito");
     msjTimeOut();
   };
 
@@ -87,6 +86,7 @@ const Charter = ({ route }) => {
         Notas.push(Nota);
         await AsyncStorage.setItem("@storage_Key_Notas", JSON.stringify(Notas));
         setModalVisible(!modalVisible);
+        viewMessage("Exito")
       } else {
         let id = generateUUID();
         let Nota = {
@@ -102,6 +102,7 @@ const Charter = ({ route }) => {
             JSON.stringify(jsonNota)
           );
           setModalVisible(!modalVisible);
+          viewMessage("Exito")
         } else {
           jsonNota.unshift(Nota);
           await AsyncStorage.setItem(
@@ -109,6 +110,7 @@ const Charter = ({ route }) => {
             JSON.stringify(jsonNota)
           );
           setModalVisible(!modalVisible);
+          viewMessage("Exito")
         }
       }
     } catch (error) {
@@ -383,8 +385,17 @@ const Preview = ({
   addNotaNew
 }) => (
   <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-    <ScrollView>
-      <View style={styles.rowFlex}>
+    <View style={{
+      flexDirection: "row", 
+      justifyContent: "space-around",
+      alignItems: "center",
+      
+      backgroundColor: colors.header, 
+      paddingTop: 6, 
+      paddingBottom: 6,
+      borderBottomStartRadius: 20,
+      borderBottomEndRadius: 20
+      }}>
         <Rewind
           setData={setData}
           data={data}
@@ -397,8 +408,8 @@ const Preview = ({
             {
               color: colors.textNumber,
               fontSize: fontZize.fonttitle,
-              fontFamily: "sans-serif-thin",
-              fontWeight: "bold",
+              fontFamily: "sans-serif-medium",
+              //fontWeight: "bold",
             },
           ]}
         >
@@ -410,6 +421,8 @@ const Preview = ({
           getCharterForwar={getCharterForwar}
         />
       </View>
+    <ScrollView style={{paddingTop: 10}}>
+      
 
       {data.verses && (
         <View>
@@ -501,15 +514,15 @@ const Preview = ({
             position: "absolute",
             top: 10,
             right: 20,
-            backgroundColor: colors.header,
+            backgroundColor: colors.text,
             paddingHorizontal: 20,
-            paddingVertical: 10,
+            paddingVertical: 6,
             borderRadius: 10,
           }}
         >
           <Text
             style={{
-              color: colors.text,
+              color: colors.background,
             }}
           >
             {msjSuccess}
@@ -562,9 +575,10 @@ const PreviewModal = ({
                 color: colors.text,
                 fontFamily: "sans-serif-medium",
                 fontSize: 14,
+                paddingHorizontal: 10
               }}
             >
-              Compartir...
+              Compartir
             </Text>
 
             <Ionicons
@@ -592,6 +606,7 @@ const PreviewModal = ({
                 color: colors.text,
                 fontFamily: "sans-serif-medium",
                 fontSize: 14,
+                paddingHorizontal: 10
               }}
             >
               Agregarlo a notas
@@ -619,6 +634,7 @@ const PreviewModal = ({
                 padding: 10,
                 fontFamily: "notoserif",
                 fontSize: 14,
+                paddingHorizontal: 10
               }}
             >
               No hay temas creados
@@ -719,7 +735,8 @@ const styles = StyleSheet.create({
   rowFlex: {
     flexDirection: "row",
     flexWrap: "nowrap",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    //justifyContent: "space-around",
     alignItems: "center",
     borderRadius: 5,
     paddingVertical: 4,

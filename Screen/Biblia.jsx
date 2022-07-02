@@ -47,10 +47,12 @@ function Biblia({ navigation: { navigate } }) {
  
   return (
     <View>
+      <ScrollView>
       {data
       ? <Preview colors={colors} data={data} getBookID={getBookID} viewBiblia={viewBiblia} />
       : <Loading />
       }
+      </ScrollView>
     </View>
   );
 }

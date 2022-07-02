@@ -18,7 +18,7 @@ const Rewind = ({data, getCharterRewinder, colors}) => {
         })
       }
     >
-      <Ionicons name="ios-play-back-outline" size={30} color={colors.text} />
+      <Ionicons name="ios-play-back-outline" size={20} color={colors.text} />
       
      
     </TouchableOpacity>
