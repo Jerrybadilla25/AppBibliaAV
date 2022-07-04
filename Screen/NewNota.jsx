@@ -184,8 +184,8 @@ const Notas = ({ route, navigation }) => {
       let titulo = newNota.title.toUpperCase();
 
       let mensage = `
+    ${newNota.title}
     ${newNota.subtitle}
-
     ${newNota.descripcion}
 
     ${httpBAV}

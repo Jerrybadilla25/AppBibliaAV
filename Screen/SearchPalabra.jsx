@@ -121,7 +121,8 @@ const SearchPalabra = ({ route, navigation: { navigate } }) => {
       "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV";
     let titulo = verseNew.originCharter.toUpperCase();
     let mensage = `
-    ${verseNew.numero}: ${verseNew.versiculo}
+    ${verseNew.originCharter}:${verseNew.numero}
+    ${verseNew.versiculo}
 
     ${httpBAV}
     `;

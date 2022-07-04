@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adat-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 128,
+      "versionCode": 129,
       "package": "com.alientodevida.BibliaAV"
     },
     "web": {

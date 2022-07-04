@@ -79,8 +79,8 @@ const Charter = ({ route }) => {
         let id = generateUUID();
         let Nota = {
           _id: id,
-          title: idVerse.originCharter,
-          subtitle: `Versiculo ${idVerse.numero}`,
+          title: `${idVerse.originCharter}: ${idVerse.numero}`,
+          subtitle: "",
           descripcion: idVerse.versiculo,
         };
         Notas.push(Nota);
@@ -91,8 +91,8 @@ const Charter = ({ route }) => {
         let id = generateUUID();
         let Nota = {
           _id: id,
-          title: idVerse.originCharter,
-          subtitle: `Versiculo ${idVerse.numero}`,
+          title: `${idVerse.originCharter}: ${idVerse.numero}`,
+          subtitle: "",
           descripcion: idVerse.versiculo,
         };
         if (jsonNota.length === 0) {
@@ -300,7 +300,8 @@ const Charter = ({ route }) => {
       "https://play.google.com/store/apps/details?id=com.alientodevida.BibliaAV";
     let titulo = idVerse.originCharter.toUpperCase();
     let mensage = `
-    ${idVerse.numero}:  ${idVerse.versiculo}
+    ${idVerse.originCharter}:${idVerse.numero}
+    ${idVerse.versiculo}
 
     ${httpBAV}
     `;
